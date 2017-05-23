@@ -79,7 +79,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Sockets
+                    ZANS
                 </div>
 
                 <div class="links">

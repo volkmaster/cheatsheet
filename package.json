@@ -1,0 +1,69 @@
+{
+  "private": true,
+  "name": "zans",
+  "version": "0.0.1",
+  "description": "Zveza za Ameriški Nogomet Slovenije / Slovenian American Footbal Association",
+  "keywords": [
+    "zans",
+    "ameriški nogomet",
+    "zveza",
+    "flag football",
+    "flag",
+    "tackle"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/volkmaster/zans"
+  },
+  "bugs": {
+    "url": "https://github.com/volkmaster/zans/issues"
+  },
+  "contributors": [
+    {
+      "name": "Ziga Vucko",
+      "email": "ziga.vucko@gmail.com",
+      "url": "http://www.zigavucko.com"
+    },
+    {
+      "name": "Tina Avbelj",
+      "email": "tina.avbelj@gmail.com",
+      "url": "http://www.lepusarcticus.si"
+    }
+  ],
+  "scripts": {
+    "app": "php artisan serve & npm run watch",
+    "dev": "npm run development",
+    "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "watch": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "watch-poll": "npm run watch -- --watch-poll",
+    "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "prod": "npm run production",
+    "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "lint": "eslint resources/assets webpack.mix.js --ext .js --ext .vue"
+  },
+  "pre-commit": [
+    "lint"
+  ],
+  "dependencies": {
+    "bootstrap-sass": "^3.3.7",
+    "cross-env": "^3.2.3",
+    "eslint": "^3.19.0",
+    "eslint-config-standard": "^10.2.1",
+    "jquery": "^3.1.1",
+    "laravel-mix": "0.*",
+    "less": "^2.7.2",
+    "lodash": "^4.17.4",
+    "moment": "^2.18.1",
+    "vue": "^2.3.3",
+    "vue-template-compiler": "^2.3.3"
+  },
+  "devDependencies": {
+    "eslint-plugin-html": "^2.0.1",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-node": "^4.2.2",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "pre-commit": "^1.2.2"
+  }
+}

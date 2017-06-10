@@ -8,6 +8,7 @@
         "_": true,
         "$": true,
         "jQuery": true,
-        "Vue": true
+        "Vue": true,
+        "axios": true
     }
 }

@@ -1,6 +1,8 @@
 <style lang="sass">
 .blue { color: #0000ff; }
 .red  { color: #ff0000; }
+.paint { background-color: green; }
+.pointer { cursor: pointer; }
 </style>
 
 <template>
@@ -14,7 +16,11 @@
                     <div class="panel-body">
                         <span class="red">This is App Component.</span>
                         <br />
-                        <span>{{ user }}</span>
+                        <span v-for="el in arr">
+                            <p v-if="el.id >= 1" class="pointer" :class="{ 'paint': paintBackground }" @click="doSomething()">
+                                {{ el.text }}
+                            </p>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -26,21 +32,38 @@
     export default {
         data () {
             return {
-                user: ''
+                arr: [
+                    { id: 0, text: 'bla' },
+                    { id: 1, text: 'blabla' },
+                    { id: 2, text: 'blablabla' }
+                ],
+                paintBackground: false
+            }
+        },
+        computed: {
+            text () {
+                return this.user + '!!!!!!!!!!!!!!!!'
             }
         },
         created () {
-            axios.get('me')
-                .then(response => {
-                    console.log(response.data)
-                    this.user = JSON.stringify(response.data)
-                })
-                .catch(error => {
-                    console.log(error)
-                })
+            // axios.get('/api/users')
+            //     .then(response => {
+            //         console.log(response.data)
+            //         this.user = JSON.stringify(response.data)
+            //     })
+            //     .catch(error => {
+            //         console.log(error)
+            //     })
         },
         mounted () {
-            console.log('App Component mounted.')
+            this.$nextTick(() => {
+                console.log('App Component mounted.')
+            })
+        },
+        methods: {
+            doSomething () {
+                this.paintBackground = !this.paintBackground
+            }
         }
     }
 </script>

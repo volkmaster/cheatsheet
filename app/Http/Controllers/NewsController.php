@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\News;
+
 class NewsController extends Controller
 {
     /**
@@ -13,7 +15,7 @@ class NewsController extends Controller
      */
     public function index()
     {
-        //
+        return News::all()->toJson();
     }
 
     /**
@@ -79,6 +81,6 @@ class NewsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        News::destroy($id);
     }
 }

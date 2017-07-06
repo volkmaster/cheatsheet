@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Player extends Model
+class Coach extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -12,7 +12,7 @@ class Player extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'date_of_birth', 'team_id', 'resource_id',
+        'name', 'date_of_birth', 'email', 'resource_id',
     ];
 
     /**
@@ -22,18 +22,8 @@ class Player extends Model
      */
     protected $hidden = [];
 
-    public function team()
-    {
-        return $this->belongsTo('App\Team');
-    }
-
     public function resource()
     {
         return $this->belongsTo('App\Resource');
-    }
-
-    public function games()
-    {
-        return $this->hasMany('App\Game');
     }
 }

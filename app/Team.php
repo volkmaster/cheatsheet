@@ -12,7 +12,7 @@ class Team extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'founded', , 'homepage_url', 'logo', 'location', 'coach',
+        'name', 'founded', 'resource_id', 'motto', 'homepage', 'logo', 'location_latitude', 'location_longitude', 'coach_id',
     ];
 
     /**
@@ -21,4 +21,19 @@ class Team extends Model
      * @var array
      */
     protected $hidden = [];
+
+    public function resource()
+    {
+        return $this->belongsTo('App\Resource');
+    }
+
+    public function coach()
+    {
+        return $this->belongsTo('App\Coach');
+    }
+
+    public function leagues()
+    {
+        return $this->hasMany('App\League');
+    }
 }

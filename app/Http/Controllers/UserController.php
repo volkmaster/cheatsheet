@@ -13,9 +13,14 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return User::all()->toJson();
+        $param   = $request->query('per_page');
+        $perPage = empty($param) ? 15 : $param;
+
+        $users = User::paginate($perPage);
+
+        return response()->json($users, 200);
     }
 
     /**
@@ -81,6 +86,6 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        User::destroy($id);
     }
 }

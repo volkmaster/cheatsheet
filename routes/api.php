@@ -16,6 +16,9 @@ use Illuminate\Http\Request;
 Route::get('me', function (Request $request) {
     return $request->user();
 })->middleware('auth:api');
-
 Route::middleware('auth:api')->resource('users', 'UserController');
+
+Route::resource('coaches', 'CoachController');
 Route::resource('games', 'GameController');
+Route::resource('venues', 'VenueController');
+

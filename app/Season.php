@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class News extends Model
+class Season extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -12,7 +12,7 @@ class News extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'content', 'type',
+        'year', 'name',
     ];
 
     /**
@@ -22,8 +22,8 @@ class News extends Model
      */
     protected $hidden = [];
 
-    public function resources()
+    public function leagues()
     {
-        return $this->belongsToMany('App\Resource');
+        return $this->hasMany('App\League');
     }
 }

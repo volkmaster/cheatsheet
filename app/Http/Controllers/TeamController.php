@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Team;
+
 class TeamController extends Controller
 {
     /**
@@ -79,6 +81,6 @@ class TeamController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Team::destroy($id);
     }
 }

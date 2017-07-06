@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Resource;
+
 class ResourceController extends Controller
 {
     /**
@@ -79,6 +81,6 @@ class ResourceController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Resource::destroy($id);
     }
 }

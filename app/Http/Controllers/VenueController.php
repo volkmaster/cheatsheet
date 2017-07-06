@@ -4,18 +4,23 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Game;
+use App\Venue;
 
-class GameController extends Controller
+class VenueController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Game::all()->toJson();
+        $param   = $request->query('per_page');
+        $perPage = empty($param) ? 15 : $param;
+
+        $venues = Venue::paginate($perPage);
+
+        return response()->json($venues, 200);
     }
 
     /**
@@ -47,7 +52,7 @@ class GameController extends Controller
      */
     public function show($id)
     {
-        return Game::find($id)->toJson();
+        //
     }
 
     /**
@@ -81,6 +86,6 @@ class GameController extends Controller
      */
     public function destroy($id)
     {
-        Game::destroy($id);
+        Venue::destroy($id);
     }
 }

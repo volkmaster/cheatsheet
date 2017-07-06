@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\League;
+
 class LeagueController extends Controller
 {
     /**
@@ -13,7 +15,7 @@ class LeagueController extends Controller
      */
     public function index()
     {
-        //
+        return League::all()->toJson();
     }
 
     /**
@@ -79,6 +81,6 @@ class LeagueController extends Controller
      */
     public function destroy($id)
     {
-        //
+        League::destroy($id);
     }
 }

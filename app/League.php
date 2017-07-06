@@ -12,7 +12,7 @@ class League extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'football_type', 'level',
+        'season_id', 'name', 'type', 'level', 'resource_id',
     ];
 
     /**
@@ -21,4 +21,24 @@ class League extends Model
      * @var array
      */
     protected $hidden = [];
+
+    public function season()
+    {
+        return $this->belongsTo('App\Season');
+    }
+
+    public function resource()
+    {
+        return $this->belongsTo('App\Resource');
+    }
+
+    public function games()
+    {
+        return $this->belongsToMany('App\Game');
+    }
+
+    public function teams()
+    {
+        return $this->belongsToMany('App\Team');
+    }
 }

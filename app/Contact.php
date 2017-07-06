@@ -21,4 +21,9 @@ class Contact extends Model
      * @var array
      */
     protected $hidden = [];
+
+    public function resources()
+    {
+        return $this->belongsToMany('App\Resource');
+    }
 }

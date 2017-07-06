@@ -1673,25 +1673,46 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            user: ''
+            arr: [{ id: 0, text: 'bla' }, { id: 1, text: 'blabla' }, { id: 2, text: 'blablabla' }],
+            paintBackground: false
         };
     },
-    created: function created() {
-        var _this = this;
 
-        axios.get('me').then(function (response) {
-            console.log(response.data);
-            _this.user = JSON.stringify(response.data);
-        }).catch(function (error) {
-            console.log(error);
-        });
+    computed: {
+        text: function text() {
+            return this.user + '!!!!!!!!!!!!!!!!';
+        }
+    },
+    created: function created() {
+        // axios.get('/api/users')
+        //     .then(response => {
+        //         console.log(response.data)
+        //         this.user = JSON.stringify(response.data)
+        //     })
+        //     .catch(error => {
+        //         console.log(error)
+        //     })
     },
     mounted: function mounted() {
-        console.log('App Component mounted.');
+        this.$nextTick(function () {
+            console.log('App Component mounted.');
+        });
+    },
+
+    methods: {
+        doSomething: function doSomething() {
+            this.paintBackground = !this.paintBackground;
+        }
     }
 });
 
@@ -1710,8 +1731,9 @@ window.$ = window.jQuery = __webpack_require__(37);
 window.Vue = __webpack_require__(46);
 
 window.axios = __webpack_require__(10);
-window.axios.defaults.baseURL = __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* API_URL */];
+window.axios.defaults.baseURL = __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* BASE_URL */];
 window.axios.defaults.headers.common = {
+    'Accept': 'application/json',
     'X-CSRF-TOKEN': window.Laravel.csrfToken,
     'X-Requested-With': 'XMLHttpRequest'
 };
@@ -1721,8 +1743,8 @@ window.axios.defaults.headers.common = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return API_URL; });
-var API_URL = 'http://localhost:8000/api/';
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BASE_URL; });
+var BASE_URL = 'http://localhost:8000';
 
 /***/ }),
 /* 31 */
@@ -3643,7 +3665,13 @@ function isnan (val) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 33 */,
+/* 33 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(34)();
+exports.push([module.i, "\n.blue {\n  color: #0000ff;\n}\n.red {\n  color: #ff0000;\n}\n.paint {\n  background-color: green;\n}\n.pointer {\n  cursor: pointer;\n}\n", ""]);
+
+/***/ }),
 /* 34 */
 /***/ (function(module, exports) {
 
@@ -31348,7 +31376,7 @@ process.umask = function() { return 0; };
 
 
 /* styles */
-__webpack_require__(57)
+__webpack_require__(43)
 
 var Component = __webpack_require__(41)(
   /* script */
@@ -31454,7 +31482,19 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "panel-body"
   }, [_c('span', {
     staticClass: "red"
-  }, [_vm._v("This is App Component.")]), _vm._v(" "), _c('br'), _vm._v(" "), _c('span', [_vm._v(_vm._s(_vm.user))])])])])])])
+  }, [_vm._v("This is App Component.")]), _vm._v(" "), _c('br'), _vm._v(" "), _vm._l((_vm.arr), function(el) {
+    return _c('span', [(el.id >= 1) ? _c('p', {
+      staticClass: "pointer",
+      class: {
+        'paint': _vm.paintBackground
+      },
+      on: {
+        "click": function($event) {
+          _vm.doSomething()
+        }
+      }
+    }, [_vm._v("\n                            " + _vm._s(el.text) + "\n                        ")]) : _vm._e()])
+  })], 2)])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "panel-heading"
@@ -31471,7 +31511,32 @@ if (false) {
 }
 
 /***/ }),
-/* 43 */,
+/* 43 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(33);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(44)("273996b4", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-2d037551\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js?indentedSyntax!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./App.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-2d037551\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js?indentedSyntax!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./App.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
 /* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -41458,46 +41523,6 @@ module.exports = function(module) {
 __webpack_require__(8);
 module.exports = __webpack_require__(9);
 
-
-/***/ }),
-/* 49 */,
-/* 50 */,
-/* 51 */,
-/* 52 */,
-/* 53 */,
-/* 54 */,
-/* 55 */,
-/* 56 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(34)();
-exports.push([module.i, "\n.blue {\n  color: #0000ff;\n}\n.red {\n  color: #ff0000;\n}\n", ""]);
-
-/***/ }),
-/* 57 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(56);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(44)("273996b4", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-2d037551\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js?indentedSyntax!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./App.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-2d037551\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js?indentedSyntax!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./App.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
 
 /***/ })
 /******/ ]);

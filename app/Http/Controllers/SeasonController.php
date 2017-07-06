@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Game;
+use App\Season;
 
-class GameController extends Controller
+class SeasonController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,7 @@ class GameController extends Controller
      */
     public function index()
     {
-        return Game::all()->toJson();
+        //
     }
 
     /**
@@ -47,7 +47,7 @@ class GameController extends Controller
      */
     public function show($id)
     {
-        return Game::find($id)->toJson();
+        //
     }
 
     /**
@@ -81,6 +81,6 @@ class GameController extends Controller
      */
     public function destroy($id)
     {
-        Game::destroy($id);
+        Season::destroy($id);
     }
 }

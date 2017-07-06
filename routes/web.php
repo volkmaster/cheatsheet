@@ -11,10 +11,10 @@
 |
 */
 
+Auth::routes();
+
 Route::middleware('guest')->get('/', function () {
     return view('welcome');
 });
-
-Auth::routes();
 
 Route::get('/home', 'HomeController@index');

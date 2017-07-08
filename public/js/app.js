@@ -29432,7 +29432,7 @@ module.exports = function normalizeComponent (
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_vm._v("\n    ABC\n")])
+  return _c('div', [_vm._v("\n    xyz\n")])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

@@ -8,11 +8,11 @@
         <title>Laravel</title>
 
         <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
+        {{-- <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css"> --}}
 
         <!-- Styles -->
         <style>
-            html, body {
+            /*html, body {
                 background-color: #fff;
                 color: #636b6f;
                 font-family: 'Raleway', sans-serif;
@@ -61,7 +61,7 @@
 
             .m-b-md {
                 margin-bottom: 30px;
-            }
+            }*/
         </style>
     </head>
     <body>

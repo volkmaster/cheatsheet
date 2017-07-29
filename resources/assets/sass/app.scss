@@ -1,39 +1,39 @@
 // Colors <3
-$green: #7cbc42;
-$blue: #27a9e0;
-$very-dark-gray: #363836;
-$dark-gray: #515251;
-$light-gray: #bfc4c0;
-$very-light-gray: #e0e2e2;
-$white: #ffffff;
-$black: #000000;
-$text-color: #636b6f;
+$green           : #7cbc42;
+$blue            : #27a9e0;
+$very-dark-gray  : #363836;
+$dark-gray       : #515251;
+$light-gray      : #bfc4c0;
+$very-light-gray : #e0e2e2;
+$white           : #ffffff;
+$black           : #000000;
+$text-color      : #636b6f;
 
 // Fonts
 @font-face {
     font-family : 'Bebas Neue';
-    src         : url('/fonts/BebasNeue.otf') format('otf');
+    src         : url('/fonts/BebasNeue.woff2') format('woff2');
 }
 @font-face {
     font-family : 'Montserrat Light';
-    src         : url('/fonts/Montserrat-Light.otf') format('otf');
+    src         : url('/fonts/Montserrat-Light.woff2') format('woff2');
 }
 @font-face {
     font-family : 'Montserrat Regular';
-    src         : url('/fonts/Montserrat-Regular.otf') format('otf');
+    src         : url('/fonts/Montserrat-Regular.woff2') format('woff2');
 }
 
-$font-title: 'Bebas Neue';
-$font-light: 'Montserrat Light';
-$font-regular: 'Montserrat Regular';
+$font-title   : 'Bebas Neue';
+$font-light   : 'Montserrat Light';
+$font-regular : 'Montserrat Regular';
 
 * { box-sizing: border-box; }
 
 body {
-    margin: 0;
-    padding: 0;
-    font-family: $font-light;
-    background-color: $very-light-gray;
+    margin           : 0;
+    padding          : 0;
+    font-family      : $font-light;
+    background-color : $very-light-gray;
 }
 
 $debug: false;

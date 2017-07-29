@@ -13,6 +13,7 @@
     height: 100px;
     display: flex;
     font-family: $font-title;
+    background-color: $white;
 
     .logo-wrapper {
         @if ($debug) { border: 1px solid red; }
@@ -135,7 +136,7 @@
 }
 
 .subsubheader-wrapper {
-    margin: 10px 0;
+    margin-top: 20px;
     padding: 0 20px;
     display: flex;
     align-items: center;
@@ -229,8 +230,8 @@
                 display: flex;
                 flex-direction: column;
 
-                &.left { margin-right: 10px; }
-                &.right { margin-left: 10px; }
+                &:first-of-type { margin-right: 10px; }
+                &:last-of-type { margin-left: 10px; }
 
                 .news-img-div {
                     width: 100%;
@@ -307,66 +308,26 @@
                     </div>
                 </div>
             </div>
+
             <div class="news-wrapper">
-                <div class="main-news">
-                    <div class="news-img-div">
-                        <img class="news-img" src="/images/american_football.jpg">
-                    </div>
-                    <div class="news-title">
-                        {{ news[0].title }}
-                    </div>
-                    <div class="news-text">
-                        {{ news[0].text }}
-                    </div>
-                </div>
-                <div class="small-news-wrapper">
-                    <div class="small-news left">
+                <template v-for="(arr, index) in structuredNews">
+                    <div class="main-news" v-if="index === 0">
                         <div class="news-img-div">
-                            <img class="news-img" src="/images/ball.jpg">
+                            <img class="news-img" :src="arr[0].image">
                         </div>
-                        <div class="news-title">
-                            {{ news[1].title }}
-                        </div>
-                        <div class="news-text">
-                            {{ news[1].text }}
+                        <div class="news-title">{{ arr[0].title }}</div>
+                        <div class="news-text">{{ arr[0].text }}</div>
+                    </div>
+                    <div class="small-news-wrapper" v-else>
+                        <div class="small-news" v-for="element in arr">
+                            <div class="news-img-div">
+                                <img class="news-img" :src="element.image">
+                            </div>
+                            <div class="news-title">{{ element.title }}</div>
+                            <div class="news-text">{{ element.text }}</div>
                         </div>
                     </div>
-                    <div class="small-news right">
-                        <div class="news-img-div">
-                            <img class="news-img" src="/images/american_football.jpg">
-                        </div>
-                        <div class="news-title">
-                            {{ news[2].title }}
-                        </div>
-                        <div class="news-text">
-                            {{ news[2].text }}
-                        </div>
-                    </div>
-                </div>
-                <div class="small-news-wrapper">
-                    <div class="small-news left">
-                        <div class="news-img-div">
-                            <img class="news-img" src="/images/american_football.jpg">
-                        </div>
-                        <div class="news-title">
-                            {{ news[3].title }}
-                        </div>
-                        <div class="news-text">
-                            {{ news[3].text }}
-                        </div>
-                    </div>
-                    <div class="small-news right">
-                        <div class="news-img-div">
-                            <img class="news-img" src="/images/defense.jpg">
-                        </div>
-                        <div class="news-title">
-                            {{ news[4].title }}
-                        </div>
-                        <div class="news-text">
-                            {{ news[4].text }}
-                        </div>
-                    </div>
-                </div>
+                </template>
             </div>
 
             <div class="sponsors-wrapper">
@@ -408,23 +369,28 @@ export default {
             news: [
                 {
                     title: 'Finalni touchdown za DP v Flag Footballu je pred vrati!',
-                    text: 'Letošnje državno prvenstvo v Flag Footballu bo to soboto dobilo epilog. Po rednem delu tekmovanja sta se v finale uvrstili ekipi Ajdovščina Gladiators in Kočevje Wild Hogs. Ajdovščina v finale prihaja kot izraziti favorit, saj v rednem delu sezone sploh ni zabeležila poraza. Na drugi strani Kočevje v dvoboj prihaja brez pritiska, saj so v letošnji sezoni naredili ogromen preskok v svoji igri in zabeležili tudi odmevnejši uspeh z zmago turnirja v tujini.'
+                    text: 'Letošnje državno prvenstvo v Flag Footballu bo to soboto dobilo epilog. Po rednem delu tekmovanja sta se v finale uvrstili ekipi Ajdovščina Gladiators in Kočevje Wild Hogs. Ajdovščina v finale prihaja kot izraziti favorit, saj v rednem delu sezone sploh ni zabeležila poraza. Na drugi strani Kočevje v dvoboj prihaja brez pritiska, saj so v letošnji sezoni naredili ogromen preskok v svoji igri in zabeležili tudi odmevnejši uspeh z zmago turnirja v tujini.',
+                    image: '/images/american_football.jpg'
                 },
                 {
                     title: '3. krog članskega DP in začetek DP mladinskih selekcij',
-                    text: 'Letošnje državno prvenstvo v Flag Footballu bo to soboto dobilo epilog. Po rednem delu tekmovanja sta se v finale uvrstili ekipi Ajdovščina Gladiators in Kočevje Wild Hogs. Ajdovščina v finale prihaja kot izraziti favorit, saj v rednem delu sezone sploh ni zabeležila poraza. Na drugi strani Kočevje v dvoboj prihaja brez pritiska, saj so v letošnji sezoni naredili ogromen preskok v svoji igri in zabeležili tudi odmevnejši uspeh z zmago turnirja v tujini.'
+                    text: 'Letošnje državno prvenstvo v Flag Footballu bo to soboto dobilo epilog. Po rednem delu tekmovanja sta se v finale uvrstili ekipi Ajdovščina Gladiators in Kočevje Wild Hogs. Ajdovščina v finale prihaja kot izraziti favorit, saj v rednem delu sezone sploh ni zabeležila poraza. Na drugi strani Kočevje v dvoboj prihaja brez pritiska, saj so v letošnji sezoni naredili ogromen preskok v svoji igri in zabeležili tudi odmevnejši uspeh z zmago turnirja v tujini.',
+                    image: '/images/ball.jpg'
                 },
                 {
                     title: 'Pregled 2. kroga DP v Flag Footballu',
-                    text: 'Letošnje državno prvenstvo v Flag Footballu bo to soboto dobilo epilog. Po rednem delu tekmovanja sta se v finale uvrstili ekipi Ajdovščina Gladiators in Kočevje Wild Hogs. Ajdovščina v finale prihaja kot izraziti favorit, saj v rednem delu sezone sploh ni zabeležila poraza. Na drugi strani Kočevje v dvoboj prihaja brez pritiska, saj so v letošnji sezoni naredili ogromen preskok v svoji igri in zabeležili tudi odmevnejši uspeh z zmago turnirja v tujini.'
+                    text: 'Letošnje državno prvenstvo v Flag Footballu bo to soboto dobilo epilog. Po rednem delu tekmovanja sta se v finale uvrstili ekipi Ajdovščina Gladiators in Kočevje Wild Hogs. Ajdovščina v finale prihaja kot izraziti favorit, saj v rednem delu sezone sploh ni zabeležila poraza. Na drugi strani Kočevje v dvoboj prihaja brez pritiska, saj so v letošnji sezoni naredili ogromen preskok v svoji igri in zabeležili tudi odmevnejši uspeh z zmago turnirja v tujini.',
+                    image: '/images/american_football.jpg'
                 },
                 {
                     title: '3. krog članskega DP in začetek DP mladinskih selekcij',
-                    text: 'Letošnje državno prvenstvo v Flag Footballu bo to soboto dobilo epilog. Po rednem delu tekmovanja sta se v finale uvrstili ekipi Ajdovščina Gladiators in Kočevje Wild Hogs. Ajdovščina v finale prihaja kot izraziti favorit, saj v rednem delu sezone sploh ni zabeležila poraza. Na drugi strani Kočevje v dvoboj prihaja brez pritiska, saj so v letošnji sezoni naredili ogromen preskok v svoji igri in zabeležili tudi odmevnejši uspeh z zmago turnirja v tujini.'
+                    text: 'Letošnje državno prvenstvo v Flag Footballu bo to soboto dobilo epilog. Po rednem delu tekmovanja sta se v finale uvrstili ekipi Ajdovščina Gladiators in Kočevje Wild Hogs. Ajdovščina v finale prihaja kot izraziti favorit, saj v rednem delu sezone sploh ni zabeležila poraza. Na drugi strani Kočevje v dvoboj prihaja brez pritiska, saj so v letošnji sezoni naredili ogromen preskok v svoji igri in zabeležili tudi odmevnejši uspeh z zmago turnirja v tujini.',
+                    image: '/images/american_football.jpg'
                 },
                 {
                     title: 'Pregled 2. kroga DP v Flag Footballu',
-                    text: 'Letošnje državno prvenstvo v Flag Footballu bo to soboto dobilo epilog. Po rednem delu tekmovanja sta se v finale uvrstili ekipi Ajdovščina Gladiators in Kočevje Wild Hogs. Ajdovščina v finale prihaja kot izraziti favorit, saj v rednem delu sezone sploh ni zabeležila poraza. Na drugi strani Kočevje v dvoboj prihaja brez pritiska, saj so v letošnji sezoni naredili ogromen preskok v svoji igri in zabeležili tudi odmevnejši uspeh z zmago turnirja v tujini.'
+                    text: 'Letošnje državno prvenstvo v Flag Footballu bo to soboto dobilo epilog. Po rednem delu tekmovanja sta se v finale uvrstili ekipi Ajdovščina Gladiators in Kočevje Wild Hogs. Ajdovščina v finale prihaja kot izraziti favorit, saj v rednem delu sezone sploh ni zabeležila poraza. Na drugi strani Kočevje v dvoboj prihaja brez pritiska, saj so v letošnji sezoni naredili ogromen preskok v svoji igri in zabeležili tudi odmevnejši uspeh z zmago turnirja v tujini.',
+                    image: '/images/defense.jpg'
                 }
             ],
             sponsors: [
@@ -434,7 +400,23 @@ export default {
             ]
         }
     },
-    computed: {},
+    computed: {
+        structuredNews () {
+            let arr = []
+            arr.push([this.news[0]])
+
+            let innerArr = []
+            for (let i = 1; i < this.news.length; i++) {
+                innerArr.push(this.news[i])
+                if (i % 2 === 0) {
+                    arr.push(innerArr)
+                    innerArr = []
+                }
+            }
+
+            return arr
+        }
+    },
     created () {},
     mounted () {
         this.$nextTick(() => {})

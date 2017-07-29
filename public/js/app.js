@@ -12269,45 +12269,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -12319,25 +12280,46 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             events: [{ title: 'Dogodek 1', date: '1.8.2017' }, { title: 'Dogodek 2', date: '1.8.2017' }, { title: 'Dogodek 3', date: '1.8.2017' }],
             news: [{
                 title: 'Finalni touchdown za DP v Flag Footballu je pred vrati!',
-                text: 'Letošnje državno prvenstvo v Flag Footballu bo to soboto dobilo epilog. Po rednem delu tekmovanja sta se v finale uvrstili ekipi Ajdovščina Gladiators in Kočevje Wild Hogs. Ajdovščina v finale prihaja kot izraziti favorit, saj v rednem delu sezone sploh ni zabeležila poraza. Na drugi strani Kočevje v dvoboj prihaja brez pritiska, saj so v letošnji sezoni naredili ogromen preskok v svoji igri in zabeležili tudi odmevnejši uspeh z zmago turnirja v tujini.'
+                text: 'Letošnje državno prvenstvo v Flag Footballu bo to soboto dobilo epilog. Po rednem delu tekmovanja sta se v finale uvrstili ekipi Ajdovščina Gladiators in Kočevje Wild Hogs. Ajdovščina v finale prihaja kot izraziti favorit, saj v rednem delu sezone sploh ni zabeležila poraza. Na drugi strani Kočevje v dvoboj prihaja brez pritiska, saj so v letošnji sezoni naredili ogromen preskok v svoji igri in zabeležili tudi odmevnejši uspeh z zmago turnirja v tujini.',
+                image: '/images/american_football.jpg'
             }, {
                 title: '3. krog članskega DP in začetek DP mladinskih selekcij',
-                text: 'Letošnje državno prvenstvo v Flag Footballu bo to soboto dobilo epilog. Po rednem delu tekmovanja sta se v finale uvrstili ekipi Ajdovščina Gladiators in Kočevje Wild Hogs. Ajdovščina v finale prihaja kot izraziti favorit, saj v rednem delu sezone sploh ni zabeležila poraza. Na drugi strani Kočevje v dvoboj prihaja brez pritiska, saj so v letošnji sezoni naredili ogromen preskok v svoji igri in zabeležili tudi odmevnejši uspeh z zmago turnirja v tujini.'
+                text: 'Letošnje državno prvenstvo v Flag Footballu bo to soboto dobilo epilog. Po rednem delu tekmovanja sta se v finale uvrstili ekipi Ajdovščina Gladiators in Kočevje Wild Hogs. Ajdovščina v finale prihaja kot izraziti favorit, saj v rednem delu sezone sploh ni zabeležila poraza. Na drugi strani Kočevje v dvoboj prihaja brez pritiska, saj so v letošnji sezoni naredili ogromen preskok v svoji igri in zabeležili tudi odmevnejši uspeh z zmago turnirja v tujini.',
+                image: '/images/ball.jpg'
             }, {
                 title: 'Pregled 2. kroga DP v Flag Footballu',
-                text: 'Letošnje državno prvenstvo v Flag Footballu bo to soboto dobilo epilog. Po rednem delu tekmovanja sta se v finale uvrstili ekipi Ajdovščina Gladiators in Kočevje Wild Hogs. Ajdovščina v finale prihaja kot izraziti favorit, saj v rednem delu sezone sploh ni zabeležila poraza. Na drugi strani Kočevje v dvoboj prihaja brez pritiska, saj so v letošnji sezoni naredili ogromen preskok v svoji igri in zabeležili tudi odmevnejši uspeh z zmago turnirja v tujini.'
+                text: 'Letošnje državno prvenstvo v Flag Footballu bo to soboto dobilo epilog. Po rednem delu tekmovanja sta se v finale uvrstili ekipi Ajdovščina Gladiators in Kočevje Wild Hogs. Ajdovščina v finale prihaja kot izraziti favorit, saj v rednem delu sezone sploh ni zabeležila poraza. Na drugi strani Kočevje v dvoboj prihaja brez pritiska, saj so v letošnji sezoni naredili ogromen preskok v svoji igri in zabeležili tudi odmevnejši uspeh z zmago turnirja v tujini.',
+                image: '/images/american_football.jpg'
             }, {
                 title: '3. krog članskega DP in začetek DP mladinskih selekcij',
-                text: 'Letošnje državno prvenstvo v Flag Footballu bo to soboto dobilo epilog. Po rednem delu tekmovanja sta se v finale uvrstili ekipi Ajdovščina Gladiators in Kočevje Wild Hogs. Ajdovščina v finale prihaja kot izraziti favorit, saj v rednem delu sezone sploh ni zabeležila poraza. Na drugi strani Kočevje v dvoboj prihaja brez pritiska, saj so v letošnji sezoni naredili ogromen preskok v svoji igri in zabeležili tudi odmevnejši uspeh z zmago turnirja v tujini.'
+                text: 'Letošnje državno prvenstvo v Flag Footballu bo to soboto dobilo epilog. Po rednem delu tekmovanja sta se v finale uvrstili ekipi Ajdovščina Gladiators in Kočevje Wild Hogs. Ajdovščina v finale prihaja kot izraziti favorit, saj v rednem delu sezone sploh ni zabeležila poraza. Na drugi strani Kočevje v dvoboj prihaja brez pritiska, saj so v letošnji sezoni naredili ogromen preskok v svoji igri in zabeležili tudi odmevnejši uspeh z zmago turnirja v tujini.',
+                image: '/images/american_football.jpg'
             }, {
                 title: 'Pregled 2. kroga DP v Flag Footballu',
-                text: 'Letošnje državno prvenstvo v Flag Footballu bo to soboto dobilo epilog. Po rednem delu tekmovanja sta se v finale uvrstili ekipi Ajdovščina Gladiators in Kočevje Wild Hogs. Ajdovščina v finale prihaja kot izraziti favorit, saj v rednem delu sezone sploh ni zabeležila poraza. Na drugi strani Kočevje v dvoboj prihaja brez pritiska, saj so v letošnji sezoni naredili ogromen preskok v svoji igri in zabeležili tudi odmevnejši uspeh z zmago turnirja v tujini.'
+                text: 'Letošnje državno prvenstvo v Flag Footballu bo to soboto dobilo epilog. Po rednem delu tekmovanja sta se v finale uvrstili ekipi Ajdovščina Gladiators in Kočevje Wild Hogs. Ajdovščina v finale prihaja kot izraziti favorit, saj v rednem delu sezone sploh ni zabeležila poraza. Na drugi strani Kočevje v dvoboj prihaja brez pritiska, saj so v letošnji sezoni naredili ogromen preskok v svoji igri in zabeležili tudi odmevnejši uspeh z zmago turnirja v tujini.',
+                image: '/images/defense.jpg'
             }],
             sponsors: [{ title: 'Sponzor 1' }, { title: 'Sponzor 2' }, { title: 'Sponzor 3' }]
         };
     },
 
-    computed: {},
+    computed: {
+        structuredNews: function structuredNews() {
+            var arr = [];
+            arr.push([this.news[0]]);
+
+            var innerArr = [];
+            for (var i = 1; i < this.news.length; i++) {
+                innerArr.push(this.news[i]);
+                if (i % 2 === 0) {
+                    arr.push(innerArr);
+                    innerArr = [];
+                }
+            }
+
+            return arr;
+        }
+    },
     created: function created() {},
     mounted: function mounted() {
         this.$nextTick(function () {});
@@ -12405,7 +12387,7 @@ exports.push([module.i, "\n.fa-icon {\n  display: inline-block;\n  fill: current
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(8)();
-exports.push([module.i, "\n@font-face {\n  font-family: 'Bebas Neue';\n  src: url(\"/fonts/BebasNeue.otf\") format(\"otf\");\n}\n@font-face {\n  font-family: 'Montserrat Light';\n  src: url(\"/fonts/Montserrat-Light.otf\") format(\"otf\");\n}\n@font-face {\n  font-family: 'Montserrat Regular';\n  src: url(\"/fonts/Montserrat-Regular.otf\") format(\"otf\");\n}\n*[data-v-2d037551] {\n  box-sizing: border-box;\n}\nbody[data-v-2d037551] {\n  margin: 0;\n  padding: 0;\n  font-family: \"Montserrat Light\";\n}\n.wrapper[data-v-2d037551] {\n  width: 100%;\n  height: 100%;\n}\n.header-wrapper[data-v-2d037551] {\n  width: 100%;\n  height: 100px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  font-family: \"Bebas Neue\";\n}\n.header-wrapper .logo-wrapper[data-v-2d037551] {\n    width: 200px;\n    margin: 0 calc(40% - 220px) 0 20px;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    -webkit-box-pack: start;\n        -ms-flex-pack: start;\n            justify-content: flex-start;\n    cursor: pointer;\n}\n.header-wrapper .logo-wrapper .logo-img[data-v-2d037551] {\n      max-height: 80%;\n      cursor: pointer;\n}\n.header-wrapper .media-wrapper[data-v-2d037551] {\n    width: 15%;\n    padding-right: 1%;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n}\n.header-wrapper .media-wrapper .icon[data-v-2d037551] {\n      width: 50px;\n      height: 30%;\n      color: #515251;\n      cursor: pointer;\n}\n.header-wrapper .media-wrapper .icon[data-v-2d037551]:hover {\n        color: #000000;\n}\n.header-wrapper .header-el[data-v-2d037551] {\n    width: 15%;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    color: #ffffff;\n    font-size: 35px;\n    cursor: pointer;\n}\n.header-wrapper .header-el.flag[data-v-2d037551] {\n      background-color: #7cbc42;\n}\n.header-wrapper .header-el.tackle[data-v-2d037551] {\n      background-color: #27a9e0;\n}\n.header-wrapper .header-el.association[data-v-2d037551] {\n      background-color: #515251;\n}\n.header-wrapper .header-el .text[data-v-2d037551] {\n      padding-top: 10px;\n      line-height: 27px;\n      display: inline-block;\n      -webkit-box-align: start;\n          -ms-flex-align: start;\n              align-items: flex-start;\n}\n.header-wrapper .header-el .text[data-v-2d037551]:after {\n        content: '';\n        width: 0;\n        height: 3px;\n        display: block;\n        background: #ffffff;\n        transition: width 0.3s ease-in;\n}\n.header-wrapper .header-el .text.active[data-v-2d037551]:after {\n        width: 100%;\n}\n.subheader-wrapper[data-v-2d037551] {\n  width: 100%;\n  height: 45px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  font-family: \"Bebas Neue\";\n  font-size: 25px;\n  background-color: #7cbc42;\n  color: #ffffff;\n}\n.subheader-wrapper .subheader-el[data-v-2d037551] {\n    padding: 0 25px;\n    cursor: pointer;\n}\n.subheader-wrapper .subheader-el[data-v-2d037551]:first-of-type {\n      padding-left: 20px;\n}\n.subheader-wrapper .subheader-el .text[data-v-2d037551] {\n      padding-top: 5px;\n      line-height: 18px;\n      display: inline-block;\n      -webkit-box-align: start;\n          -ms-flex-align: start;\n              align-items: flex-start;\n}\n.subheader-wrapper .subheader-el .text[data-v-2d037551]:after {\n        content: '';\n        width: 0;\n        height: 3px;\n        display: block;\n        background: #ffffff;\n        transition: width 0.3s ease-in;\n}\n.subheader-wrapper .subheader-el .text.active[data-v-2d037551]:after {\n        width: 100%;\n}\n.subsubheader-wrapper[data-v-2d037551] {\n  margin: 10px 0;\n  padding: 0 20px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  font-family: \"Bebas Neue\";\n  font-size: 25px;\n  background-color: #e0e2e2;\n  color: #ffffff;\n}\n.subsubheader-wrapper .subsubheader-el[data-v-2d037551] {\n    margin-right: 10px;\n    padding: 5px 20px;\n    background-color: #7cbc42;\n}\n.subsubheader-wrapper .subsubheader-el[data-v-2d037551]:last-of-type {\n      background-color: #a0bd86;\n}\n.content-wrapper[data-v-2d037551] {\n  width: 100%;\n  min-height: calc(100vh - 250px);\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  background-color: #e0e2e2;\n}\n.content-wrapper .events-wrapper[data-v-2d037551] {\n    width: calc(20% - 20px);\n    background-color: #bfc4c0;\n    margin: 20px 0 20px 20px;\n    padding: 20px;\n    color: #515251;\n}\n.content-wrapper .events-wrapper .events-title[data-v-2d037551] {\n      font-size: 35px;\n      line-height: 35px;\n      margin-bottom: 20px;\n      font-family: \"Bebas Neue\";\n}\n.content-wrapper .news-wrapper[data-v-2d037551] {\n    width: calc(60% - 40px);\n    margin: 20px;\n    background-color: #e0e2e2;\n}\n.content-wrapper .news-wrapper .news-title[data-v-2d037551] {\n      width: 100%;\n      padding: 15px 10px 0 10px;\n      background-color: #7cbc42;\n      color: #ffffff;\n      font-size: 30px;\n      font-family: \"Bebas Neue\";\n      line-height: 30px;\n}\n.content-wrapper .news-wrapper .news-text[data-v-2d037551] {\n      width: 100%;\n      height: 100%;\n      padding: 10px;\n      background-color: #7cbc42;\n      color: #ffffff;\n      text-align: justify;\n      text-justify: inter-word;\n      line-height: 1.4;\n}\n.content-wrapper .news-wrapper .news-img[data-v-2d037551] {\n      width: 100%;\n}\n.content-wrapper .news-wrapper .main-news[data-v-2d037551] {\n      width: 100%;\n}\n.content-wrapper .news-wrapper .main-news .news-img-div[data-v-2d037551] {\n        width: 100%;\n        height: 300px;\n        overflow: hidden;\n}\n.content-wrapper .news-wrapper .small-news-wrapper[data-v-2d037551] {\n      width: 100%;\n      margin-top: 20px;\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n}\n.content-wrapper .news-wrapper .small-news-wrapper .small-news[data-v-2d037551] {\n        display: -webkit-box;\n        display: -ms-flexbox;\n        display: flex;\n        -webkit-box-orient: vertical;\n        -webkit-box-direction: normal;\n            -ms-flex-direction: column;\n                flex-direction: column;\n}\n.content-wrapper .news-wrapper .small-news-wrapper .small-news.left[data-v-2d037551] {\n          margin-right: 10px;\n}\n.content-wrapper .news-wrapper .small-news-wrapper .small-news.right[data-v-2d037551] {\n          margin-left: 10px;\n}\n.content-wrapper .news-wrapper .small-news-wrapper .small-news .news-img-div[data-v-2d037551] {\n          width: 100%;\n          height: 200px;\n}\n.content-wrapper .sponsors-wrapper[data-v-2d037551] {\n    width: calc(20% - 20px);\n    margin: 20px 20px 20px 0;\n    padding: 20px;\n    background-color: #bfc4c0;\n    color: #515251;\n}\n.content-wrapper .sponsors-wrapper .sponsors-title[data-v-2d037551] {\n      font-size: 35px;\n      line-height: 35px;\n      margin-bottom: 20px;\n      font-family: \"Bebas Neue\";\n}\n.footer-wrapper[data-v-2d037551] {\n  width: 100%;\n  height: 150px;\n  background-color: #636b6f;\n}\n", ""]);
+exports.push([module.i, "\n@font-face {\n  font-family: 'Bebas Neue';\n  src: url(\"/fonts/BebasNeue.otf\") format(\"otf\");\n}\n@font-face {\n  font-family: 'Montserrat Light';\n  src: url(\"/fonts/Montserrat-Light.otf\") format(\"otf\");\n}\n@font-face {\n  font-family: 'Montserrat Regular';\n  src: url(\"/fonts/Montserrat-Regular.otf\") format(\"otf\");\n}\n*[data-v-2d037551] {\n  box-sizing: border-box;\n}\nbody[data-v-2d037551] {\n  margin: 0;\n  padding: 0;\n  font-family: \"Montserrat Light\";\n  background-color: #e0e2e2;\n}\n.wrapper[data-v-2d037551] {\n  width: 100%;\n  height: 100%;\n}\n.header-wrapper[data-v-2d037551] {\n  width: 100%;\n  height: 100px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  font-family: \"Bebas Neue\";\n  background-color: #ffffff;\n}\n.header-wrapper .logo-wrapper[data-v-2d037551] {\n    width: 200px;\n    margin: 0 calc(40% - 220px) 0 20px;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    -webkit-box-pack: start;\n        -ms-flex-pack: start;\n            justify-content: flex-start;\n    cursor: pointer;\n}\n.header-wrapper .logo-wrapper .logo-img[data-v-2d037551] {\n      max-height: 80%;\n      cursor: pointer;\n}\n.header-wrapper .media-wrapper[data-v-2d037551] {\n    width: 15%;\n    padding-right: 1%;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n}\n.header-wrapper .media-wrapper .icon[data-v-2d037551] {\n      width: 50px;\n      height: 30%;\n      color: #515251;\n      cursor: pointer;\n}\n.header-wrapper .media-wrapper .icon[data-v-2d037551]:hover {\n        color: #000000;\n}\n.header-wrapper .header-el[data-v-2d037551] {\n    width: 15%;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    color: #ffffff;\n    font-size: 35px;\n    cursor: pointer;\n}\n.header-wrapper .header-el.flag[data-v-2d037551] {\n      background-color: #7cbc42;\n}\n.header-wrapper .header-el.tackle[data-v-2d037551] {\n      background-color: #27a9e0;\n}\n.header-wrapper .header-el.association[data-v-2d037551] {\n      background-color: #515251;\n}\n.header-wrapper .header-el .text[data-v-2d037551] {\n      padding-top: 10px;\n      line-height: 27px;\n      display: inline-block;\n      -webkit-box-align: start;\n          -ms-flex-align: start;\n              align-items: flex-start;\n}\n.header-wrapper .header-el .text[data-v-2d037551]:after {\n        content: '';\n        width: 0;\n        height: 3px;\n        display: block;\n        background: #ffffff;\n        transition: width 0.3s ease-in;\n}\n.header-wrapper .header-el .text.active[data-v-2d037551]:after {\n        width: 100%;\n}\n.subheader-wrapper[data-v-2d037551] {\n  width: 100%;\n  height: 45px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  font-family: \"Bebas Neue\";\n  font-size: 25px;\n  background-color: #7cbc42;\n  color: #ffffff;\n}\n.subheader-wrapper .subheader-el[data-v-2d037551] {\n    padding: 0 25px;\n    cursor: pointer;\n}\n.subheader-wrapper .subheader-el[data-v-2d037551]:first-of-type {\n      padding-left: 20px;\n}\n.subheader-wrapper .subheader-el .text[data-v-2d037551] {\n      padding-top: 5px;\n      line-height: 18px;\n      display: inline-block;\n      -webkit-box-align: start;\n          -ms-flex-align: start;\n              align-items: flex-start;\n}\n.subheader-wrapper .subheader-el .text[data-v-2d037551]:after {\n        content: '';\n        width: 0;\n        height: 3px;\n        display: block;\n        background: #ffffff;\n        transition: width 0.3s ease-in;\n}\n.subheader-wrapper .subheader-el .text.active[data-v-2d037551]:after {\n        width: 100%;\n}\n.subsubheader-wrapper[data-v-2d037551] {\n  margin-top: 20px;\n  padding: 0 20px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  font-family: \"Bebas Neue\";\n  font-size: 25px;\n  background-color: #e0e2e2;\n  color: #ffffff;\n}\n.subsubheader-wrapper .subsubheader-el[data-v-2d037551] {\n    margin-right: 10px;\n    padding: 5px 20px;\n    background-color: #7cbc42;\n}\n.subsubheader-wrapper .subsubheader-el[data-v-2d037551]:last-of-type {\n      background-color: #a0bd86;\n}\n.content-wrapper[data-v-2d037551] {\n  width: 100%;\n  min-height: calc(100vh - 250px);\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  background-color: #e0e2e2;\n}\n.content-wrapper .events-wrapper[data-v-2d037551] {\n    width: calc(20% - 20px);\n    background-color: #bfc4c0;\n    margin: 20px 0 20px 20px;\n    padding: 20px;\n    color: #515251;\n}\n.content-wrapper .events-wrapper .events-title[data-v-2d037551] {\n      font-size: 35px;\n      line-height: 35px;\n      margin-bottom: 20px;\n      font-family: \"Bebas Neue\";\n}\n.content-wrapper .news-wrapper[data-v-2d037551] {\n    width: calc(60% - 40px);\n    margin: 20px;\n    background-color: #e0e2e2;\n}\n.content-wrapper .news-wrapper .news-title[data-v-2d037551] {\n      width: 100%;\n      padding: 15px 10px 0 10px;\n      background-color: #7cbc42;\n      color: #ffffff;\n      font-size: 30px;\n      font-family: \"Bebas Neue\";\n      line-height: 30px;\n}\n.content-wrapper .news-wrapper .news-text[data-v-2d037551] {\n      width: 100%;\n      height: 100%;\n      padding: 10px;\n      background-color: #7cbc42;\n      color: #ffffff;\n      text-align: justify;\n      text-justify: inter-word;\n      line-height: 1.4;\n}\n.content-wrapper .news-wrapper .news-img[data-v-2d037551] {\n      width: 100%;\n}\n.content-wrapper .news-wrapper .main-news[data-v-2d037551] {\n      width: 100%;\n}\n.content-wrapper .news-wrapper .main-news .news-img-div[data-v-2d037551] {\n        width: 100%;\n        height: 300px;\n        overflow: hidden;\n}\n.content-wrapper .news-wrapper .small-news-wrapper[data-v-2d037551] {\n      width: 100%;\n      margin-top: 20px;\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n}\n.content-wrapper .news-wrapper .small-news-wrapper .small-news[data-v-2d037551] {\n        display: -webkit-box;\n        display: -ms-flexbox;\n        display: flex;\n        -webkit-box-orient: vertical;\n        -webkit-box-direction: normal;\n            -ms-flex-direction: column;\n                flex-direction: column;\n}\n.content-wrapper .news-wrapper .small-news-wrapper .small-news[data-v-2d037551]:first-of-type {\n          margin-right: 10px;\n}\n.content-wrapper .news-wrapper .small-news-wrapper .small-news[data-v-2d037551]:last-of-type {\n          margin-left: 10px;\n}\n.content-wrapper .news-wrapper .small-news-wrapper .small-news .news-img-div[data-v-2d037551] {\n          width: 100%;\n          height: 200px;\n}\n.content-wrapper .sponsors-wrapper[data-v-2d037551] {\n    width: calc(20% - 20px);\n    margin: 20px 20px 20px 0;\n    padding: 20px;\n    background-color: #bfc4c0;\n    color: #515251;\n}\n.content-wrapper .sponsors-wrapper .sponsors-title[data-v-2d037551] {\n      font-size: 35px;\n      line-height: 35px;\n      margin-bottom: 20px;\n      font-family: \"Bebas Neue\";\n}\n.footer-wrapper[data-v-2d037551] {\n  width: 100%;\n  height: 150px;\n  background-color: #636b6f;\n}\n", ""]);
 
 /***/ }),
 /* 40 */
@@ -51140,41 +51122,39 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_vm._v("\n                    " + _vm._s(element.date) + "\n                ")])])
   })], 2), _vm._v(" "), _c('div', {
     staticClass: "news-wrapper"
-  }, [_c('div', {
-    staticClass: "main-news"
-  }, [_vm._m(2), _vm._v(" "), _c('div', {
-    staticClass: "news-title"
-  }, [_vm._v("\n                    " + _vm._s(_vm.news[0].title) + "\n                ")]), _vm._v(" "), _c('div', {
-    staticClass: "news-text"
-  }, [_vm._v("\n                    " + _vm._s(_vm.news[0].text) + "\n                ")])]), _vm._v(" "), _c('div', {
-    staticClass: "small-news-wrapper"
-  }, [_c('div', {
-    staticClass: "small-news left"
-  }, [_vm._m(3), _vm._v(" "), _c('div', {
-    staticClass: "news-title"
-  }, [_vm._v("\n                        " + _vm._s(_vm.news[1].title) + "\n                    ")]), _vm._v(" "), _c('div', {
-    staticClass: "news-text"
-  }, [_vm._v("\n                        " + _vm._s(_vm.news[1].text) + "\n                    ")])]), _vm._v(" "), _c('div', {
-    staticClass: "small-news right"
-  }, [_vm._m(4), _vm._v(" "), _c('div', {
-    staticClass: "news-title"
-  }, [_vm._v("\n                        " + _vm._s(_vm.news[2].title) + "\n                    ")]), _vm._v(" "), _c('div', {
-    staticClass: "news-text"
-  }, [_vm._v("\n                        " + _vm._s(_vm.news[2].text) + "\n                    ")])])]), _vm._v(" "), _c('div', {
-    staticClass: "small-news-wrapper"
-  }, [_c('div', {
-    staticClass: "small-news left"
-  }, [_vm._m(5), _vm._v(" "), _c('div', {
-    staticClass: "news-title"
-  }, [_vm._v("\n                        " + _vm._s(_vm.news[3].title) + "\n                    ")]), _vm._v(" "), _c('div', {
-    staticClass: "news-text"
-  }, [_vm._v("\n                        " + _vm._s(_vm.news[3].text) + "\n                    ")])]), _vm._v(" "), _c('div', {
-    staticClass: "small-news right"
-  }, [_vm._m(6), _vm._v(" "), _c('div', {
-    staticClass: "news-title"
-  }, [_vm._v("\n                        " + _vm._s(_vm.news[4].title) + "\n                    ")]), _vm._v(" "), _c('div', {
-    staticClass: "news-text"
-  }, [_vm._v("\n                        " + _vm._s(_vm.news[4].text) + "\n                    ")])])])]), _vm._v(" "), _c('div', {
+  }, [_vm._l((_vm.structuredNews), function(arr, index) {
+    return [(index === 0) ? _c('div', {
+      staticClass: "main-news"
+    }, [_c('div', {
+      staticClass: "news-img-div"
+    }, [_c('img', {
+      staticClass: "news-img",
+      attrs: {
+        "src": arr[0].image
+      }
+    })]), _vm._v(" "), _c('div', {
+      staticClass: "news-title"
+    }, [_vm._v(_vm._s(arr[0].title))]), _vm._v(" "), _c('div', {
+      staticClass: "news-text"
+    }, [_vm._v(_vm._s(arr[0].text))])]) : _c('div', {
+      staticClass: "small-news-wrapper"
+    }, _vm._l((arr), function(element) {
+      return _c('div', {
+        staticClass: "small-news"
+      }, [_c('div', {
+        staticClass: "news-img-div"
+      }, [_c('img', {
+        staticClass: "news-img",
+        attrs: {
+          "src": element.image
+        }
+      })]), _vm._v(" "), _c('div', {
+        staticClass: "news-title"
+      }, [_vm._v(_vm._s(element.title))]), _vm._v(" "), _c('div', {
+        staticClass: "news-text"
+      }, [_vm._v(_vm._s(element.text))])])
+    }))]
+  })], 2), _vm._v(" "), _c('div', {
     staticClass: "sponsors-wrapper"
   }, [_c('div', {
     staticClass: "sponsors-title"
@@ -51204,51 +51184,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("\n            1. LIGA\n        ")]), _vm._v(" "), _c('div', {
     staticClass: "subsubheader-el"
   }, [_vm._v("\n            2. LIGA\n        ")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "news-img-div"
-  }, [_c('img', {
-    staticClass: "news-img",
-    attrs: {
-      "src": "/images/american_football.jpg"
-    }
-  })])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "news-img-div"
-  }, [_c('img', {
-    staticClass: "news-img",
-    attrs: {
-      "src": "/images/ball.jpg"
-    }
-  })])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "news-img-div"
-  }, [_c('img', {
-    staticClass: "news-img",
-    attrs: {
-      "src": "/images/american_football.jpg"
-    }
-  })])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "news-img-div"
-  }, [_c('img', {
-    staticClass: "news-img",
-    attrs: {
-      "src": "/images/american_football.jpg"
-    }
-  })])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "news-img-div"
-  }, [_c('img', {
-    staticClass: "news-img",
-    attrs: {
-      "src": "/images/defense.jpg"
-    }
-  })])
 }]}
 module.exports.render._withStripped = true
 if (false) {

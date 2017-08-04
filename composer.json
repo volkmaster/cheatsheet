@@ -1,8 +1,8 @@
 {
-    "name": "zans",
+    "name": "mvp",
     "version": "0.0.1",
-    "description": "Zveza za Ameriški Nogomet Slovenije / Slovenian American Footbal Association",
-    "keywords": ["zans", "ameriški nogomet", "zveza", "flag football", "flag", "tackle"],
+    "description": "Minimal Viable Product",
+    "keywords": [],
     "license": "MIT",
     "type": "project",
     "require": {

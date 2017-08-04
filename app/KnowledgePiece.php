@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Season extends Model
+class KnowledgePiece extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -12,7 +12,7 @@ class Season extends Model
      * @var array
      */
     protected $fillable = [
-        'year', 'name',
+        'description', 'code',
     ];
 
     /**
@@ -22,8 +22,8 @@ class Season extends Model
      */
     protected $hidden = [];
 
-    public function leagues()
+    public function cheatsheets()
     {
-        return $this->hasMany('App\League');
+        return $this->belongsToMany('App\Cheatsheet')->withTimestamps();
     }
 }

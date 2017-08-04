@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Resource extends Model
+class Cheatsheet extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -12,7 +12,7 @@ class Resource extends Model
      * @var array
      */
     protected $fillable = [
-        'path', 'type',
+        'name',
     ];
 
     /**
@@ -21,4 +21,9 @@ class Resource extends Model
      * @var array
      */
     protected $hidden = [];
+
+    public function knowledgePieces()
+    {
+        return $this->belongsToMany('App\KnowledgePiece')->withTimestamps();
+    }
 }

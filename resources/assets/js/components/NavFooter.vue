@@ -6,7 +6,8 @@
 
     width            : 100%;
     height           : 150px;
-    background-color : $text-color;
+    font-family      : $font-light;
+    background-color : $dark-gray;
 }
 </style>
 

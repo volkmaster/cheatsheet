@@ -6,6 +6,7 @@
 
 ```bash
 # install dependencies
+composer install
 npm install
 
 # build and watch in development mode

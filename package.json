@@ -12,7 +12,21 @@
   "bugs": {
     "url": "https://github.com/volkmaster/mvp/issues"
   },
-  "contributors": [],
+  "contributors": [
+    {
+      "name": "Ziga Vucko",
+      "email": "ziga.vucko@gmail.com",
+      "url": "http://www.zigavucko.com"
+    },
+    {
+      "name": "Kristijan Mirceta",
+      "email": "kristijanmirceta@gmail.com"
+    },
+    {
+      "name": "Matic Pajnic",
+      "email": "matic.pajnic@gmail.com"
+    }
+  ],
   "scripts": {
     "app": "php artisan serve & npm run watch",
     "dev": "npm run development",

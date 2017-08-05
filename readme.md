@@ -6,6 +6,7 @@
 
 ```bash
 # install dependencies
+composer install
 npm install
 
 # build and watch in development mode
@@ -25,5 +26,5 @@ git push heroku master
 [https://cheatsheet-mvp.herokuapp.com/](https://cheatsheet-mvp.herokuapp.com/)
 
 ### Product version API
-[https://cheatsheet-mvp.herokuapp.com/api](https://cheatsheet-mvp.herokuapp.com/api)
+[https://cheatsheet-mvp.herokuapp.com/api](https://cheatsheet-mvp.herokuapp.com/api)  
 e.g. Get all cheatsheets: [https://cheatsheet-mvp.herokuapp.com/api/cheatsheets](https://cheatsheet-mvp.herokuapp.com/api/cheatsheets)

@@ -11,6 +11,7 @@ Vue.component('app', App)
 Vue.component('dashboard', Dashboard)
 
 const router = new VueRouter({
+    mode: 'history',
     routes: [
         { path: '/', component: Dashboard }
     ]

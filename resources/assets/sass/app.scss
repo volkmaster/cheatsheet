@@ -26,13 +26,72 @@ $font-title   : 'Bebas Neue';
 $font-light   : 'Montserrat Light';
 $font-regular : 'Montserrat Regular';
 
+// CSS
 * { box-sizing: border-box; }
 
 body {
     margin           : 0;
     padding          : 0;
-    font-family      : $font-light;
     background-color : $very-light-gray;
+}
+
+.content-wrapper {
+    width            : 100%;
+    min-height       : calc(100vh - 100px);
+    display          : flex;
+    justify-content  : center;
+    font-family      : $font-regular;
+    background-color : $very-light-gray;
+
+    .content {
+        position       : relative;
+        width          : 1230px;
+        padding-top    : 10px;
+        display        : flex;
+        flex-direction : column;
+
+        .title {
+            width   : 100%;
+            display : flex;
+        }
+
+        .table {
+             width           : 100%;
+             border          : 0;
+             border-spacing  : 0;
+             border-collapse : collapse;
+
+            .header {
+                text-align: left;
+
+                .item {
+                    padding      : 10px 5px;
+                    border-width : 0 0 3px 0;
+                    border-style : solid;
+                    font-size    : 14px;
+
+                    &.right { text-align: right; }
+                }
+            }
+
+            .data {
+                .row {
+                    border-bottom : 1px solid $light-gray;
+                    cursor        : pointer;
+                    transition    : background-color 0.1s linear;
+
+                    &:hover { background-color: $light-gray; }
+
+                    .item {
+                        padding   : 10px 5px;
+                        font-size : 16px;
+
+                        &.right { text-align: right; }
+                    }
+                }
+            }
+        }
+    }
 }
 
 $debug: false;

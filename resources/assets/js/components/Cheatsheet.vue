@@ -3,15 +3,15 @@
 
 .content-wrapper {
     .content {
-        .title .label { color: $green; }
+        .title .label { color: $blue; }
 
         .table {
-            .header .item { border-color: $green; }
+            .header .item { border-color: $blue; }
 
-            .id    { width : 10%; }
-            .name  { width : 35%; }
-            .count { width : 25%; }
-            .date  { width : 15%; }
+            .id          { width : 10%; }
+            .description { width : 25%; }
+            .code        { width : 35%; }
+            .date        { width : 15%; }
         }
     }
 }
@@ -28,10 +28,10 @@
                     <th class="item" :class="item.align" v-for="item in header">{{ item.label | uppercase }}</th>
                 </thead>
                 <tbody class="data">
-                    <tr class="row" v-for="item in data" @click="openCheatsheet(item.id)">
+                    <tr class="row" v-for="item in data">
                         <td class="item id">{{ item.id }}</td>
-                        <td class="item name">{{ item.name }}</td>
-                        <td class="item count">{{ item.count }}</td>
+                        <td class="item description">{{ item.description }}</td>
+                        <td class="item code">{{ item.code }}</td>
                         <td class="item date right">{{ item.created | date }}</td>
                         <td class="item date right">{{ item.modified | date }}</td>
                     </tr>
@@ -52,56 +52,38 @@ import Pagination from './Pagination.vue'
 export default {
     data () {
         return {
-            title: 'cheatsheets',
+            title: '',
             header: [
                 { label: 'id', align: 'left' },
-                { label: 'name', align: 'left' },
-                { label: 'no. of knowledge pieces', align: 'left' },
+                { label: 'description', align: 'left' },
+                { label: 'code', align: 'left' },
                 { label: 'created', align: 'right' },
                 { label: 'modified', align: 'right' }
             ],
+            data: [],
             currentPage: 1
         }
     },
     created () {
-        if (!this.$store.state.cheatsheets) {
-            this.loadData()
-        } else {
-            this.currentPage = this.$store.state.cheatsheets.current_page
-        }
+        let cheatsheet = this.$store.getters.getCheatsheetById(this.$route.params.id)
+        this.title = cheatsheet.name
+        this.setData(cheatsheet.knowledge_pieces)
     },
     computed: {
-        data () {
-            let data = []
-
-            if (this.$store.state.cheatsheets) {
-                data = this.$store.state.cheatsheets.data.map(cheatsheet => {
-                    return { id: cheatsheet.id, name: cheatsheet.name, count: cheatsheet.knowledge_pieces.length, created: cheatsheet.created_at, modified: cheatsheet.updated_at }
-                })
-            }
-
-            return data
-        },
         lastPage () {
-            return this.$store.state.cheatsheets ? this.$store.state.cheatsheets.last_page : 0
+            return 0
         }
     },
     methods: {
-        loadData () {
-            axios.get('/api/cheatsheets?per_page=10&page=' + this.currentPage)
-                .then(response => {
-                    this.$store.commit('setCheatsheets', response.data)
-                })
-                .catch(error => console.log(error))
+        setData (data) {
+            this.data = data.map(knowledgePiece => {
+                return { id: knowledgePiece.id, description: knowledgePiece.description, code: knowledgePiece.code, created: knowledgePiece.created_at, modified: knowledgePiece.updated_at }
+            })
         },
         selectPage (target) {
             if (this.currentPage !== target) {
                 this.currentPage = target
-                this.loadData()
             }
-        },
-        openCheatsheet (id) {
-            this.$router.push({ name: 'cheatsheet', params: { id: id } })
         }
     },
     components: {

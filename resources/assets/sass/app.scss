@@ -43,6 +43,18 @@ body {
     font-family      : $font-regular;
     background-color : $very-light-gray;
 
+    .loader-wrapper {
+        display         : flex;
+        align-items     : center;
+        justify-content : center;
+        transform       : translate3d(0, -5%, 0);
+
+        .loader {
+            width  : 100px;
+            height : 100px;
+        }
+    }
+
     .content {
         position       : relative;
         width          : 1230px;

@@ -19,7 +19,10 @@
 
 <template>
     <div class="content-wrapper">
-        <div class="content">
+        <div class="loader-wrapper" v-show="loading">
+            <img class="loader" src="/images/loader.svg"/>
+        </div>
+        <div class="content" v-show="!loading">
             <div class="title">
                 <h2 class="label">{{ title | uppercase }}</h2>
             </div>
@@ -37,22 +40,15 @@
                     </tr>
                 </tbody>
             </table>
-            <pagination
-                :current-page="currentPage"
-                :last-page="lastPage"
-                @select-page="selectPage">
-            </pagination>
         </div>
     </div>
 </template>
 
 <script>
-import Pagination from './Pagination.vue'
-
 export default {
     data () {
         return {
-            title: '',
+            loading: true,
             header: [
                 { label: 'id', align: 'left' },
                 { label: 'description', align: 'left' },
@@ -60,34 +56,37 @@ export default {
                 { label: 'created', align: 'right' },
                 { label: 'modified', align: 'right' }
             ],
-            data: [],
-            currentPage: 1
+            cheatsheet: null
         }
     },
     created () {
-        let cheatsheet = this.$store.getters.getCheatsheetById(this.$route.params.id)
-        this.title = cheatsheet.name
-        this.setData(cheatsheet.knowledge_pieces)
+        this.loadData()
     },
     computed: {
-        lastPage () {
-            return 0
+        title () {
+            return this.cheatsheet ? this.cheatsheet.name : ''
+        },
+        data () {
+            let data = []
+
+            if (this.cheatsheet) {
+                data = this.cheatsheet.knowledge_pieces.map(knowledgePiece => {
+                    return { id: knowledgePiece.id, description: knowledgePiece.description, code: knowledgePiece.code, created: knowledgePiece.created_at, modified: knowledgePiece.updated_at }
+                })
+            }
+
+            return data
         }
     },
     methods: {
-        setData (data) {
-            this.data = data.map(knowledgePiece => {
-                return { id: knowledgePiece.id, description: knowledgePiece.description, code: knowledgePiece.code, created: knowledgePiece.created_at, modified: knowledgePiece.updated_at }
-            })
-        },
-        selectPage (target) {
-            if (this.currentPage !== target) {
-                this.currentPage = target
-            }
+        loadData () {
+            axios.get('/api/cheatsheets/' + this.$route.params.id, { params: { fields: 'id,name,created_at,updated_at,knowledge_pieces' } })
+                .then(response => {
+                    this.cheatsheet = response.data
+                    this.loading = false
+                })
+                .catch(error => console.log(error))
         }
-    },
-    components: {
-        pagination: Pagination
     }
 }
 </script>

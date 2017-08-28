@@ -3,46 +3,48 @@
 
 .content-wrapper {
     .content {
-        .title {
+        .title-wrapper {
             display         : flex;
             justify-content : space-between;
 
             .label { color: $green; }
+        }
 
-            .filter-wrapper {
-                width       : 30%;
-                display     : flex;
-                align-items : center;
+        .filter-wrapper {
+            width       : 100%;
+            display     : flex;
+            align-items : center;
 
-                .filter-label { color: $dark-gray; }
+            .filter-label {
+                color  : $dark-gray;
+                margin : 12px 0;
+            }
 
-                .filter-input {
-                    width       : 90%;
-                    margin      : 0 15px;
-                    padding     : 5px;
-                    font-size   : 15px;
-                    font-family : $font-regular;
-                    border      : 0;
-                    outline     : 0;
-                }
+            .filter-input {
+                margin      : 0 15px;
+                padding     : 5px;
+                font-size   : 15px;
+                font-family : $font-regular;
+                border      : 0;
+                outline     : 0;
+            }
 
-                .filter-icon-wrapper {
-                    display         : flex;
-                    justify-content : flex-end;
+            .filter-icon-wrapper {
+                display         : flex;
+                justify-content : flex-end;
 
-                    .filter-icon {
-                        margin-right : 10px;
-                        color        : $dark-gray;
-                        cursor       : pointer;
+                .filter-icon {
+                    margin-right : 10px;
+                    color        : $dark-gray;
+                    cursor       : pointer;
 
-                        &.clear {
-                            opacity: 0;
+                    &.clear {
+                        opacity: 0;
 
-                            &.with-search { opacity: 1; }
-                        }
-
-                        &:hover { color: $black; }
+                        &.with-search { opacity: 1; }
                     }
+
+                    &:hover { color: $black; }
                 }
             }
         }
@@ -65,21 +67,21 @@
             <img class="loader" src="/images/loader.svg"/>
         </div>
         <div class="content" v-show="!loading">
-            <div class="title">
+            <div class="title-wrapper">
                 <h2 class="label">{{ title | uppercase }}</h2>
-                <div class="filter-wrapper">
-                    <h4 class="filter-label">Search</h4>
-                    <input type="text" class="filter-input" :placeholder="filter.placeholder" v-model="filter.search"/>
-                    <div class="filter-icon-wrapper">
-                        <icon class="filter-icon" name="search" @click.native="search"></icon>
-                        <icon class="filter-icon clear" :class="{ 'with-search': filter.search !== '' }" name="times" @click.native="clear"></icon>
-                    </div>
-                </div>
                 <pagination
                     :current-page="currentPage"
                     :last-page="lastPage"
                     @select-page="selectPage">
                 </pagination>
+            </div>
+            <div class="filter-wrapper">
+                <h4 class="filter-label">Search</h4>
+                <input type="text" class="filter-input" :placeholder="filter.placeholder" v-model="filter.search"/>
+                <div class="filter-icon-wrapper">
+                    <icon class="filter-icon" name="search" @click.native="search"></icon>
+                    <icon class="filter-icon clear" :class="{ 'with-search': filter.search !== '' }" name="times" @click.native="clear"></icon>
+                </div>
             </div>
             <table class="table">
                 <thead class="header">

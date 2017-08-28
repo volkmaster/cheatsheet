@@ -62,9 +62,11 @@ body {
         display        : flex;
         flex-direction : column;
 
-        .title {
+        .title-wrapper {
             width   : 100%;
             display : flex;
+
+            .label { margin: 12px 0; }
         }
 
         .table {

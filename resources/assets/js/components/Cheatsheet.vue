@@ -3,7 +3,12 @@
 
 .content-wrapper {
     .content {
-        .title .label { color: $blue; }
+        .title-wrapper {
+            display         : flex;
+            justify-content : space-between;
+
+            .label { color: $blue; }
+        }
 
         .table {
             .header .item { border-color: $blue; }
@@ -23,8 +28,13 @@
             <img class="loader" src="/images/loader.svg"/>
         </div>
         <div class="content" v-show="!loading">
-            <div class="title">
+            <div class="title-wrapper">
                 <h2 class="label">{{ title | uppercase }}</h2>
+                <pagination
+                    :current-page="currentPage"
+                    :last-page="lastPage"
+                    @select-page="selectPage">
+                </pagination>
             </div>
             <table class="table">
                 <thead class="header">
@@ -45,6 +55,8 @@
 </template>
 
 <script>
+import Pagination from './Pagination.vue'
+
 export default {
     data () {
         return {
@@ -56,7 +68,9 @@ export default {
                 { label: 'created', align: 'right' },
                 { label: 'modified', align: 'right' }
             ],
-            cheatsheet: null
+            cheatsheet: null,
+            knowledgePieces: null,
+            currentPage: 1
         }
     },
     created () {
@@ -69,24 +83,49 @@ export default {
         data () {
             let data = []
 
-            if (this.cheatsheet) {
-                data = this.cheatsheet.knowledge_pieces.map(knowledgePiece => {
+            if (this.knowledgePieces) {
+                data = this.knowledgePieces.data.map(knowledgePiece => {
                     return { id: knowledgePiece.id, description: knowledgePiece.description, code: knowledgePiece.code, created: knowledgePiece.created_at, modified: knowledgePiece.updated_at }
                 })
             }
 
             return data
+        },
+        lastPage () {
+            return this.knowledgePieces ? this.knowledgePieces.last_page : 0
         }
     },
     methods: {
         loadData () {
-            axios.get('/api/cheatsheets/' + this.$route.params.id, { params: { fields: 'id,name,created_at,updated_at,knowledge_pieces' } })
+            this.loading = true
+
+            let params = {
+                per_page: this.$store.state.perPage,
+                page: this.currentPage
+            }
+
+            axios.get('/api/cheatsheets/' + this.$route.params.id)
                 .then(response => {
                     this.cheatsheet = response.data
-                    this.loading = false
+
+                    axios.get('/api/cheatsheets/' + this.$route.params.id + '/knowledgepieces', { params: params })
+                        .then(response => {
+                            this.knowledgePieces = response.data
+                            this.loading = false
+                        })
+                        .catch(error => console.log(error))
                 })
                 .catch(error => console.log(error))
+        },
+        selectPage (target) {
+            if (this.currentPage !== target) {
+                this.currentPage = target
+                this.loadData()
+            }
         }
+    },
+    components: {
+        pagination: Pagination
     }
 }
 </script>

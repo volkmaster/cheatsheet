@@ -14,14 +14,32 @@ class KnowledgePieceController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
-        $param   = $request->query('per_page');
-        $perPage = empty($param) ? 15 : $param;
+        $perPage = empty($request->query('per_page')) ? 15 : $request->query('per_page');
+        $fields  = empty($request->query('fields')) ? null : explode(',', $request->query('fields'));
 
-        $knowledgePieces = KnowledgePiece::with('cheatsheets')->paginate($perPage);
+        if ($fields) {
+            $field = $this->validateFields($fields);
+            if ($field) {
+                return response()->json("Requested field '{$field}' does not exist.", 400);
+            }
+
+            if (in_array('cheatsheets', $fields)) {
+                unset($fields[array_search('cheatsheets', $fields)]);
+                $knowledgePieces = KnowledgePiece::with('cheatsheets')->paginate($perPage, $fields);
+            } else {
+                $knowledgePieces = KnowledgePiece::paginate($perPage, $fields);
+            }
+        } else {
+            $knowledgePieces = KnowledgePiece::paginate($perPage);
+            foreach ($knowledgePieces as $knowledgePiece) {
+                $knowledgePiece['cheatsheet_ids'] = $knowledgePiece->cheatsheets()->pluck('id');
+            }
+        }
 
         return response()->json($knowledgePieces, 200);
     }
@@ -78,7 +96,7 @@ class KnowledgePieceController extends Controller
                     }
                 }
                 $knowledgePiece->cheatsheets()->attach($cheatsheets);
-                $knowledgePiece = KnowledgePiece::with('cheatsheets')->find($knowledgePiece->id);
+                $knowledgePiece['cheatsheets'] = $cheatsheets;
             }
         }
 
@@ -88,14 +106,36 @@ class KnowledgePieceController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        $knowledgePiece = KnowledgePiece::with('cheatsheets')->find($id);
-        if (!$knowledgePiece) {
-            return response()->json("Knowledge piece with id {$id} not found.", 404);
+        $fields = empty($request->query('fields')) ? null : explode(',', $request->query('fields'));
+
+        if ($fields) {
+            $field = $this->validateFields($fields);
+            if ($field) {
+                return response()->json("Requested field '{$field}' does not exist.", 400);
+            }
+
+            if (in_array('cheatsheets', $fields)) {
+                unset($fields[array_search('cheatsheets', $fields)]);
+                $knowledgePiece = KnowledgePiece::select($fields)->with('cheatsheets')->find($id);
+            } else {
+                $knowledgePiece = KnowledgePiece::select($fields)->find($id);
+            }
+
+            if (!$knowledgePiece) {
+                return response()->json("Knowledge piece with id {$id} not found.", 404);
+            }
+        } else {
+            $knowledgePiece = KnowledgePiece::find($id);
+            if (!$knowledgePiece) {
+                return response()->json("Knowledge piece with id {$id} not found.", 404);
+            }
+            $knowledgePiece['cheatsheet_ids'] = $knowledgePiece->cheatsheets()->pluck('id');
         }
 
         return response()->json($knowledgePiece, 200);
@@ -176,5 +216,21 @@ class KnowledgePieceController extends Controller
         }
 
         return response()->json([], 204);
+    }
+
+    /**
+     * Verify that requested fields actually exist on the model.
+     *
+     * @param  array $fields
+     * @return string|void
+    **/
+    private function validateFields($fields)
+    {
+        $columns = array_merge((new KnowledgePiece)->getFillable(), ['id', 'created_at', 'updated_at', 'cheatsheets']);
+        foreach ($fields as $field) {
+            if (!in_array($field, $columns)) {
+                return $field;
+            }
+        }
     }
 }

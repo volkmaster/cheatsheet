@@ -29,7 +29,7 @@
         <div class="header">
             <div class="logo-wrapper">
                 <router-link class="logo-wrapper" to="/" tag="div" exact>
-                    <img class="logo" src="/images/mvp.png">
+                    <img class="logo" src="/images/logo.png">
                 </router-link>
             </div>
         </div>

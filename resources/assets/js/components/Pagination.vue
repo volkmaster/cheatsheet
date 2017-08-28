@@ -2,13 +2,14 @@
 @import '../../sass/app';
 
 .pagination {
-    position        : absolute;
-    bottom          : 30px;
-    width           : 100%;
-    display         : flex;
-    justify-content : center;
+     @if ($debug) { border: 1px solid blue; }
+
+    display     : flex;
+    align-items : center;
 
     .page {
+         @if ($debug) { border: 1px solid red; }
+
         width           : 25px;
         padding         : 0 5px;
         display         : flex;

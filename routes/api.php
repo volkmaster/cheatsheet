@@ -13,6 +13,9 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::resource('cheatsheets', 'CheatsheetController');
-Route::resource('knowledgepieces', 'KnowledgePieceController');
+Route::resource('cheatsheets', 'CheatsheetController', ['except' => ['create', 'edit']]);
+Route::get('cheatsheets/{cheatsheetId}/knowledgepieces/{knowledgePieceId?}', 'CheatsheetController@knowledgePieces')
+    ->where(['cheatsheetId' => '[0-9]+', 'knowledgePieceId' => '[0-9]+']);
+
+Route::resource('knowledgepieces', 'KnowledgePieceController', ['except' => ['create', 'edit']]);
 

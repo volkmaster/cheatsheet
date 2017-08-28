@@ -23,6 +23,7 @@ const router = new VueRouter({
 
 const store = new Vuex.Store({
     state: {
+        perPage: 10,
         cheatsheets: null
     },
     getters: {

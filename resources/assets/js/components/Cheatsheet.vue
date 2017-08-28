@@ -104,18 +104,14 @@ export default {
                 page: this.currentPage
             }
 
-            axios.get('/api/cheatsheets/' + this.$route.params.id)
-                .then(response => {
-                    this.cheatsheet = response.data
-
-                    axios.get('/api/cheatsheets/' + this.$route.params.id + '/knowledgepieces', { params: params })
-                        .then(response => {
-                            this.knowledgePieces = response.data
-                            this.loading = false
-                        })
-                        .catch(error => console.log(error))
-                })
-                .catch(error => console.log(error))
+            axios.all([
+                axios.get('/api/cheatsheets/' + this.$route.params.id),
+                axios.get('/api/cheatsheets/' + this.$route.params.id + '/knowledgepieces', { params: params })
+            ]).then(axios.spread((cheatsheet, knowledgePieces) => {
+                this.cheatsheet = cheatsheet.data
+                this.knowledgePieces = knowledgePieces.data
+                this.loading = false
+            })).catch(error => console.log(error))
         },
         selectPage (target) {
             if (this.currentPage !== target) {

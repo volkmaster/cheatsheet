@@ -37,7 +37,8 @@
     "prod": "npm run production",
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
     "postinstall": "npm run prod",
-    "lint": "eslint resources/assets webpack.mix.js --ext .js --ext .vue"
+    "lint": "eslint resources/assets webpack.mix.js --ext .js --ext .vue",
+    "validate": "npm ls"
   },
   "pre-commit": [
     "lint"
@@ -65,6 +66,6 @@
     "eslint-plugin-node": "^4.2.2",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
-    "pre-commit": "^1.2.2"
+    "precommit": "^1.2.2"
   }
 }

@@ -7,6 +7,9 @@ use App\KnowledgePiece;
 
 class KnowledgePiecesTableSeeder extends Seeder
 {
+    const N = 200;
+    const M = 25;
+
     /**
      * Run the database seeds.
      *
@@ -18,18 +21,18 @@ class KnowledgePiecesTableSeeder extends Seeder
 
         $languages = ['JavaScript', 'Java', 'C', 'C++', 'Python', 'Scala', 'HTML', 'CSS'];
 
-        for ($i = 0; $i < 200; $i++) {
+        for ($i = 0; $i < self::N; $i++) {
             $knowledgePiece = new KnowledgePiece;
             $knowledgePiece->description = $languages[rand(0, count($languages) - 1)] . ' knowledge piece';
             $knowledgePiece->code = 'arr = []; arr.push(2); arr.push(1); arr.sort(); print(arr);';
             $knowledgePiece->saveOrFail();
 
-            $firstId = Cheatsheet::pluck('id')->all()[0];
-            $cheatsheetIds = [];
-            for ($j = 0; $j < rand(0, 24); $j++) {
-                $cheatsheetIds[] = rand($firstId, $firstId + 49);
+            $cheatsheetIds = Cheatsheet::pluck('id')->all();
+            $ids = [];
+            for ($j = 0; $j < rand(0, self::M); $j++) {
+                $ids[] = $cheatsheetIds[rand(0, count($cheatsheetIds) - 1)];
             }
-            $knowledgePiece->cheatsheets()->attach(array_unique($cheatsheetIds));
+            $knowledgePiece->cheatsheets()->attach(array_unique($ids));
         }
     }
 }

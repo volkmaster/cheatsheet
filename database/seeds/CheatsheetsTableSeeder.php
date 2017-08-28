@@ -6,6 +6,8 @@ use App\Cheatsheet;
 
 class CheatsheetsTableSeeder extends Seeder
 {
+    const N = 50;
+
     /**
      * Run the database seeds.
      *
@@ -15,7 +17,7 @@ class CheatsheetsTableSeeder extends Seeder
     {
         DB::table('cheatsheets')->delete();
 
-        for ($i = 0; $i < 50; $i++) {
+        for ($i = 0; $i < self::N; $i++) {
             $cheatsheet = new Cheatsheet;
             $cheatsheet->name = 'Cheatsheet ' . $i;
             $cheatsheet->saveOrFail();

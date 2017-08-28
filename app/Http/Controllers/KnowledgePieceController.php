@@ -19,23 +19,36 @@ class KnowledgePieceController extends Controller
      */
     public function index(Request $request)
     {
-        $perPage = empty($request->query('per_page')) ? 15 : $request->query('per_page');
-        $fields  = empty($request->query('fields')) ? null : explode(',', $request->query('fields'));
+        $perPage           = empty($request->query('per_page')) ? $this->perPage : $request->query('per_page');
+        $fields            = empty($request->query('fields')) ? null : explode(',', $request->query('fields'));
+        $filterId          = empty($request->query('filter_id')) ? null : explode(',', $request->query('filter_id'));
+        $filterDescription = empty($request->query('filter_description')) ? null : urldecode($request->query('filter_description'));
+        $filterCode        = empty($request->query('filter_code')) ? null : urldecode($request->query('filter_code'));
+
+        $qb = KnowledgePiece::query();
+
+        if ($filterId) {
+            $qb = $qb->whereIn('id', $filterId);
+        }
+
+        if ($filterDescription) {
+            $qb = $qb->where('description', 'like', '%' . $filterDescription . '%');
+        }
+
+        if ($filterCode) {
+            $qb = $qb->where('code', 'like', '%' . $filterCode . '%');
+        }
 
         if ($fields) {
-            $field = $this->validateFields($fields);
+            $field = $this->validateFields(new KnowledgePiece, $fields);
             if ($field) {
                 return response()->json("Requested field '{$field}' does not exist.", 400);
             }
 
-            if (in_array('cheatsheets', $fields)) {
-                unset($fields[array_search('cheatsheets', $fields)]);
-                $knowledgePieces = KnowledgePiece::with('cheatsheets')->paginate($perPage, $fields);
-            } else {
-                $knowledgePieces = KnowledgePiece::paginate($perPage, $fields);
-            }
+            $knowledgePieces = $qb->paginate($perPage, $fields);
         } else {
-            $knowledgePieces = KnowledgePiece::paginate($perPage);
+            $knowledgePieces = $qb->paginate($perPage);
+
             foreach ($knowledgePieces as $knowledgePiece) {
                 $knowledgePiece['cheatsheet_ids'] = $knowledgePiece->cheatsheets()->pluck('id');
             }
@@ -96,7 +109,7 @@ class KnowledgePieceController extends Controller
                     }
                 }
                 $knowledgePiece->cheatsheets()->attach($cheatsheets);
-                $knowledgePiece['cheatsheets'] = $cheatsheets;
+                $knowledgePiece['cheatsheet_ids'] = $cheatsheets;
             }
         }
 
@@ -107,36 +120,33 @@ class KnowledgePieceController extends Controller
      * Display the specified resource.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  int                       $id
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request, $id)
     {
         $fields = empty($request->query('fields')) ? null : explode(',', $request->query('fields'));
 
+        $qb = KnowledgePiece::query();
+
         if ($fields) {
-            $field = $this->validateFields($fields);
+            $field = $this->validateFields(new KnowledgePiece, $fields);
             if ($field) {
                 return response()->json("Requested field '{$field}' does not exist.", 400);
             }
 
-            if (in_array('cheatsheets', $fields)) {
-                unset($fields[array_search('cheatsheets', $fields)]);
-                $knowledgePiece = KnowledgePiece::select($fields)->with('cheatsheets')->find($id);
-            } else {
-                $knowledgePiece = KnowledgePiece::select($fields)->find($id);
-            }
-
-            if (!$knowledgePiece) {
-                return response()->json("Knowledge piece with id {$id} not found.", 404);
-            }
+            $knowledgePiece = $qb->select($fields);
         } else {
-            $knowledgePiece = KnowledgePiece::find($id);
-            if (!$knowledgePiece) {
-                return response()->json("Knowledge piece with id {$id} not found.", 404);
-            }
-            $knowledgePiece['cheatsheet_ids'] = $knowledgePiece->cheatsheets()->pluck('id');
+
         }
+
+        $knowledgePiece = $qb->find($id);
+
+        if (!$knowledgePiece) {
+            return response()->json("Knowledge piece with id {$id} not found.", 404);
+        }
+
+        $knowledgePiece['cheatsheet_ids'] = $knowledgePiece->cheatsheets()->pluck('id');
 
         return response()->json($knowledgePiece, 200);
     }
@@ -156,7 +166,7 @@ class KnowledgePieceController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  int                       $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -219,18 +229,63 @@ class KnowledgePieceController extends Controller
     }
 
     /**
-     * Verify that requested fields actually exist on the model.
+     * Display the specified associated resource or a listing of associated resources.
      *
-     * @param  array $fields
-     * @return string|void
-    **/
-    private function validateFields($fields)
-    {
-        $columns = array_merge((new KnowledgePiece)->getFillable(), ['id', 'created_at', 'updated_at', 'cheatsheets']);
-        foreach ($fields as $field) {
-            if (!in_array($field, $columns)) {
-                return $field;
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int                       $knowledgePieceId
+     * @param  int|null                  $cheatsheetId
+     * @return \Illuminate\Http\Response
+     */
+    public function cheatsheets(Request $request, $knowledgePieceId, $cheatsheetId = null) {
+        $knowledgePiece = KnowledgePiece::find($knowledgePieceId);
+        if (!$knowledgePiece) {
+            return response()->json("Knowledge piece with id {$knowledgePieceId} not found.", 404);
+        }
+
+        $perPage    = empty($request->query('per_page')) ? $this->perPage : $request->query('per_page');
+        $fields     = empty($request->query('fields')) ? null : explode(',', $request->query('fields'));
+        $filterId   = empty($request->query('filter_id')) ? null : explode(',', $request->query('filter_id'));
+        $filterName = empty($request->query('filter_name')) ? null : urldecode($request->query('filter_name'));
+
+        if ($fields) {
+            $field = $this->validateFields(new Cheatsheet, $fields);
+            if ($field) {
+                return response()->json("Requested field '{$field}' does not exist.", 400);
             }
+        }
+
+        if ($cheatsheetId) {
+            $qb = Cheatsheet::query();
+
+            if ($fields) {
+                $qb = $qb->select($fields);
+            }
+
+            $cheatsheet = $qb->find($cheatsheetId);
+
+            if (!$cheatsheet) {
+                return response()->json("Cheatsheet with id {$cheatsheetId} not found.", 404);
+            }
+
+            return response()->json($cheatsheet, 200);
+        } else {
+            $qb = $knowledgePiece->cheatsheets();
+
+            if ($filterId) {
+                $qb = $qb->whereIn('id', $filterId);
+            }
+
+            if ($filterName) {
+                $qb = $qb->where('name', 'like', '%' . $filterName . '%');
+            }
+
+            if ($fields) {
+                $cheatsheets = $qb->paginate($perPage, $fields);
+            } else {
+                $cheatsheets = $qb->paginate($perPage);
+            }
+
+            return response()->json($cheatsheets, 200);
         }
     }
 }

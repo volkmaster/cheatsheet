@@ -18,4 +18,6 @@ Route::get('cheatsheets/{cheatsheetId}/knowledgepieces/{knowledgePieceId?}', 'Ch
     ->where(['cheatsheetId' => '[0-9]+', 'knowledgePieceId' => '[0-9]+']);
 
 Route::resource('knowledgepieces', 'KnowledgePieceController', ['except' => ['create', 'edit']]);
+Route::get('knowledgepieces/{knowledgePieceId}/cheatsheets/{cheatsheetId?}', 'KnowledgePieceController@cheatsheets')
+    ->where(['knowledgePieceId' => '[0-9]+', 'cheatsheetId' => '[0-9]+']);
 

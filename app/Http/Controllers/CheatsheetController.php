@@ -110,7 +110,7 @@ class CheatsheetController extends Controller
      * Display the specified resource.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  int                       $id
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request, $id)
@@ -156,7 +156,7 @@ class CheatsheetController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  int                       $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -213,6 +213,14 @@ class CheatsheetController extends Controller
         return response()->json([], 204);
     }
 
+    /**
+     * Display the specified associated resource or a listing of associated resources.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int                       $cheatsheetId
+     * @param  int|null                  $knowledgePieceId
+     * @return \Illuminate\Http\Response
+     */
     public function knowledgePieces(Request $request, $cheatsheetId, $knowledgePieceId = null) {
         $cheatsheet = Cheatsheet::find($cheatsheetId);
         if (!$cheatsheet) {
@@ -233,11 +241,13 @@ class CheatsheetController extends Controller
         }
 
         if ($knowledgePieceId) {
+            $qb = KnowledgePiece::query();
+
             if ($fields) {
-                $knowledgePiece = KnowledgePiece::select($fields)->find($knowledgePieceId);
-            } else {
-                $knowledgePiece = KnowledgePiece::find($knowledgePieceId);
+                $qb = $qb->select($fields);
             }
+
+            $knowledgePiece = $qb->find($knowledgePieceId);
 
             if (!$knowledgePiece) {
                 return response()->json("Knowledge piece with id {$knowledgePieceId} not found.", 404);

@@ -10,15 +10,26 @@
     background-color : $green;
 
     .header {
-        width: 1230px;
+        width       : 1230px;
+        display     : flex;
+        align-items : center;
 
         .logo-wrapper {
-            height      : 100%;
+            width       : 100px;
+            height      : 100px;
             display     : flex;
             align-items : center;
-            cursor      : pointer;
 
-            .logo { max-height: 80%; }
+            .logo {
+                max-height : 80%;
+                cursor     : pointer;
+            }
+        }
+
+        .title {
+            color          : $white;
+            font-size      : 40px;
+            letter-spacing : 2px;
         }
     }
 }
@@ -32,6 +43,7 @@
                     <img class="logo" src="/images/logo.png">
                 </router-link>
             </div>
+            <div class="title">{{ title | uppercase }}</div>
         </div>
     </div>
 </template>
@@ -39,7 +51,9 @@
 <script>
 export default {
     data () {
-        return {}
+        return {
+            title: 'cheatr'
+        }
     }
 }
 </script>

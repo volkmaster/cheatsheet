@@ -4,8 +4,10 @@
 .pagination {
      @if ($debug) { border: 1px solid blue; }
 
-    display     : flex;
-    align-items : center;
+    display        : flex;
+    align-items    : center;
+    justify-content : flex-end;
+    flex-grow      : 1;
 
     .page {
          @if ($debug) { border: 1px solid red; }

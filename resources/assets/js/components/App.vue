@@ -5,12 +5,19 @@
     width  : 100%;
     height : 100%;
 }
+
+.blur {
+    filter         : blur(5px);
+    pointer-events : none;
+}
 </style>
 
 <template>
     <div class="wrapper">
-        <nav-header></nav-header>
-        <router-view></router-view>
+        <nav-header :class="{ blur: dialogOpened }"></nav-header>
+        <router-view
+            @open-dialog="openDialog">
+        </router-view>
         <nav-footer></nav-footer>
     </div>
 </template>
@@ -21,9 +28,16 @@ import NavFooter from './NavFooter.vue'
 
 export default {
     data () {
-        return {}
+        return {
+            dialogOpened: false
+        }
     },
-    methods: {},
+    methods: {
+        openDialog (val) {
+            $('body').toggleClass('no-scroll', val)
+            this.dialogOpened = val
+        }
+    },
     components: {
         navHeader: NavHeader,
         navFooter: NavFooter

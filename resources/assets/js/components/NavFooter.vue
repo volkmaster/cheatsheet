@@ -37,7 +37,7 @@
 export default {
     data () {
         return {
-            title: 'Minimal Viable Product - Prototype application for Cheatsheet management platform',
+            title: 'Minimal Viable Product - Prototype application for Cheatsheet management platform Cheatr',
             copyright: '\u00A9  3PrijateljiCorp, August 2017'
         }
     }

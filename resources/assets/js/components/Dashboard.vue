@@ -4,10 +4,34 @@
 .content-wrapper {
     .content {
         .title-wrapper {
-            display         : flex;
-            justify-content : space-between;
-
             .label { color: $green; }
+
+            .new-wrapper {
+                width            : 30px;
+                height           : 30px;
+                display          : flex;
+                align-items      : center;
+                justify-content  : center;
+                flex-direction   : column;
+                background-color : $green;
+                cursor           : pointer;
+
+                &:hover { filter: brightness(80%); }
+
+                .row { display: flex; }
+
+                .square {
+                    width        : 10px;
+                    height       : 10px;
+                    border-style : solid;
+                    border-color : $very-light-gray;
+
+                    &.top-left     { border-width : 0 2px 2px 0; }
+                    &.top-right    { border-width : 0 0 2px 2px; }
+                    &.bottom-left  { border-width : 2px 2px 0 0; }
+                    &.bottom-right { border-width : 2px 0 0 2px; }
+                }
+            }
         }
 
         .filter-wrapper {
@@ -58,6 +82,101 @@
             .date  { width : 15%; }
         }
     }
+
+    .dialog {
+        position         : absolute;
+        top              : 50%;
+        left             : 50%;
+        width            : 400px;
+        padding          : 10px 0 0 20px;
+        transform        : translate3d(-50%, -50%, 0);
+        box-shadow       : 0 1px 3px 0 rgba(0, 0, 0, 0.3);
+        background-color : $white;
+        overflow         : hidden;
+
+        .close-btn {
+            position : absolute;
+            top      : 10px;
+            right    : 10px;
+            width    : 30px;
+            height   : 30px;
+            cursor   : pointer;
+
+            &:hover .square { border-color: $black; }
+
+            .square {
+                position     : absolute;
+                top          : 15px;
+                left         : 5px;
+                width        : 20px;
+                border-style : solid;
+                border-color : $dark-gray;
+                border-width : 0 0 2px 0;
+
+                &.top    { transform : rotate(45deg);  }
+                &.bottom { transform : rotate(-45deg); }
+            }
+        }
+
+        .dialog-title {
+            height      : 30px;
+            display     : flex;
+            align-items : center;
+            color       : $green;
+            font-size   : 18px;
+        }
+
+        .dialog-content {
+            padding    : 10px 40px 10px 0;
+            max-height : 375px;
+            overflow-y : scroll;
+
+            .name {
+                height      : 40px;
+                display     : flex;
+                align-items : center;
+                color       : $black;
+                font-size   : 16px;
+
+                .name-label {
+                    width  : 25%;
+                    height : 20px;
+                }
+
+                .name-input {
+                    width            : 75%;
+                    height           : 20px;
+                    border-style     : solid;
+                    border-color     : $dark-gray;
+                    border-width     : 0 0 1px 0;
+                    outline          : 0;
+                    background-color : transparent;
+                    font-size        : 14px;
+                    font-family      : $font-light;
+
+                    &:hover, &:focus { border-color: $black; }
+                }
+            }
+
+            .save-btn-wrapper {
+                margin-top: 10px;
+                display: flex;
+                justify-content: flex-end;
+
+                .save-btn {
+                    width            : 100px;
+                    height           : 40px;
+                    display          : flex;
+                    align-items      : center;
+                    justify-content  : center;
+                    background-color : $green;
+                    cursor           : pointer;
+
+                    &:hover { filter: brightness(80%); }
+                }
+            }
+        }
+    }
 }
 </style>
 
@@ -66,9 +185,19 @@
         <div class="loader-wrapper" v-show="loading">
             <img class="loader" src="/images/loader.svg"/>
         </div>
-        <div class="content" v-show="!loading">
+        <div class="content" :class="{ blur: dialogOpened }" v-show="!loading">
             <div class="title-wrapper">
                 <h2 class="label">{{ title | uppercase }}</h2>
+                <div class="new-wrapper" @click="openDialog">
+                    <div class="row">
+                        <div class="square top-left"></div>
+                        <div class="square top-right"></div>
+                    </div>
+                    <div class="row">
+                        <div class="square bottom-left"></div>
+                        <div class="square bottom-right"></div>
+                    </div>
+                </div>
                 <pagination
                     :current-page="currentPage"
                     :last-page="lastPage"
@@ -88,6 +217,9 @@
                     <th class="item" :class="item.align" v-for="item in header">{{ item.label | uppercase }}</th>
                 </thead>
                 <tbody class="data">
+                    <tr v-if="!data">
+                        <td class="no-data" colspan="5">{{ noDataMsg }}</td>
+                    </tr>
                     <tr class="row" v-for="item in data" @click="openCheatsheet(item.id)">
                         <td class="item id">{{ item.id }}</td>
                         <td class="item name">{{ item.name }}</td>
@@ -97,6 +229,22 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+        <div class="dialog" v-if="dialogOpened">
+            <div class="close-btn" @click="closeDialog">
+                <div class="square top"></div>
+                <div class="square bottom"></div>
+            </div>
+            <div class="dialog-title">{{ dialogTitle | uppercase }}</div>
+            <div class="dialog-content">
+                <div class="name">
+                    <div class="name-label">Name: </div>
+                    <input class="name-input" type="text" v-model="cheatsheetName"/>
+                </div>
+                <div class="save-btn-wrapper" @click="saveCheatsheet">
+                    <div class="save-btn">{{ dialogBtnText | uppercase }}</div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -123,7 +271,12 @@ export default {
                 search: '',
                 isFiltered: false
             },
-            currentPage: 1
+            currentPage: 1,
+            noDataMsg: 'No cheatsheets found. Create the first one.',
+            dialogOpened: false,
+            dialogTitle: 'new cheatsheet',
+            dialogBtnText: 'save',
+            cheatsheetName: ''
         }
     },
     created () {
@@ -165,14 +318,40 @@ export default {
                 })
                 .catch(error => console.log(error))
         },
+        saveData () {
+            let params = {
+                name: this.cheatsheetName
+            }
+
+            axios.post('/api/cheatsheets', params)
+                .then(response => {
+                    this.closeDialog()
+                    this.currentPage = 1
+                    this.loadData()
+                })
+                .catch(error => console.log(error))
+        },
+        openDialog () {
+            this.cheatsheetName = ''
+            this.dialogOpened = true
+            this.$emit('open-dialog', true)
+        },
+        closeDialog () {
+            this.dialogOpened = false
+            this.$emit('open-dialog', false)
+        },
         search () {
-            this.filter.isFiltered = true
-            this.loadData()
+            if (this.filter.search) {
+                this.filter.isFiltered = true
+                this.currentPage = 1
+                this.loadData()
+            }
         },
         clear () {
             if (this.filter.isFiltered) {
                 this.filter.search = ''
                 this.filter.isFiltered = false
+                this.currentPage = 1
                 this.loadData()
             }
         },
@@ -184,6 +363,11 @@ export default {
         },
         openCheatsheet (id) {
             this.$router.push({ name: 'cheatsheet', params: { id: id } })
+        },
+        saveCheatsheet () {
+            if (this.cheatsheetName) {
+                this.saveData()
+            }
         }
     },
     components: {

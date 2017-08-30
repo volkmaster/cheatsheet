@@ -19,18 +19,18 @@ class CheatsheetController extends Controller
      */
     public function index(Request $request)
     {
-        $perPage    = empty($request->query('per_page')) ? $this->perPage : $request->query('per_page');
-        $fields     = empty($request->query('fields')) ? null : explode(',', $request->query('fields'));
-        $filterId   = empty($request->query('filter_id')) ? null : explode(',', $request->query('filter_id'));
-        $filterName = empty($request->query('filter_name')) ? null : urldecode($request->query('filter_name'));
+        $perPage    = is_null($request->query('per_page')) ? $this->perPage : $request->query('per_page');
+        $fields     = is_null($request->query('fields')) ? null : explode(',', $request->query('fields'));
+        $filterId   = is_null($request->query('filter_id')) ? null : explode(',', $request->query('filter_id'));
+        $filterName = is_null($request->query('filter_name')) ? null : urldecode($request->query('filter_name'));
 
         $qb = Cheatsheet::query();
 
-        if ($filterId) {
+        if ($filterId === '0' || $filterId) {
             $qb = $qb->whereIn('id', $filterId);
         }
 
-        if ($filterName) {
+        if ($filterName === '0' || $filterName) {
             $qb = $qb->where('name', 'like', '%' . $filterName . '%');
         }
 
@@ -115,7 +115,7 @@ class CheatsheetController extends Controller
      */
     public function show(Request $request, $id)
     {
-        $fields = empty($request->query('fields')) ? null : explode(',', $request->query('fields'));
+        $fields = is_null($request->query('fields')) ? null : explode(',', $request->query('fields'));
 
         $qb = Cheatsheet::query();
 
@@ -227,11 +227,11 @@ class CheatsheetController extends Controller
             return response()->json("Cheatsheet with id {$cheatsheetId} not found.", 404);
         }
 
-        $perPage           = empty($request->query('per_page')) ? $this->perPage : $request->query('per_page');
-        $fields            = empty($request->query('fields')) ? null : explode(',', $request->query('fields'));
-        $filterId          = empty($request->query('filter_id')) ? null : explode(',', $request->query('filter_id'));
-        $filterDescription = empty($request->query('filter_description')) ? null : urldecode($request->query('filter_description'));
-        $filterCode        = empty($request->query('filter_code')) ? null : urldecode($request->query('filter_code'));
+        $perPage           = is_null($request->query('per_page')) ? $this->perPage : $request->query('per_page');
+        $fields            = is_null($request->query('fields')) ? null : explode(',', $request->query('fields'));
+        $filterId          = is_null($request->query('filter_id')) ? null : explode(',', $request->query('filter_id'));
+        $filterDescription = is_null($request->query('filter_description')) ? null : urldecode($request->query('filter_description'));
+        $filterCode        = is_null($request->query('filter_code')) ? null : urldecode($request->query('filter_code'));
 
         if ($fields) {
             $field = $this->validateFields(new KnowledgePiece, $fields);
@@ -257,15 +257,15 @@ class CheatsheetController extends Controller
         } else {
             $qb = $cheatsheet->knowledgePieces();
 
-            if ($filterId) {
+            if ($filterId === '0' || $filterId) {
                 $qb = $qb->whereIn('id', $filterId);
             }
 
-            if ($filterDescription) {
+            if ($filterDescription === '0' || $filterDescription) {
                 $qb = $qb->where('description', 'like', '%' . $filterDescription . '%');
             }
 
-            if ($filterCode) {
+            if ($filterCode === '0' || $filterCode) {
                 $qb = $qb->where('code', 'like', '%' . $filterCode . '%');
             }
 

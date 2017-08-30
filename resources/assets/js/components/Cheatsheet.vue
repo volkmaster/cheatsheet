@@ -3,12 +3,7 @@
 
 .content-wrapper {
     .content {
-        .title-wrapper {
-            display         : flex;
-            justify-content : space-between;
-
-            .label { color: $blue; }
-        }
+        .title-wrapper .label { color: $blue; }
 
         .table {
             .header .item { border-color: $blue; }

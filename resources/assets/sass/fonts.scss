@@ -1,0 +1,16 @@
+@font-face {
+    font-family : 'Bebas Neue';
+    src         : url('/fonts/BebasNeue.woff2') format('woff2');
+}
+@font-face {
+    font-family : 'Montserrat Light';
+    src         : url('/fonts/Montserrat-Light.woff2') format('woff2');
+}
+@font-face {
+    font-family : 'Montserrat Regular';
+    src         : url('/fonts/Montserrat-Regular.woff2') format('woff2');
+}
+
+$font-title   : 'Bebas Neue';
+$font-light   : 'Montserrat Light';
+$font-regular : 'Montserrat Regular';

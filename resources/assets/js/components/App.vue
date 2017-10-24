@@ -1,20 +1,20 @@
 <style lang="scss" scoped>
 @import '../../sass/app';
 
-.wrapper {
+.app {
     width  : 100%;
     height : 100%;
 }
 
-.blur {
+.app--blur {
     filter         : blur(5px);
     pointer-events : none;
 }
 </style>
 
 <template>
-    <div class="wrapper">
-        <nav-header :class="{ blur: dialogOpened }"></nav-header>
+    <div class="app">
+        <nav-header :class="{ 'app--blur': dialogOpened }"></nav-header>
         <router-view
             @open-dialog="openDialog">
         </router-view>
@@ -34,7 +34,7 @@ export default {
     },
     methods: {
         openDialog (val) {
-            $('body').toggleClass('no-scroll', val)
+            $('body').toggleClass('body--no-scroll', val)
             this.dialogOpened = val
         }
     },

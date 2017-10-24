@@ -1,34 +1,31 @@
 <style lang="scss" scoped>
 @import '../../sass/app';
 
-.footer-wrapper {
+.footer {
     width            : 100%;
-    height           : 150px;
+    height           : 100px;
     display          : flex;
     justify-content  : center;
-    font-family      : $font-light;
+    align-items      : center;
+    flex-direction   : column;
     background-color : $dark-gray;
+}
 
-    .footer {
-        width           : 1230px;
-        display         : flex;
-        justify-content : center;
-        flex-direction  : column;
+.footer__row { width: 1230px; }
 
-        .title, .copyright {
-            margin    : 5px 0;
-            color     : $white;
-            font-size : 14px;
-        }
-    }
+.footer__title, .footer__copyright {
+    margin      : 10px 0;
+    color       : $white;
+    font-size   : 14px;
+    font-family : $font-light;
 }
 </style>
 
 <template>
-    <div class="footer-wrapper">
-        <div class="footer">
-            <div class="title">{{ title }}</div>
-            <div class="copyright">{{ copyright }}</div>
+    <div class="footer">
+        <div class="footer__row">
+            <div class="footer__title">{{ title }}</div>
+            <div class="footer__copyright">{{ copyright }}</div>
         </div>
     </div>
 </template>
@@ -38,7 +35,7 @@ export default {
     data () {
         return {
             title: 'Minimal Viable Product - Prototype application for Cheatsheet management platform Cheatr',
-            copyright: '\u00A9  3PrijateljiCorp, August 2017'
+            copyright: '\u00A9  3PrijateljiCorp, October 2017'
         }
     }
 }

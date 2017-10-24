@@ -1,49 +1,43 @@
 <style lang="scss" scoped>
 @import '../../sass/app';
 
-.header-wrapper {
+.header {
     width            : 100%;
     height           : 100px;
     display          : flex;
     justify-content  : center;
-    font-family      : $font-title;
+    align-items      : center;
+    flex-direction   : column;
     background-color : $green;
+}
 
-    .header {
-        width       : 1230px;
-        display     : flex;
-        align-items : center;
+.header__row { width: 1230px; }
 
-        .logo-wrapper {
-            width       : 100px;
-            height      : 100px;
-            display     : flex;
-            align-items : center;
+.header__logo {
+    height      : 100px;
+    display     : flex;
+    align-items : center;
+    cursor      : pointer;
+}
 
-            .logo {
-                max-height : 80%;
-                cursor     : pointer;
-            }
-        }
+.header__image { max-height: 85%; }
 
-        .title {
-            color          : $white;
-            font-size      : 40px;
-            letter-spacing : 2px;
-        }
-    }
+.header__title {
+    margin-left    : 15px;
+    color          : $white;
+    font-size      : 40px;
+    font-family    : $font-title;
+    letter-spacing : 2px;
 }
 </style>
 
 <template>
-    <div class="header-wrapper">
-        <div class="header">
-            <div class="logo-wrapper">
-                <router-link class="logo-wrapper" to="/" tag="div" exact>
-                    <img class="logo" src="/images/logo.png">
-                </router-link>
-            </div>
-            <div class="title">{{ title | uppercase }}</div>
+    <div class="header">
+        <div class="header__row">
+            <router-link class="header__logo" to="/" tag="div" exact>
+                <img class="header__image" src="/images/logo.png">
+                <div class="header__title">{{ title | uppercase }}</div>
+            </router-link>
         </div>
     </div>
 </template>

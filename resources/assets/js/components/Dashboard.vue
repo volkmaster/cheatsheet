@@ -1,6 +1,64 @@
 <style lang="scss" scoped>
 @import '../../sass/app';
 
+.dashboard {
+    width            : 100%;
+    min-height       : calc(100vh - 100px);
+    display          : flex;
+    justify-content  : center;
+    background-color : $very-light-gray;
+}
+
+.dashboard--blur {
+    filter         : blur(5px);
+    pointer-events : none;
+}
+
+.dashboard__loader {
+    display         : flex;
+    align-items     : center;
+    justify-content : center;
+    transform       : translate3d(0, -5%, 0);
+}
+
+.dashboard__loader-image {
+    width  : 100px;
+    height : 100px;
+}
+
+.dashboard__content {
+    position       : relative;
+    margin         : 20px;
+    display        : flex;
+    flex-direction : column;
+}
+
+.dashboard__title {
+    margin-bottom   : 20px;
+    display         : flex;
+    align-items     : center;
+    justify-content : center;
+}
+
+.dashboard__title-label {
+    color       : $green;
+    font-size   : 30px;
+    font-family : $font-regular;
+}
+
+.dashboard__grid {
+    display   : flex;
+    flex-wrap : wrap;
+}
+
+.dashboard__grid-item {
+    width            : 200px;
+    height           : 300px;
+    margin           : 20px;
+    background-color : $white;
+    box-shadow       : 0 1px 3px 0 rgba(0, 0, 0, 0.3);
+}
+
 .content-wrapper {
     .content {
         .title-wrapper {
@@ -181,14 +239,23 @@
 </style>
 
 <template>
-    <div class="content-wrapper">
-        <div class="loader-wrapper" v-show="loading">
-            <img class="loader" src="/images/loader.svg"/>
+    <div class="dashboard" :class="{ 'dashboard--blur': dialogOpened }">
+        <div class="dashboard__loader" v-show="loading">
+            <img class="dashboard__loader-image" src="/images/loader.svg"/>
         </div>
-        <div class="content" :class="{ blur: dialogOpened }" v-show="!loading">
-            <div class="title-wrapper">
-                <h2 class="label">{{ title | uppercase }}</h2>
-                <div class="new-wrapper" @click="openDialog">
+        <div class="dashboard__content" v-show="!loading">
+            <div class="dashboard__title">
+                <div class="dashboard__title-label">{{ title | uppercase }}</div>
+            </div>
+            <div class="dashboard__grid">
+                <div class="dashboard__grid-item">
+                    +
+                </div>
+                <div class="dashboard__grid-item" v-for="item in data">
+                    {{ item.name }}
+                </div>
+            </div>
+                <!-- <div class="new-wrapper" @click="openDialog">
                     <div class="row">
                         <div class="square top-left"></div>
                         <div class="square top-right"></div>
@@ -203,16 +270,16 @@
                     :last-page="lastPage"
                     @select-page="selectPage">
                 </pagination>
-            </div>
-            <div class="filter-wrapper">
+            </div> -->
+            <!-- <div class="filter-wrapper">
                 <h4 class="filter-label">Search</h4>
                 <input type="text" class="filter-input" :placeholder="filter.placeholder" v-model="filter.search"/>
                 <div class="filter-icon-wrapper">
                     <icon class="filter-icon" name="search" @click.native="search"></icon>
                     <icon class="filter-icon clear" :class="{ 'with-search': filter.search !== '' }" name="times" @click.native="clear"></icon>
                 </div>
-            </div>
-            <table class="table">
+            </div> -->
+            <!-- <table class="table">
                 <thead class="header">
                     <th class="item" :class="item.align" v-for="item in header">{{ item.label | uppercase }}</th>
                 </thead>
@@ -228,9 +295,9 @@
                         <td class="item date right">{{ item.modified | date }}</td>
                     </tr>
                 </tbody>
-            </table>
+            </table> -->
         </div>
-        <div class="dialog" v-if="dialogOpened">
+        <!-- <div class="dialog" v-if="dialogOpened">
             <div class="close-btn" @click="closeDialog">
                 <div class="square top"></div>
                 <div class="square bottom"></div>
@@ -245,7 +312,7 @@
                     <div class="save-btn">{{ dialogBtnText | uppercase }}</div>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </template>
 

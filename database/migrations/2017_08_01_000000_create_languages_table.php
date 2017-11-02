@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateKnowledgePiecesTable extends Migration
+class CreateLanguagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateKnowledgePiecesTable extends Migration
      */
     public function up()
     {
-        Schema::create('knowledge_pieces', function (Blueprint $table) {
+        Schema::create('languages', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('description')->nullable();
-            $table->text('code');
+            $table->string('name');
+            $table->string('image');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateKnowledgePiecesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('knowledge_pieces');
+        Schema::dropIfExists('languages');
     }
 }

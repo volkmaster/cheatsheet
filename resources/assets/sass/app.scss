@@ -5,14 +5,26 @@ $debug: false;
 
 * { box-sizing: border-box; }
 
+html {
+    width  : 100%;
+    height : 100%;
+}
+
 body {
+    width            : 100%;
+    height           : 100%;
     margin           : 0;
     padding          : 0;
-    background-color : $very-light-gray;
+    background-color : $pickled-bluewood;
     font-family      : $font-regular;
 }
 
 .body--no-scroll { overflow: hidden; }
+
+#app {
+    width  : 100%;
+    height : 100%;
+}
 
 .content-wrapper {
     width            : 100%;

@@ -8,6 +8,7 @@ use Illuminate\Validation\Rule;
 
 use App\Cheatsheet;
 use App\KnowledgePiece;
+use App\Language;
 
 class CheatsheetController extends Controller
 {
@@ -19,12 +20,19 @@ class CheatsheetController extends Controller
      */
     public function index(Request $request)
     {
-        $perPage    = is_null($request->query('per_page')) ? $this->perPage : $request->query('per_page');
-        $fields     = is_null($request->query('fields')) ? null : explode(',', $request->query('fields'));
-        $filterId   = is_null($request->query('filter_id')) ? null : explode(',', $request->query('filter_id'));
-        $filterName = is_null($request->query('filter_name')) ? null : urldecode($request->query('filter_name'));
+        $perPage        = is_null($request->query('per_page')) ? $this->perPage : $request->query('per_page');
+        $orderBy        = $request->query('order_by');
+        $orderDirection = is_null($request->query('order_direction')) ? 'asc' : $request->query('order_direction');
+        $fields         = is_null($request->query('fields')) ? null : explode(',', $request->query('fields'));
+        $filterId       = is_null($request->query('filter_id')) ? null : explode(',', $request->query('filter_id'));
+        $filterName     = is_null($request->query('filter_name')) ? null : urldecode($request->query('filter_name'));
+        $filterLanguage = is_null($request->query('filter_language')) ? null : $request->query('filter_language');
 
         $qb = Cheatsheet::query();
+
+        if (!is_null($orderBy)) {
+            $qb = $qb->orderBy($orderBy, $orderDirection);
+        }
 
         if ($filterId === '0' || $filterId) {
             $qb = $qb->whereIn('id', $filterId);
@@ -34,14 +42,24 @@ class CheatsheetController extends Controller
             $qb = $qb->where('name', 'like', '%' . $filterName . '%');
         }
 
+        if ($filterLanguage === '0' || $filterLanguage) {
+            $qb = $qb->whereLanguageId($filterLanguage);
+        }
+
         if ($fields) {
             $field = $this->validateFields(new Cheatsheet, $fields);
             if ($field) {
                 return response()->json("Requested field '{$field}' does not exist.", 400);
             }
 
+            if (in_array('language_id', $fields)) {
+                $qb = $qb->with('language');
+            }
+
             $cheatsheets = $qb->paginate($perPage, $fields);
         } else {
+            $qb = $qb->with('language');
+
             $cheatsheets = $qb->paginate($perPage);
 
             foreach ($cheatsheets as $cheatsheet) {
@@ -72,6 +90,7 @@ class CheatsheetController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name'             => 'required|string|unique:cheatsheets',
+            'language'         => 'required|numeric',
             'knowledge_pieces' => 'array'
         ]);
 
@@ -84,6 +103,14 @@ class CheatsheetController extends Controller
         $cheatsheet = new Cheatsheet;
 
         $cheatsheet->name = $request->get('name');
+
+        $languageId = $request->get('language');
+
+        $language = Language::find($languageId);
+        if (!$language) {
+            return response()->json("Language with id {$languageId} not found.", 404);
+        }
+        $cheatsheet->language()->associate($language);
 
         $cheatsheet->saveOrFail();
 
@@ -125,18 +152,23 @@ class CheatsheetController extends Controller
                 return response()->json("Requested field '{$field}' does not exist.", 400);
             }
 
-            $cheatsheet = $qb->select($fields);
-        } else {
+            if (in_array('language_id', $fields)) {
+                $qb = $qb->with('language');
+            }
 
+            $qb = $qb->select($fields);
+        } else {
+            $qb = $qb->with('language');
         }
 
         $cheatsheet = $qb->find($id);
-
         if (!$cheatsheet) {
             return response()->json("Cheatsheet with id {$id} not found.", 404);
         }
 
-        $cheatsheet['knowledge_piece_ids'] = $cheatsheet->knowledgePieces()->pluck('id');
+        if (!$fields) {
+            $cheatsheet['knowledge_piece_ids'] = $cheatsheet->knowledgePieces()->pluck('id');
+        }
 
         return response()->json($cheatsheet, 200);
     }
@@ -168,6 +200,7 @@ class CheatsheetController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name'             => ['string', Rule::unique('cheatsheets')->ignore($id)],
+            'language'         => 'numeric',
             'knowledge_pieces' => 'array'
         ]);
 
@@ -179,6 +212,16 @@ class CheatsheetController extends Controller
 
         if ($request->has('name')) {
             $cheatsheet->name = $request->get('name');
+        }
+
+        if ($request->has('language')) {
+            $languageId = $request->get('language');
+
+            $language = Language::find($languageId);
+            if (!$language) {
+                return response()->json("Language with id {$languageId} not found.", 404);
+            }
+            $cheatsheet->language()->associate($language);
         }
 
         if ($request->has('knowledge_pieces')) {
@@ -228,10 +271,13 @@ class CheatsheetController extends Controller
         }
 
         $perPage           = is_null($request->query('per_page')) ? $this->perPage : $request->query('per_page');
+        $orderBy           = $request->query('order_by');
+        $orderDirection    = is_null($request->query('order_direction')) ? 'asc' : $request->query('order_direction');
         $fields            = is_null($request->query('fields')) ? null : explode(',', $request->query('fields'));
         $filterId          = is_null($request->query('filter_id')) ? null : explode(',', $request->query('filter_id'));
         $filterDescription = is_null($request->query('filter_description')) ? null : urldecode($request->query('filter_description'));
         $filterCode        = is_null($request->query('filter_code')) ? null : urldecode($request->query('filter_code'));
+        $filterLanguage    = is_null($request->query('filter_language')) ? null : $request->query('filter_language');
 
         if ($fields) {
             $field = $this->validateFields(new KnowledgePiece, $fields);
@@ -244,11 +290,16 @@ class CheatsheetController extends Controller
             $qb = KnowledgePiece::query();
 
             if ($fields) {
+                if (in_array('language_id', $fields)) {
+                    $qb = $qb->with('language');
+                }
+
                 $qb = $qb->select($fields);
+            } else {
+                $qb = $qb->with('language');
             }
 
             $knowledgePiece = $qb->find($knowledgePieceId);
-
             if (!$knowledgePiece) {
                 return response()->json("Knowledge piece with id {$knowledgePieceId} not found.", 404);
             }
@@ -256,6 +307,10 @@ class CheatsheetController extends Controller
             return response()->json($knowledgePiece, 200);
         } else {
             $qb = $cheatsheet->knowledgePieces();
+
+            if (!is_null($orderBy)) {
+                $qb = $qb->orderBy($orderBy, $orderDirection);
+            }
 
             if ($filterId === '0' || $filterId) {
                 $qb = $qb->whereIn('id', $filterId);
@@ -269,7 +324,13 @@ class CheatsheetController extends Controller
                 $qb = $qb->where('code', 'like', '%' . $filterCode . '%');
             }
 
+            if ($filterLanguage === '0' || $filterLanguage) {
+                $qb = $qb->whereLanguageId($filterLanguage);
+            }
+
             if ($fields) {
+                $qb = $qb->with('language');
+
                 $knowledgePieces = $qb->paginate($perPage, $fields);
             } else {
                 $knowledgePieces = $qb->paginate($perPage);

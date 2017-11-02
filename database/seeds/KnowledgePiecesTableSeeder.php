@@ -4,12 +4,10 @@ use Illuminate\Database\Seeder;
 
 use App\Cheatsheet;
 use App\KnowledgePiece;
+use App\Language;
 
-class KnowledgePiecesTableSeeder extends Seeder
+class KnowledgePiecesTableSeeder extends DatabaseSeeder
 {
-    const N = 200;
-    const M = 25;
-
     /**
      * Run the database seeds.
      *
@@ -19,20 +17,34 @@ class KnowledgePiecesTableSeeder extends Seeder
     {
         DB::table('knowledge_pieces')->delete();
 
-        $languages = ['JavaScript', 'Java', 'C', 'C++', 'Python', 'Scala', 'HTML', 'CSS'];
+        $cheatsheets = [];
+        foreach (self::LANGUAGES as $item) {
+            $language = Language::where('name', $item['name'])->first();
+            $cheatsheets[$item['name']] = $language->cheatsheets()->pluck('id')->all();
+        }
 
-        for ($i = 0; $i < self::N; $i++) {
+        for ($i = 0; $i < self::N_KNOWLEDGE_PIECES; $i++) {
+            $languageName = self::LANGUAGES[rand(0, count(self::LANGUAGES) - 1)]['name'];
+
             $knowledgePiece = new KnowledgePiece;
-            $knowledgePiece->description = $languages[rand(0, count($languages) - 1)] . ' knowledge piece';
-            $knowledgePiece->code = 'arr = []; arr.push(2); arr.push(1); arr.sort(); print(arr);';
+
+            $knowledgePiece->description =  $languageName . ' knowledge piece ' . $i;
+
+            $knowledgePiece->code = 'arr = [];\narr.push(2);\narr.push(1);\narr.sort();\nprint(arr);';
+
+            $language = Language::whereName($languageName)->first();
+            $knowledgePiece->language()->associate($language);
+
             $knowledgePiece->saveOrFail();
 
-            $cheatsheetIds = Cheatsheet::pluck('id')->all();
-            $ids = [];
-            for ($j = 0; $j < rand(0, self::M); $j++) {
-                $ids[] = $cheatsheetIds[rand(0, count($cheatsheetIds) - 1)];
+            if (array_key_exists($languageName, $cheatsheets)) {
+                $ids = [];
+                $nCheatsheets = rand(0, count($cheatsheets[$languageName]));
+                for ($j = 0; $j < $nCheatsheets; $j++) {
+                    $ids[] = $cheatsheets[$languageName][rand(0, count($cheatsheets[$languageName]) - 1)];
+                }
+                $knowledgePiece->cheatsheets()->attach(array_unique($ids));
             }
-            $knowledgePiece->cheatsheets()->attach(array_unique($ids));
         }
     }
 }

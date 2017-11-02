@@ -16,7 +16,12 @@ class CreateCheatsheetsTable extends Migration
         Schema::create('cheatsheets', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->integer('language_id')->unsigned();
             $table->timestamps();
+        });
+
+        Schema::table('cheatsheets', function (Blueprint $table) {
+            $table->foreign('language_id')->references('id')->on('languages')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

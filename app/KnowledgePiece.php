@@ -12,7 +12,7 @@ class KnowledgePiece extends Model
      * @var array
      */
     protected $fillable = [
-        'description', 'code',
+        'description', 'code', 'language_id',
     ];
 
     /**
@@ -27,5 +27,10 @@ class KnowledgePiece extends Model
     public function cheatsheets()
     {
         return $this->belongsToMany('App\Cheatsheet')->withTimestamps();
+    }
+
+    public function language()
+    {
+        return $this->belongsTo('App\Language');
     }
 }

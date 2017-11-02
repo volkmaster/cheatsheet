@@ -1,12 +1,14 @@
 <style lang="scss" scoped>
 @import '../../sass/app';
 
+$cols : (5, 5);
+
 .dashboard {
     width            : 100%;
-    min-height       : calc(100vh - 100px);
+    height           : 100%;
     display          : flex;
     justify-content  : center;
-    background-color : $very-light-gray;
+    background-color : $pickled-bluewood;
 }
 
 .dashboard--blur {
@@ -26,37 +28,80 @@
     height : 100px;
 }
 
-.dashboard__content {
-    position       : relative;
-    margin         : 20px;
-    display        : flex;
-    flex-direction : column;
-}
-
-.dashboard__title {
-    margin-bottom   : 20px;
-    display         : flex;
-    align-items     : center;
-    justify-content : center;
-}
-
-.dashboard__title-label {
-    color       : $green;
-    font-size   : 30px;
-    font-family : $font-regular;
-}
-
 .dashboard__grid {
+    position  : relative;
+    margin    : 20px;
     display   : flex;
     flex-wrap : wrap;
 }
 
 .dashboard__grid-item {
-    width            : 200px;
-    height           : 300px;
+    position: relative;
+    height           : calc((100% / #{length($cols)}) - 40px);
     margin           : 20px;
-    background-color : $white;
-    box-shadow       : 0 1px 3px 0 rgba(0, 0, 0, 0.3);
+    background-color : $porcelain;
+    box-shadow       : 5px 5px 3px rgba(0, 0, 0, 0.3);
+    cursor           : pointer;
+}
+
+.dashboard__grid-item--narrow { width : calc((100% / (#{nth($cols, 1)} + 1)) - 40px); }
+.dashboard__grid-item--wide   { width : calc((100% / #{nth($cols, 2)}) - 40px);       }
+
+.dashboard__plus {
+    height          : 100%;
+    display         : flex;
+    align-items     : center;
+    justify-content : center;
+}
+
+.dashboard__plus::before {
+    content     : '+';
+    color       : $pickled-bluewood;
+    font-size   : 270px;
+    font-family : $font-title;
+}
+
+.dashboard__grid-item-title {
+    padding     : 5px;
+    color       : $cinnabar;
+    font-size   : 40px;
+    font-family : $font-title;
+}
+
+.dashboard__grid-item-description {
+    position  : absolute;
+    top       : 50%;
+    left      : 50%;
+    transform : translate(-50%, -50%);
+    color     : $mariner;
+}
+
+.dashboard__grid-item-number {
+    width       : 100%;
+    font-size   : 25px;
+    font-family : $font-regular;
+    text-align  : center;
+}
+
+.dashboard__grid-item-text {
+    width       : 100%;
+    font-size   : 20px;
+    font-family : $font-light;
+    text-align  : center;
+}
+
+.dashboard__grid-item-language {
+    position        : absolute;
+    bottom          : 5px;
+    width           : 100%;
+    padding-right   : 5px;
+    display         : flex;
+    justify-content : flex-end;
+}
+
+.dashboard__grid-item-image {
+    max-width  : 100px;
+    max-height : 100px;
 }
 
 .content-wrapper {
@@ -71,7 +116,7 @@
                 align-items      : center;
                 justify-content  : center;
                 flex-direction   : column;
-                background-color : $green;
+                background-color : $porcelain;
                 cursor           : pointer;
 
                 &:hover { filter: brightness(80%); }
@@ -82,7 +127,7 @@
                     width        : 10px;
                     height       : 10px;
                     border-style : solid;
-                    border-color : $very-light-gray;
+                    border-color : $cinnabar;
 
                     &.top-left     { border-width : 0 2px 2px 0; }
                     &.top-right    { border-width : 0 0 2px 2px; }
@@ -243,18 +288,29 @@
         <div class="dashboard__loader" v-show="loading">
             <img class="dashboard__loader-image" src="/images/loader.svg"/>
         </div>
-        <div class="dashboard__content" v-show="!loading">
-            <div class="dashboard__title">
-                <div class="dashboard__title-label">{{ title | uppercase }}</div>
+        <div class="dashboard__grid" v-show="!loading">
+            <div class="dashboard__grid-item dashboard__grid-item--narrow">
+                <div class="dashboard__plus"></div>
             </div>
-            <div class="dashboard__grid">
-                <div class="dashboard__grid-item">
-                    +
+            <template v-for="row in data">
+                <div class="dashboard__grid-item" :class="'dashboard__grid-item--' + row.itemType" v-for="item in row.items" @click="openCheatsheet(item.id)">
+                    <div class="dashboard__grid-item-title">
+                        {{ item.name }}
+                    </div>
+                    <div class="dashboard__grid-item-description">
+                        <div class="dashboard__grid-item-number">
+                            {{ item.count }}
+                        </div>
+                        <div class="dashboard__grid-item-text">
+                            knowledge pieces
+                        </div>
+                    </div>
+                    <div class="dashboard__grid-item-language">
+                        <img class="dashboard__grid-item-image" :src="item.language.image">
+                    </div>
                 </div>
-                <div class="dashboard__grid-item" v-for="item in data">
-                    {{ item.name }}
-                </div>
-            </div>
+            </template>
+        </div>
                 <!-- <div class="new-wrapper" @click="openDialog">
                     <div class="row">
                         <div class="square top-left"></div>
@@ -296,7 +352,6 @@
                     </tr>
                 </tbody>
             </table> -->
-        </div>
         <!-- <div class="dialog" v-if="dialogOpened">
             <div class="close-btn" @click="closeDialog">
                 <div class="square top"></div>
@@ -354,11 +409,21 @@ export default {
             let data = []
 
             if (this.cheatsheets) {
-                data = this.cheatsheets.data.map(cheatsheet => {
-                    return { id: cheatsheet.id, name: cheatsheet.name, count: cheatsheet.knowledge_piece_ids.length, created: cheatsheet.created_at, modified: cheatsheet.updated_at }
+                let cheatsheets = this.cheatsheets.data.map(cheatsheet => {
+                    return { id: cheatsheet.id, name: cheatsheet.name, language: cheatsheet.language, count: cheatsheet.knowledge_piece_ids.length, created: cheatsheet.created_at, modified: cheatsheet.updated_at }
                 })
-            }
 
+                let cols = [5, 5]
+                let k = 0
+                for (let i = 0; i < cols.length; i++) {
+                    let items = []
+                    for (let j = 0; j < cols[i] && k < cheatsheets.length; j++) {
+                        items.push(cheatsheets[k++])
+                    }
+                    data.push({ items: items, itemType: i % 2 === 0 ? 'narrow' : 'wide' })
+                }
+            }
+            console.log(data)
             return data
         },
         lastPage () {

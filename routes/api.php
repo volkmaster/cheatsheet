@@ -21,3 +21,4 @@ Route::resource('knowledgepieces', 'KnowledgePieceController', ['except' => ['cr
 Route::get('knowledgepieces/{knowledgePieceId}/cheatsheets/{cheatsheetId?}', 'KnowledgePieceController@cheatsheets')
     ->where(['knowledgePieceId' => '[0-9]+', 'cheatsheetId' => '[0-9]+']);
 
+Route::resource('languages', 'LanguageController', ['except' => ['create', 'edit']]);

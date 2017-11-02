@@ -14,11 +14,11 @@
 
 <template>
     <div class="app">
-        <nav-header :class="{ 'app--blur': dialogOpened }"></nav-header>
+        <!-- <nav-header :class="{ 'app--blur': dialogOpened }"></nav-header> -->
         <router-view
             @open-dialog="openDialog">
         </router-view>
-        <nav-footer></nav-footer>
+        <!-- <nav-footer></nav-footer> -->
     </div>
 </template>
 

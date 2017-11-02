@@ -3,11 +3,10 @@
 use Illuminate\Database\Seeder;
 
 use App\Cheatsheet;
+use App\Language;
 
-class CheatsheetsTableSeeder extends Seeder
+class CheatsheetsTableSeeder extends DatabaseSeeder
 {
-    const N = 50;
-
     /**
      * Run the database seeds.
      *
@@ -17,9 +16,16 @@ class CheatsheetsTableSeeder extends Seeder
     {
         DB::table('cheatsheets')->delete();
 
-        for ($i = 0; $i < self::N; $i++) {
+        for ($i = 0; $i < self::N_CHEATSHEETS; $i++) {
+            $languageName = self::LANGUAGES[rand(0, count(self::LANGUAGES) - 1)]['name'];
+
             $cheatsheet = new Cheatsheet;
-            $cheatsheet->name = 'Cheatsheet ' . $i;
+
+            $cheatsheet->name = $languageName . ' cheatsheet ' . $i;
+
+            $language = Language::whereName($languageName)->first();
+            $cheatsheet->language()->associate($language);
+
             $cheatsheet->saveOrFail();
         }
     }

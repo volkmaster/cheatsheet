@@ -1,19 +1,12 @@
 <style lang="scss" scoped>
 @import '../../sass/app';
 
-$cols : (5, 5);
-
 .dashboard {
     width            : 100%;
     height           : 100%;
     display          : flex;
     justify-content  : center;
     background-color : $pickled-bluewood;
-}
-
-.dashboard--blur {
-    filter         : blur(5px);
-    pointer-events : none;
 }
 
 .dashboard__loader {
@@ -29,413 +22,413 @@ $cols : (5, 5);
 }
 
 .dashboard__grid {
-    position  : relative;
-    margin    : 20px;
-    display   : flex;
-    flex-wrap : wrap;
+    position        : relative;
+    margin          : 40px;
+    display         : flex;
+    justify-content : center;
+    flex-wrap       : wrap;
+    transition      : filter 0.1s linear;
+
+    @include breakpoint-2560 { margin : 30px; }
+    @include breakpoint-1920 { margin : 25px; }
+    @include breakpoint-1680 { margin : 20px; }
+    @include breakpoint-1440 { margin : 20px; }
+    @include breakpoint-1280 { margin : 20px; }
+}
+
+.dashboard__grid--blur {
+    filter         : blur(5px);
+    pointer-events : none;
 }
 
 .dashboard__grid-item {
-    position: relative;
-    height           : calc((100% / #{length($cols)}) - 40px);
-    margin           : 20px;
+    position         : relative;
+    width            : 416px;
+    height           : 416px;
+    margin           : 40px;
     background-color : $porcelain;
     box-shadow       : 5px 5px 3px rgba(0, 0, 0, 0.3);
     cursor           : pointer;
+    transition       : background-color 0.1s linear;
+
+    @include breakpoint-2560 {
+        width  : 405px;
+        height : 405px;
+        margin : 30px;
+    }
+
+    @include breakpoint-1920 {
+        width  : 300px;
+        height : 300px;
+        margin : 25px;
+    }
+
+    @include breakpoint-1680 {
+        width  : 252px;
+        height : 252px;
+        margin : 20px;
+    }
+
+    @include breakpoint-1440 {
+        width  : 290px;
+        height : 290px;
+        margin : 20px;
+    }
+
+    @include breakpoint-1280 {
+        width  : 288px;
+        height : 288px;
+        margin : 20px;
+    }
 }
 
-.dashboard__grid-item--narrow { width : calc((100% / (#{nth($cols, 1)} + 1)) - 40px); }
-.dashboard__grid-item--wide   { width : calc((100% / #{nth($cols, 2)}) - 40px);       }
+.dashboard__grid-item:hover { background-color: $cornflower; }
+
+.dashboard__grid-item--placeholder {
+    height        : 0;
+    margin-top    : 0;
+    margin-bottom : 0;
+    box-shadow    : none;
+    cursor        : auto;
+}
 
 .dashboard__plus {
     height          : 100%;
+    padding-top     : 40px;
     display         : flex;
     align-items     : center;
     justify-content : center;
+
+    @include breakpoint-2560 { padding-top : 35px; }
+    @include breakpoint-1920 { padding-top : 30px; }
+    @include breakpoint-1680 { padding-top : 25px; }
+    @include breakpoint-1440 { padding-top : 25px; }
+    @include breakpoint-1280 { padding-top : 25px; }
 }
 
 .dashboard__plus::before {
     content     : '+';
     color       : $pickled-bluewood;
-    font-size   : 270px;
+    font-size   : 400px;
     font-family : $font-title;
+
+    @include breakpoint-2560 { font-size : 350px; }
+    @include breakpoint-1920 { font-size : 285px; }
+    @include breakpoint-1680 { font-size : 270px; }
+    @include breakpoint-1440 { font-size : 270px; }
+    @include breakpoint-1280 { font-size : 270px; }
 }
 
 .dashboard__grid-item-title {
-    padding     : 5px;
+    padding     : 10px;
     color       : $cinnabar;
-    font-size   : 40px;
+    font-size   : 50px;
     font-family : $font-title;
+
+    @include breakpoint-2560 { font-size : 50px; }
+    @include breakpoint-1920 { font-size : 40px; }
+    @include breakpoint-1680 { font-size : 35px; }
+    @include breakpoint-1440 { font-size : 40px; }
+    @include breakpoint-1280 { font-size : 38px; }
 }
 
 .dashboard__grid-item-description {
-    position  : absolute;
-    top       : 50%;
-    left      : 50%;
-    transform : translate(-50%, -50%);
-    color     : $mariner;
+    position : absolute;
+    bottom   : 10px;
+    left     : 10px;
+    color    : $mariner;
 }
 
 .dashboard__grid-item-number {
     width       : 100%;
-    font-size   : 25px;
+    font-size   : 32px;
     font-family : $font-regular;
-    text-align  : center;
+
+    @include breakpoint-2560 { font-size : 30px; }
+    @include breakpoint-1920 { font-size : 23px; }
+    @include breakpoint-1680 { font-size : 21px; }
+    @include breakpoint-1440 { font-size : 23px; }
+    @include breakpoint-1280 { font-size : 23px; }
 }
 
 .dashboard__grid-item-text {
     width       : 100%;
-    font-size   : 20px;
+    font-size   : 27px;
     font-family : $font-light;
     text-align  : center;
+
+    @include breakpoint-2560 { font-size : 25px; }
+    @include breakpoint-1920 { font-size : 18px; }
+    @include breakpoint-1680 { font-size : 16px; }
+    @include breakpoint-1440 { font-size : 18px; }
+    @include breakpoint-1280 { font-size : 18px; }
 }
 
 .dashboard__grid-item-language {
     position        : absolute;
-    bottom          : 5px;
+    bottom          : 10px;
     width           : 100%;
-    padding-right   : 5px;
+    padding-right   : 10px;
     display         : flex;
     justify-content : flex-end;
 }
 
 .dashboard__grid-item-image {
-    max-width  : 100px;
-    max-height : 100px;
+    max-width  : 80px;
+    max-height : 80px;
+
+    @include breakpoint-2560 {
+        max-width  : 80px;
+        max-height : 80px;
+    }
+
+    @include breakpoint-1920 {
+        max-width  : 60px;
+        max-height : 60px;
+    }
+
+    @include breakpoint-1680 {
+        max-width  : 50px;
+        max-height : 50px;
+    }
+
+    @include breakpoint-1440 {
+        max-width  : 60px;
+        max-height : 60px;
+    }
+
+    @include breakpoint-1280 {
+        max-width  : 60px;
+        max-height : 60px;
+    }
 }
 
-.content-wrapper {
-    .content {
-        .title-wrapper {
-            .label { color: $green; }
+.dashboard__dialog {
+    position         : absolute;
+    top              : 50%;
+    left             : 50%;
+    width            : 400px;
+    padding          : 10px 0 0 20px;
+    transform        : translate3d(-50%, -50%, 0);
+    box-shadow       : 0 1px 3px 0 rgba(0, 0, 0, 0.3);
+    background-color : $white;
+    overflow         : hidden;
+}
 
-            .new-wrapper {
-                width            : 30px;
-                height           : 30px;
-                display          : flex;
-                align-items      : center;
-                justify-content  : center;
-                flex-direction   : column;
-                background-color : $porcelain;
-                cursor           : pointer;
+.close-btn {
+    position : absolute;
+    top      : 10px;
+    right    : 10px;
+    width    : 30px;
+    height   : 30px;
+    cursor   : pointer;
 
-                &:hover { filter: brightness(80%); }
+    &:hover .square { border-color: $black; }
+}
 
-                .row { display: flex; }
+.square {
+    position     : absolute;
+    top          : 15px;
+    left         : 5px;
+    width        : 20px;
+    border-style : solid;
+    border-color : $dark-gray;
+    border-width : 0 0 2px 0;
 
-                .square {
-                    width        : 10px;
-                    height       : 10px;
-                    border-style : solid;
-                    border-color : $cinnabar;
+    &.top    { transform : rotate(45deg);  }
+    &.bottom { transform : rotate(-45deg); }
+}
 
-                    &.top-left     { border-width : 0 2px 2px 0; }
-                    &.top-right    { border-width : 0 0 2px 2px; }
-                    &.bottom-left  { border-width : 2px 2px 0 0; }
-                    &.bottom-right { border-width : 2px 0 0 2px; }
-                }
-            }
-        }
+.dashboard__dialog-title {
+    height      : 30px;
+    display     : flex;
+    align-items : center;
+    color       : $green;
+    font-size   : 18px;
+}
 
-        .filter-wrapper {
-            width       : 100%;
-            display     : flex;
-            align-items : center;
+.dashboard__dialog-content {
+    padding    : 10px 40px 10px 0;
+    max-height : 375px;
+    overflow-y : scroll;
+}
 
-            .filter-label {
-                color  : $dark-gray;
-                margin : 12px 0;
-            }
+.dashboard__dialog-content-name {
+    height      : 40px;
+    display     : flex;
+    align-items : center;
+    color       : $black;
+    font-size   : 16px;
+}
 
-            .filter-input {
-                margin      : 0 15px;
-                padding     : 5px;
-                font-size   : 15px;
-                font-family : $font-regular;
-                border      : 0;
-                outline     : 0;
-            }
+.dashboard__dialog-content-name-label {
+    width  : 25%;
+    height : 20px;
+}
 
-            .filter-icon-wrapper {
-                display         : flex;
-                justify-content : flex-end;
+.dashboard__dialog-content-name-input {
+    width            : 75%;
+    height           : 20px;
+    border-style     : solid;
+    border-color     : $dark-gray;
+    border-width     : 0 0 1px 0;
+    outline          : 0;
+    background-color : transparent;
+    font-size        : 14px;
+    font-family      : $font-light;
 
-                .filter-icon {
-                    margin-right : 10px;
-                    color        : $dark-gray;
-                    cursor       : pointer;
+    &:hover, &:focus { border-color: $black; }
+}
 
-                    &.clear {
-                        opacity: 0;
+.dashboard__dialog-save-button-wrapper {
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+}
 
-                        &.with-search { opacity: 1; }
-                    }
+.dashboard__dialog-save-button {
+    width            : 100px;
+    height           : 40px;
+    display          : flex;
+    align-items      : center;
+    justify-content  : center;
+    background-color : $green;
+    cursor           : pointer;
 
-                    &:hover { color: $black; }
-                }
-            }
-        }
-
-        .table {
-            .header .item { border-color: $green; }
-
-            .id    { width : 10%; }
-            .name  { width : 35%; }
-            .count { width : 25%; }
-            .date  { width : 15%; }
-        }
-    }
-
-    .dialog {
-        position         : absolute;
-        top              : 50%;
-        left             : 50%;
-        width            : 400px;
-        padding          : 10px 0 0 20px;
-        transform        : translate3d(-50%, -50%, 0);
-        box-shadow       : 0 1px 3px 0 rgba(0, 0, 0, 0.3);
-        background-color : $white;
-        overflow         : hidden;
-
-        .close-btn {
-            position : absolute;
-            top      : 10px;
-            right    : 10px;
-            width    : 30px;
-            height   : 30px;
-            cursor   : pointer;
-
-            &:hover .square { border-color: $black; }
-
-            .square {
-                position     : absolute;
-                top          : 15px;
-                left         : 5px;
-                width        : 20px;
-                border-style : solid;
-                border-color : $dark-gray;
-                border-width : 0 0 2px 0;
-
-                &.top    { transform : rotate(45deg);  }
-                &.bottom { transform : rotate(-45deg); }
-            }
-        }
-
-        .dialog-title {
-            height      : 30px;
-            display     : flex;
-            align-items : center;
-            color       : $green;
-            font-size   : 18px;
-        }
-
-        .dialog-content {
-            padding    : 10px 40px 10px 0;
-            max-height : 375px;
-            overflow-y : scroll;
-
-            .name {
-                height      : 40px;
-                display     : flex;
-                align-items : center;
-                color       : $black;
-                font-size   : 16px;
-
-                .name-label {
-                    width  : 25%;
-                    height : 20px;
-                }
-
-                .name-input {
-                    width            : 75%;
-                    height           : 20px;
-                    border-style     : solid;
-                    border-color     : $dark-gray;
-                    border-width     : 0 0 1px 0;
-                    outline          : 0;
-                    background-color : transparent;
-                    font-size        : 14px;
-                    font-family      : $font-light;
-
-                    &:hover, &:focus { border-color: $black; }
-                }
-            }
-
-            .save-btn-wrapper {
-                margin-top: 10px;
-                display: flex;
-                justify-content: flex-end;
-
-                .save-btn {
-                    width            : 100px;
-                    height           : 40px;
-                    display          : flex;
-                    align-items      : center;
-                    justify-content  : center;
-                    background-color : $green;
-                    cursor           : pointer;
-
-                    &:hover { filter: brightness(80%); }
-                }
-            }
-        }
-    }
+    &:hover { filter: brightness(80%); }
 }
 </style>
 
 <template>
-    <div class="dashboard" :class="{ 'dashboard--blur': dialogOpened }">
+    <div class="dashboard">
         <div class="dashboard__loader" v-show="loading">
             <img class="dashboard__loader-image" src="/images/loader.svg"/>
         </div>
-        <div class="dashboard__grid" v-show="!loading">
-            <div class="dashboard__grid-item dashboard__grid-item--narrow">
+        <div class="dashboard__grid" :class="{ 'dashboard__grid--blur': dialogOpened }" v-show="!loading">
+            <div class="dashboard__grid-item" @click="openDialog()">
                 <div class="dashboard__plus"></div>
             </div>
-            <template v-for="row in data">
-                <div class="dashboard__grid-item" :class="'dashboard__grid-item--' + row.itemType" v-for="item in row.items" @click="openCheatsheet(item.id)">
-                    <div class="dashboard__grid-item-title">
-                        {{ item.name }}
+            <div class="dashboard__grid-item" v-for="item in dataCheatsheets" @click="editCheatsheet(item.id)">
+                <div class="dashboard__grid-item-title">
+                    {{ item.name }}
+                </div>
+                <div class="dashboard__grid-item-description">
+                    <div class="dashboard__grid-item-number">
+                        {{ item.count }}
                     </div>
-                    <div class="dashboard__grid-item-description">
-                        <div class="dashboard__grid-item-number">
-                            {{ item.count }}
-                        </div>
-                        <div class="dashboard__grid-item-text">
-                            knowledge pieces
-                        </div>
-                    </div>
-                    <div class="dashboard__grid-item-language">
-                        <img class="dashboard__grid-item-image" :src="item.language.image">
+                    <div class="dashboard__grid-item-text">
+                        knowledge pieces
                     </div>
                 </div>
-            </template>
+                <div class="dashboard__grid-item-language">
+                    <img class="dashboard__grid-item-image" :src="item.language.image">
+                </div>
+            </div>
+            <div class="dashboard__grid-item dashboard__grid-item--placeholder" v-for="n in 6"></div>
         </div>
-                <!-- <div class="new-wrapper" @click="openDialog">
-                    <div class="row">
-                        <div class="square top-left"></div>
-                        <div class="square top-right"></div>
-                    </div>
-                    <div class="row">
-                        <div class="square bottom-left"></div>
-                        <div class="square bottom-right"></div>
-                    </div>
-                </div>
-                <pagination
-                    :current-page="currentPage"
-                    :last-page="lastPage"
-                    @select-page="selectPage">
-                </pagination>
-            </div> -->
-            <!-- <div class="filter-wrapper">
-                <h4 class="filter-label">Search</h4>
-                <input type="text" class="filter-input" :placeholder="filter.placeholder" v-model="filter.search"/>
-                <div class="filter-icon-wrapper">
-                    <icon class="filter-icon" name="search" @click.native="search"></icon>
-                    <icon class="filter-icon clear" :class="{ 'with-search': filter.search !== '' }" name="times" @click.native="clear"></icon>
-                </div>
-            </div> -->
-            <!-- <table class="table">
-                <thead class="header">
-                    <th class="item" :class="item.align" v-for="item in header">{{ item.label | uppercase }}</th>
-                </thead>
-                <tbody class="data">
-                    <tr v-if="!data">
-                        <td class="no-data" colspan="5">{{ noDataMsg }}</td>
-                    </tr>
-                    <tr class="row" v-for="item in data" @click="openCheatsheet(item.id)">
-                        <td class="item id">{{ item.id }}</td>
-                        <td class="item name">{{ item.name }}</td>
-                        <td class="item count">{{ item.count }}</td>
-                        <td class="item date right">{{ item.created | date }}</td>
-                        <td class="item date right">{{ item.modified | date }}</td>
-                    </tr>
-                </tbody>
-            </table> -->
-        <!-- <div class="dialog" v-if="dialogOpened">
+        <div class="dashboard__dialog" v-if="dialogOpened">
             <div class="close-btn" @click="closeDialog">
                 <div class="square top"></div>
                 <div class="square bottom"></div>
             </div>
-            <div class="dialog-title">{{ dialogTitle | uppercase }}</div>
-            <div class="dialog-content">
-                <div class="name">
-                    <div class="name-label">Name: </div>
-                    <input class="name-input" type="text" v-model="cheatsheetName"/>
+            <div class="dashboard__dialog-title">{{ dialogTitle | uppercase }}</div>
+            <div class="dashboard__dialog-content">
+                <div class="dashboard__dialog-content-name">
+                    <div class="dashboard__dialog-content-name-label">Name: </div>
+                    <input class="dashboard__dialog-content-name-input" type="text" v-model="newCheatsheet.name"/>
                 </div>
-                <div class="save-btn-wrapper" @click="saveCheatsheet">
-                    <div class="save-btn">{{ dialogBtnText | uppercase }}</div>
+                <div class="dashboard__dialog-content-name">
+                    <div class="dashboard__dialog-content-name-label">Language: </div>
+                    <select class="" v-model="newCheatsheet.language">
+                        <option v-for="language in dataLanguages" :value="language.id">
+                            {{ language.name }}
+                        </option>
+                    </select>
+                </div>
+                <div class="dashboard__dialog-save-button-wrapper" @click="saveCheatsheet">
+                    <div class="dasboard__dialog-save-button">{{ dialogBtnText | uppercase }}</div>
                 </div>
             </div>
-        </div> -->
+        </div>
     </div>
 </template>
 
 <script>
 import Icon from 'vue-awesome/components/Icon'
-import Pagination from './Pagination.vue'
 
 export default {
     data () {
         return {
             loading: false,
             title: 'cheatsheets',
-            header: [
-                { label: 'id', align: 'left' },
-                { label: 'name', align: 'left' },
-                { label: 'no. of knowledge pieces', align: 'left' },
-                { label: 'created', align: 'right' },
-                { label: 'modified', align: 'right' }
-            ],
             cheatsheets: null,
+            languages: null,
             filter: {
                 placeholder: 'Filter by name...',
                 search: '',
                 isFiltered: false
             },
+            perPage: 0,
             currentPage: 1,
             noDataMsg: 'No cheatsheets found. Create the first one.',
             dialogOpened: false,
             dialogTitle: 'new cheatsheet',
             dialogBtnText: 'save',
-            cheatsheetName: ''
+            newCheatsheet: null
         }
     },
     created () {
-        this.loadData()
+        this.setInitialPerPage()
+        this.loadCheatsheets()
+        this.perPage++
     },
     computed: {
-        data () {
+        dataCheatsheets () {
             let data = []
 
             if (this.cheatsheets) {
-                let cheatsheets = this.cheatsheets.data.map(cheatsheet => {
+                data = this.cheatsheets.data.map(cheatsheet => {
                     return { id: cheatsheet.id, name: cheatsheet.name, language: cheatsheet.language, count: cheatsheet.knowledge_piece_ids.length, created: cheatsheet.created_at, modified: cheatsheet.updated_at }
                 })
-
-                let cols = [5, 5]
-                let k = 0
-                for (let i = 0; i < cols.length; i++) {
-                    let items = []
-                    for (let j = 0; j < cols[i] && k < cheatsheets.length; j++) {
-                        items.push(cheatsheets[k++])
-                    }
-                    data.push({ items: items, itemType: i % 2 === 0 ? 'narrow' : 'wide' })
-                }
             }
-            console.log(data)
+
             return data
         },
-        lastPage () {
-            return this.cheatsheets ? this.cheatsheets.last_page : 0
+        dataLanguages () {
+            let data = []
+
+            if (this.languages) {
+                data = this.languages.data.map(language => {
+                    return { id: language.id, name: language.name, image: language.image, created: language.created_at, modified: language.updated_at }
+                })
+            }
+
+            return data
         }
     },
     methods: {
-        loadData () {
+        setInitialPerPage () {
+            let screenWidth = document.documentElement.clientWidth
+
+            if (screenWidth > 2560) {
+                this.perPage = 20
+            } else if (screenWidth > 1920 && screenWidth <= 2560) {
+                this.perPage = 14
+            } else if (screenWidth > 1680 && screenWidth <= 1920) {
+                this.perPage = 14
+            } else if (screenWidth > 1440 && screenWidth <= 1680) {
+                this.perPage = 14
+            } else if (screenWidth > 1280 && screenWidth <= 1440) {
+                this.perPage = 7
+            } else {
+                this.perPage = 5
+            }
+        },
+        loadCheatsheets () {
             this.loading = true
 
             let params = {
-                per_page: this.$store.state.perPage,
+                per_page: this.perPage,
                 page: this.currentPage
             }
 
@@ -450,21 +443,31 @@ export default {
                 })
                 .catch(error => console.log(error))
         },
-        saveData () {
-            let params = {
-                name: this.cheatsheetName
-            }
-
-            axios.post('/api/cheatsheets', params)
+        loadLanguages () {
+            axios.get('/api/languages')
                 .then(response => {
-                    this.closeDialog()
-                    this.currentPage = 1
-                    this.loadData()
+                    this.languages = response.data
+                    this.newCheatsheet.language = this.languages.data[0].id
                 })
                 .catch(error => console.log(error))
         },
+        saveCheatsheet () {
+            if (this.newCheatsheet.name && this.newCheatsheet.language) {
+                axios.post('/api/cheatsheets', this.newCheatsheet)
+                    .then(response => {
+                        this.closeDialog()
+                        this.currentPage = 1
+                        this.loadCheatsheets()
+                    })
+                    .catch(error => console.log(error))
+            }
+        },
         openDialog () {
-            this.cheatsheetName = ''
+            this.loadLanguages()
+            this.newCheatsheet = {
+                name: '',
+                language: 0
+            }
             this.dialogOpened = true
             this.$emit('open-dialog', true)
         },
@@ -476,7 +479,7 @@ export default {
             if (this.filter.search) {
                 this.filter.isFiltered = true
                 this.currentPage = 1
-                this.loadData()
+                this.loadCheatsheets()
             }
         },
         clear () {
@@ -484,27 +487,15 @@ export default {
                 this.filter.search = ''
                 this.filter.isFiltered = false
                 this.currentPage = 1
-                this.loadData()
+                this.loadCheatsheets()
             }
         },
-        selectPage (target) {
-            if (this.currentPage !== target) {
-                this.currentPage = target
-                this.loadData()
-            }
-        },
-        openCheatsheet (id) {
+        editCheatsheet (id) {
             this.$router.push({ name: 'cheatsheet', params: { id: id } })
-        },
-        saveCheatsheet () {
-            if (this.cheatsheetName) {
-                this.saveData()
-            }
         }
     },
     components: {
-        icon: Icon,
-        pagination: Pagination
+        icon: Icon
     }
 }
 </script>

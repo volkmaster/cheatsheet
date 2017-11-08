@@ -9,16 +9,18 @@
     background-color : $pickled-bluewood;
 }
 
-.dashboard__loader {
-    display         : flex;
-    align-items     : center;
-    justify-content : center;
-    transform       : translate3d(0, -5%, 0);
+.dashboard__loader-initial {
+    position : absolute;
+    top      : 40%;
+    width    : 100px;
+    height   : 100px;
 }
 
-.dashboard__loader-image {
-    width  : 100px;
-    height : 100px;
+.dashboard__loader-scroll {
+    position : absolute;
+    bottom   : -50px;
+    width    : 50px;
+    height   : 50px;
 }
 
 .dashboard__grid {
@@ -301,14 +303,12 @@
 
 <template>
     <div class="dashboard">
-        <div class="dashboard__loader" v-show="loading">
-            <img class="dashboard__loader-image" src="/images/loader.svg"/>
-        </div>
-        <div class="dashboard__grid" :class="{ 'dashboard__grid--blur': dialogOpened }" v-show="!loading">
-            <div class="dashboard__grid-item" @click="openDialog()">
+        <img class="dashboard__loader-initial" src="/images/loader.svg" v-show="loading.initial"/>
+        <div class="dashboard__grid" :class="{ 'dashboard__grid--blur': dialog.opened }" v-show="!loading.initial">
+            <div class="dashboard__grid-item" @click="openDialog">
                 <div class="dashboard__plus"></div>
             </div>
-            <div class="dashboard__grid-item" v-for="item in dataCheatsheets" @click="editCheatsheet(item.id)">
+            <div class="dashboard__grid-item" v-for="item in data.cheatsheets" @click="editCheatsheet(item.id)">
                 <div class="dashboard__grid-item-title">
                     {{ item.name }}
                 </div>
@@ -325,28 +325,29 @@
                 </div>
             </div>
             <div class="dashboard__grid-item dashboard__grid-item--placeholder" v-for="n in 6"></div>
+            <img class="dashboard__loader-scroll" src="/images/loader.svg" v-show="loading.scroll"/>
         </div>
-        <div class="dashboard__dialog" v-if="dialogOpened">
+        <div class="dashboard__dialog" v-if="dialog.opened">
             <div class="close-btn" @click="closeDialog">
                 <div class="square top"></div>
                 <div class="square bottom"></div>
             </div>
-            <div class="dashboard__dialog-title">{{ dialogTitle | uppercase }}</div>
+            <div class="dashboard__dialog-title">{{ dialog.title | uppercase }}</div>
             <div class="dashboard__dialog-content">
                 <div class="dashboard__dialog-content-name">
                     <div class="dashboard__dialog-content-name-label">Name: </div>
-                    <input class="dashboard__dialog-content-name-input" type="text" v-model="newCheatsheet.name"/>
+                    <input class="dashboard__dialog-content-name-input" type="text" v-model="dialog.cheatsheet.name"/>
                 </div>
                 <div class="dashboard__dialog-content-name">
                     <div class="dashboard__dialog-content-name-label">Language: </div>
-                    <select class="" v-model="newCheatsheet.language">
-                        <option v-for="language in dataLanguages" :value="language.id">
+                    <select class="" v-model="dialog.cheatsheet.language">
+                        <option v-for="language in data.languages" :value="language.id">
                             {{ language.name }}
                         </option>
                     </select>
                 </div>
                 <div class="dashboard__dialog-save-button-wrapper" @click="saveCheatsheet">
-                    <div class="dasboard__dialog-save-button">{{ dialogBtnText | uppercase }}</div>
+                    <div class="dashboard__dialog-save-button">{{ dialog.buttonText | uppercase }}</div>
                 </div>
             </div>
         </div>
@@ -354,109 +355,129 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import Icon from 'vue-awesome/components/Icon'
 
 export default {
     data () {
         return {
-            loading: false,
-            title: 'cheatsheets',
-            cheatsheets: null,
-            languages: null,
+            loading: {
+                initial: false,
+                scroll: false
+            },
+            data: {
+                cheatsheets: [],
+                languages: [],
+                noDataMsg: 'No cheatsheets found. Create the first one.'
+            },
             filter: {
                 placeholder: 'Filter by name...',
                 search: '',
+                language: 0,
                 isFiltered: false
             },
-            perPage: 0,
-            currentPage: 1,
-            noDataMsg: 'No cheatsheets found. Create the first one.',
-            dialogOpened: false,
-            dialogTitle: 'new cheatsheet',
-            dialogBtnText: 'save',
-            newCheatsheet: null
+            pagination: {
+                perPage: 0,
+                currentPage: 1,
+                noMorePages: false
+            },
+            dialog: {
+                opened: false,
+                title: 'new cheatsheet',
+                buttonText: 'save',
+                cheatsheet: null
+            }
         }
     },
     created () {
         this.setInitialPerPage()
+        this.loading.initial = true
         this.loadCheatsheets()
-        this.perPage++
+        this.pagination.perPage++
     },
-    computed: {
-        dataCheatsheets () {
-            let data = []
-
-            if (this.cheatsheets) {
-                data = this.cheatsheets.data.map(cheatsheet => {
-                    return { id: cheatsheet.id, name: cheatsheet.name, language: cheatsheet.language, count: cheatsheet.knowledge_piece_ids.length, created: cheatsheet.created_at, modified: cheatsheet.updated_at }
-                })
-            }
-
-            return data
-        },
-        dataLanguages () {
-            let data = []
-
-            if (this.languages) {
-                data = this.languages.data.map(language => {
-                    return { id: language.id, name: language.name, image: language.image, created: language.created_at, modified: language.updated_at }
-                })
-            }
-
-            return data
-        }
+    mounted () {
+        this.$nextTick(() => {
+            window.addEventListener('scroll', this.handleScroll)
+        })
     },
+    destroyed () {
+        window.removeEventListener('scroll', this.handleScroll)
+    },
+    computed: { },
     methods: {
         setInitialPerPage () {
             let screenWidth = document.documentElement.clientWidth
 
             if (screenWidth > 2560) {
-                this.perPage = 20
+                this.pagination.perPage = 20
             } else if (screenWidth > 1920 && screenWidth <= 2560) {
-                this.perPage = 14
+                this.pagination.perPage = 14
             } else if (screenWidth > 1680 && screenWidth <= 1920) {
-                this.perPage = 14
+                this.pagination.perPage = 14
             } else if (screenWidth > 1440 && screenWidth <= 1680) {
-                this.perPage = 14
+                this.pagination.perPage = 14
             } else if (screenWidth > 1280 && screenWidth <= 1440) {
-                this.perPage = 7
+                this.pagination.perPage = 7
             } else {
-                this.perPage = 5
+                this.pagination.perPage = 5
             }
         },
         loadCheatsheets () {
-            this.loading = true
-
             let params = {
-                per_page: this.perPage,
-                page: this.currentPage
+                per_page: this.pagination.perPage,
+                page: this.pagination.currentPage
             }
 
             if (this.filter.search) {
                 params.filter_name = encodeURIComponent(this.filter.search)
             }
 
+            if (this.filter.language) {
+                params.filter_language = this.filter.language
+            }
+
             axios.get('/api/cheatsheets', { params: params })
                 .then(response => {
-                    this.cheatsheets = response.data
-                    this.loading = false
+                    let data = response.data
+                    this.addCheatsheets(data)
+                    if (data.current_page === data.last_page) {
+                        this.pagination.noMorePages = true
+                    }
+                    this.loading.initial = false
+                    this.loading.scroll = false
                 })
                 .catch(error => console.log(error))
+        },
+        addCheatsheets (cheatsheets) {
+            let data = cheatsheets.data.map(cheatsheet => {
+                return { id: cheatsheet.id, name: cheatsheet.name, language: cheatsheet.language, count: cheatsheet.knowledge_piece_ids.length, created: cheatsheet.created_at, modified: cheatsheet.updated_at }
+            })
+
+            this.data.cheatsheets.push.apply(this.data.cheatsheets, data)
         },
         loadLanguages () {
             axios.get('/api/languages')
                 .then(response => {
-                    this.languages = response.data
-                    this.newCheatsheet.language = this.languages.data[0].id
+                    let data = response.data
+                    this.addLanguages(data)
+                    this.dialog.cheatsheet.language = this.data.languages.data[0].id
                 })
                 .catch(error => console.log(error))
         },
+        addLanguages (languages) {
+            let data = languages.data.map(language => {
+                return { id: language.id, name: language.name, image: language.image, created: language.created_at, modified: language.updated_at }
+            })
+
+            this.data.languages.push.apply(this.data.languages, data)
+        },
         saveCheatsheet () {
-            if (this.newCheatsheet.name && this.newCheatsheet.language) {
-                axios.post('/api/cheatsheets', this.newCheatsheet)
+            if (this.dialog.cheatsheet.name && this.dialog.cheatsheet.language) {
+                axios.post('/api/cheatsheets', this.dialog.cheatsheet)
                     .then(response => {
                         this.closeDialog()
-                        this.currentPage = 1
+                        this.pagination.currentPage = 1
+                        this.loading.initial = true
                         this.loadCheatsheets()
                     })
                     .catch(error => console.log(error))
@@ -464,21 +485,22 @@ export default {
         },
         openDialog () {
             this.loadLanguages()
-            this.newCheatsheet = {
+            this.dialog.cheatsheet = {
                 name: '',
                 language: 0
             }
-            this.dialogOpened = true
+            this.dialog.opened = true
             this.$emit('open-dialog', true)
         },
         closeDialog () {
-            this.dialogOpened = false
+            this.dialog.opened = false
             this.$emit('open-dialog', false)
         },
         search () {
             if (this.filter.search) {
                 this.filter.isFiltered = true
-                this.currentPage = 1
+                this.pagination.currentPage = 1
+                this.loading.initial = true
                 this.loadCheatsheets()
             }
         },
@@ -486,13 +508,32 @@ export default {
             if (this.filter.isFiltered) {
                 this.filter.search = ''
                 this.filter.isFiltered = false
-                this.currentPage = 1
+                this.pagination.currentPage = 1
+                this.loading.initial = true
                 this.loadCheatsheets()
             }
         },
         editCheatsheet (id) {
             this.$router.push({ name: 'cheatsheet', params: { id: id } })
-        }
+        },
+        handleScroll: _.debounce(function () {
+            if (!this.pagination.noMorePages) {
+                let totalHeight = this.$el.clientHeight
+                let visibleHeight = document.documentElement.clientHeight
+                let scrollHeight = document.documentElement.scrollTop
+
+                if (totalHeight - (scrollHeight + visibleHeight) < 20) {
+                    this.pagination.currentPage++
+                    this.loading.scroll = true
+                    this.$nextTick(() => {
+                        $(document.documentElement).animate({
+                            scrollTop: totalHeight - visibleHeight + 50
+                        }, 1000)
+                        this.loadCheatsheets()
+                    })
+                }
+            }
+        }, 100)
     },
     components: {
         icon: Icon

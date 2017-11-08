@@ -1,10 +1,7 @@
 <style lang="scss" scoped>
 @import '../../sass/app';
 
-.app {
-    width  : 100%;
-    height : 100%;
-}
+.app { }
 
 .app--blur {
     filter         : blur(5px);

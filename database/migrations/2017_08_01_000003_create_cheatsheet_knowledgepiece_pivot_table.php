@@ -17,6 +17,7 @@ class CreateCheatsheetKnowledgePiecePivotTable extends Migration
             $table->integer('cheatsheet_id')->unsigned()->index();
             $table->integer('knowledge_piece_id')->unsigned()->index();
             $table->primary(['cheatsheet_id', 'knowledge_piece_id'], 'cheatsheet_knowledge_piece_primary');
+            $table->integer('position');
             $table->timestamps();
         });
 

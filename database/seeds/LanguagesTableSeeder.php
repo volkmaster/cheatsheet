@@ -20,6 +20,7 @@ class LanguagesTableSeeder extends DatabaseSeeder
 
             $language->name = $item['name'];
             $language->image = '/images/' . $item['image'] . '.png';
+            $language->highlight = $item['highlight'];
 
             $language->saveOrFail();
         }

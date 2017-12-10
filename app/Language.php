@@ -12,7 +12,7 @@ class Language extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'image',
+        'name', 'image', 'highlight',
     ];
 
     public function cheatsheets()

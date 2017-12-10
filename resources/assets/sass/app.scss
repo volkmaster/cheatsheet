@@ -13,7 +13,10 @@ body {
     font-family      : $font-regular;
 }
 
-.body--no-scroll { overflow: hidden; }
+.body--no-scroll {
+    position   : fixed;
+    overflow-y : scroll;
+}
 
 .content-wrapper {
     width            : 100%;

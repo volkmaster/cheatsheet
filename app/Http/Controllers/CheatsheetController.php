@@ -23,10 +23,14 @@ class CheatsheetController extends Controller
         $perPage        = is_null($request->query('per_page')) ? $this->perPage : $request->query('per_page');
         $orderBy        = $request->query('order_by');
         $orderDirection = is_null($request->query('order_direction')) ? 'asc' : $request->query('order_direction');
-        $fields         = is_null($request->query('fields')) ? null : explode(',', $request->query('fields'));
         $filterId       = is_null($request->query('filter_id')) ? null : explode(',', $request->query('filter_id'));
         $filterName     = is_null($request->query('filter_name')) ? null : urldecode($request->query('filter_name'));
         $filterLanguage = is_null($request->query('filter_language')) ? null : $request->query('filter_language');
+
+        $field = $this->setAndValidateFields($request->query('fields'), new Cheatsheet, ['language']);
+        if ($field) {
+            return response()->json("Requested field '{$field}' does not exist.", 400);
+        }
 
         $qb = Cheatsheet::query();
 
@@ -46,17 +50,14 @@ class CheatsheetController extends Controller
             $qb = $qb->whereLanguageId($filterLanguage);
         }
 
-        if ($fields) {
-            $field = $this->validateFields(new Cheatsheet, $fields);
-            if ($field) {
-                return response()->json("Requested field '{$field}' does not exist.", 400);
-            }
-
-            if (in_array('language_id', $fields)) {
+        if ($this->fields) {
+            if ($this->hasField('language')) {
+                $fields = $this->removeField('language');
+                $fields = $this->addField('language_id');
                 $qb = $qb->with('language');
             }
 
-            $cheatsheets = $qb->paginate($perPage, $fields);
+            $cheatsheets = $qb->paginate($perPage, $this->fields);
         } else {
             $qb = $qb->with('language');
 
@@ -142,21 +143,21 @@ class CheatsheetController extends Controller
      */
     public function show(Request $request, $id)
     {
-        $fields = is_null($request->query('fields')) ? null : explode(',', $request->query('fields'));
+        $field = $this->setAndValidateFields($request->query('fields'), new Cheatsheet, ['language']);
+        if ($field) {
+            return response()->json("Requested field '{$field}' does not exist.", 400);
+        }
 
         $qb = Cheatsheet::query();
 
-        if ($fields) {
-            $field = $this->validateFields(new Cheatsheet, $fields);
-            if ($field) {
-                return response()->json("Requested field '{$field}' does not exist.", 400);
-            }
-
-            if (in_array('language_id', $fields)) {
+        if ($this->fields) {
+            if ($this->hasField('language')) {
+                $fields = $this->removeField('language');
+                $fields = $this->addField('language_id');
                 $qb = $qb->with('language');
             }
 
-            $qb = $qb->select($fields);
+            $qb = $qb->select($this->fields);
         } else {
             $qb = $qb->with('language');
         }
@@ -166,7 +167,7 @@ class CheatsheetController extends Controller
             return response()->json("Cheatsheet with id {$id} not found.", 404);
         }
 
-        if (!$fields) {
+        if (!$this->fields) {
             $cheatsheet['knowledge_piece_ids'] = $cheatsheet->knowledgePieces()->pluck('id');
         }
 
@@ -273,30 +274,35 @@ class CheatsheetController extends Controller
         $perPage           = is_null($request->query('per_page')) ? $this->perPage : $request->query('per_page');
         $orderBy           = $request->query('order_by');
         $orderDirection    = is_null($request->query('order_direction')) ? 'asc' : $request->query('order_direction');
-        $fields            = is_null($request->query('fields')) ? null : explode(',', $request->query('fields'));
         $filterId          = is_null($request->query('filter_id')) ? null : explode(',', $request->query('filter_id'));
         $filterDescription = is_null($request->query('filter_description')) ? null : urldecode($request->query('filter_description'));
         $filterCode        = is_null($request->query('filter_code')) ? null : urldecode($request->query('filter_code'));
         $filterLanguage    = is_null($request->query('filter_language')) ? null : $request->query('filter_language');
 
-        if ($fields) {
-            $field = $this->validateFields(new KnowledgePiece, $fields);
-            if ($field) {
-                return response()->json("Requested field '{$field}' does not exist.", 400);
-            }
+        $field = $this->setAndValidateFields($request->query('fields'), new KnowledgePiece, ['language', 'position']);
+        if ($field) {
+            return response()->json("Requested field '{$field}' does not exist.", 400);
         }
 
-        if ($knowledgePieceId) {
-            $qb = KnowledgePiece::query();
+        $qb = $cheatsheet->knowledgePieces();
 
-            if ($fields) {
-                if (in_array('language_id', $fields)) {
+        if ($knowledgePieceId) {
+            if ($this->fields) {
+                if ($this->hasField('language')) {
+                    $fields = $this->removeField('language');
+                    $fields = $this->addField('language_id');
                     $qb = $qb->with('language');
                 }
 
-                $qb = $qb->select($fields);
+                if ($this->hasField('position')) {
+                    $fields = $this->removeField('position');
+                    $qb = $qb->withPivot('position');
+                }
+
+                $qb = $qb->select($this->fields);
             } else {
                 $qb = $qb->with('language');
+                $qb = $qb->withPivot('position');
             }
 
             $knowledgePiece = $qb->find($knowledgePieceId);
@@ -306,10 +312,8 @@ class CheatsheetController extends Controller
 
             return response()->json($knowledgePiece, 200);
         } else {
-            $qb = $cheatsheet->knowledgePieces();
-
             if (!is_null($orderBy)) {
-                $qb = $qb->orderBy($orderBy, $orderDirection);
+                $qb = $qb->orderBy('knowledge_pieces.' . $orderBy, $orderDirection);
             }
 
             if ($filterId === '0' || $filterId) {
@@ -328,11 +332,23 @@ class CheatsheetController extends Controller
                 $qb = $qb->whereLanguageId($filterLanguage);
             }
 
-            if ($fields) {
-                $qb = $qb->with('language');
+            if ($this->fields) {
+                if ($this->hasField('language')) {
+                    $fields = $this->removeField('language');
+                    $fields = $this->addField('language_id');
+                    $qb = $qb->with('language');
+                }
 
-                $knowledgePieces = $qb->paginate($perPage, $fields);
+                if ($this->hasField('position')) {
+                    $fields = $this->removeField('position');
+                    $qb = $qb->withPivot('position');
+                }
+
+                $knowledgePieces = $qb->paginate($perPage, $this->fields);
             } else {
+                $qb = $qb->with('language');
+                $qb = $qb->withPivot('position');
+
                 $knowledgePieces = $qb->paginate($perPage);
             }
 

@@ -1,9 +1,11 @@
 import './bootstrap'
-import VueRouter from 'vue-router'
-import Vuex from 'vuex'
 import './utils/vueHelpers'
 
+import VueRouter from 'vue-router'
+import Vuex from 'vuex'
 import Icon from 'vue-awesome/icons'
+import VueHighlightJS from 'vue-highlightjs'
+
 import App from './components/App.vue'
 import Dashboard from './components/Dashboard.vue'
 import Cheatsheet from './components/Cheatsheet.vue'
@@ -12,6 +14,8 @@ Vue.component('icon', Icon)
 Vue.component('app', App)
 Vue.component('dashboard', Dashboard)
 Vue.component('cheatsheet', Cheatsheet)
+
+Vue.use(VueHighlightJS)
 
 const router = new VueRouter({
     mode: 'history',
@@ -23,17 +27,19 @@ const router = new VueRouter({
 
 const store = new Vuex.Store({
     state: {
-        perPage: 17,
-        cheatsheets: null
+        values: [
+            { id: 0, name: 'x' },
+            { id: 1, name: 'y' }
+        ]
     },
     getters: {
-        getCheatsheetById: (state, getters) => (id) => {
-            return state.cheatsheets.data.find(cheatsheet => cheatsheet.id === id)
+        getValueById: (state, getters) => (id) => {
+            return state.values.find(value => value.id === id)
         }
     },
     mutations: {
-        setCheatsheets (state, cheatsheets) {
-            state.cheatsheets = cheatsheets
+        setValues (state, values) {
+            state.values = values
         }
     }
 })

@@ -20,9 +20,7 @@ class Cheatsheet extends Model
      *
      * @var array
      */
-    protected $hidden = [
-        'pivot',
-    ];
+    protected $hidden = [];
 
     public function knowledgePieces()
     {

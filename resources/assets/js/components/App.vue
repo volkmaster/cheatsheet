@@ -2,18 +2,14 @@
 @import '../../sass/app';
 
 .app { }
-
-.app--blur {
-    filter         : blur(5px);
-    pointer-events : none;
-}
 </style>
 
 <template>
     <div class="app">
-        <!-- <nav-header :class="{ 'app--blur': dialogOpened }"></nav-header> -->
+        <!-- <nav-header></nav-header> -->
         <router-view
-            @open-dialog="openDialog">
+            @open-dialog="openDialog"
+            @close-dialog="closeDialog">
         </router-view>
         <!-- <nav-footer></nav-footer> -->
     </div>
@@ -25,14 +21,20 @@ import NavFooter from './NavFooter.vue'
 
 export default {
     data () {
-        return {
-            dialogOpened: false
-        }
+        return { }
     },
     methods: {
-        openDialog (val) {
-            $('body').toggleClass('body--no-scroll', val)
-            this.dialogOpened = val
+        openDialog () {
+            let body = $('body')
+            let scrollTop = -document.documentElement.scrollTop
+            body.css('top', scrollTop + 'px')
+            body.addClass('body--no-scroll')
+        },
+        closeDialog () {
+            let body = $('body')
+            let scrollTop = -body.position().top
+            body.removeClass('body--no-scroll')
+            document.documentElement.scrollTop = scrollTop
         }
     },
     components: {

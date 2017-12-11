@@ -8,7 +8,6 @@
     width            : 100%;
     height           : 100%;
     display          : flex;
-    justify-content  : center;
     background-color : $pickled-bluewood;
 }
 
@@ -31,22 +30,49 @@
 }
 
 .cheatsheet__grid-item {
-    padding    : 0 5px;
-    position   : relative;
-    width      : calc(100vw / 5);
-    height     : calc(100vh / 3);
-    box-shadow : 0 0 10px rgba(0, 0, 0, 0.75);
+    padding         : 0 5px;
+    position        : relative;
+    width           : calc(100vw / 5);
+    height          : calc(100vh / 3);
+    display         : flex;
+    align-items     : flex-end;
+    box-shadow      : 0 0 10px rgba(0, 0, 0, 0.75);
+}
+
+.cheatsheet__plus {
+    width      : 100%;
+    text-align : center;
+    opacity    : 0.5;
+    cursor     : pointer;
+    transition : opacity 0.1s linear;
+}
+
+.cheatsheet__plus:hover { opacity: 1; }
+
+.cheatsheet__plus::before {
+    content     : '+';
+    color       : $mariner;
+    font-size   : 400px;
+    font-family : $font-title;
+
+    @include breakpoint-2560 { font-size : 350px; }
+    @include breakpoint-1920 { font-size : 285px; }
+    @include breakpoint-1680 { font-size : 270px; }
+    @include breakpoint-1440 { font-size : 270px; }
+    @include breakpoint-1280 { font-size : 270px; }
 }
 
 .cheatsheet__grid-item-content {
-    height     : 100%;
-    transition : filter 0.1s linear;
+    width           : 100%;
+    height          : 100%;
+    display         : flex;
+    flex-direction  : column;
+    transition      : filter 0.1s linear;
 }
 
 .cheatsheet__grid-item:hover .cheatsheet__grid-item-content { filter: brightness(200%); }
 
 .cheatsheet__grid-item-description {
-    max-height  : 24%;
     padding-top : 5px;
     color       : $cornflower;
     font-size   : 40px;
@@ -54,10 +80,9 @@
 }
 
 .cheatsheet__grid-item-code {
-    max-height : 76%;
-    margin     : 0;
-    padding    : 0;
-    overflow   : hidden;
+    margin   : 0;
+    padding  : 0;
+    overflow : hidden;
 }
 
 .cheatsheet__grid-item-command {
@@ -220,6 +245,27 @@
     color        : $mariner;
 }
 
+.cheatsheet__dialog-content-select {
+    width            : 75%;
+    padding-bottom   : 2px;
+    border-width     : 0 0 1px 0;
+    border-color     : $curious-blue;
+    outline          : 0;
+    background-color : transparent;
+    cursor           : pointer;
+    transition       : border-color 0.1s linear, color 0.1s linear;
+}
+
+.cheatsheet__dialog-content-select:hover, .cheatsheet__dialog-content-input:focus {
+    border-color : $mariner;
+    color        : $mariner;
+}
+
+.cheatsheet__dialog-content-option {
+    background-color : $porcelain;
+    color            : $mariner;
+}
+
 .cheatsheet__dialog-content-textarea {
     width       : 100%;
     height      : 275px;
@@ -309,7 +355,7 @@
 <template>
     <div class="cheatsheet">
         <img class="cheatsheet__loader" src="/images/loader.svg" v-show="loading"/>
-        <div class="cheatsheet__grid" :class="{ 'cheatsheet__grid--blur': dialog.opened.edit || dialog.opened.remove }" v-show="!loading">
+        <div class="cheatsheet__grid" :class="{ 'cheatsheet__grid--blur': dialog.opened.add || dialog.opened.edit || dialog.opened.remove }" v-show="!loading">
             <div class="cheatsheet__grid-item" v-for="(item, position) in data.knowledgePieces" @mouseenter="item.active = true" @mouseleave="item.active = false">
                 <template v-if="item.taken">
                     <div class="cheatsheet__grid-item-content">
@@ -329,6 +375,35 @@
                         </div>
                     </template>
                 </template>
+                <div class="cheatsheet__plus" v-else @click.native="addKnowledgePiece(position)"></div>
+            </div>
+        </div>
+        <div class="cheatsheet__dialog cheatsheet__dialog_add" v-if="dialog.opened.add">
+            <icon class="cheatsheet__dialog-close-icon" name="close" @click.native="closeDialog"></icon>
+            <div class="cheatsheet__dialog-title">{{ dialog.title.add | uppercase }}</div>
+            <div class="cheatsheet__dialog-content">
+                <div class="cheatsheet__dialog-content-row">
+                    <div class="cheatsheet__dialog-content-label cheatsheet__dialog-content--font">Description: </div>
+                    <input class="cheatsheet__dialog-content-input cheatsheet__dialog-content--font" type="text" v-model="dialog.knowledgePiece.data.description"/>
+                </div>
+                <div class="cheatsheet__dialog-content-row">
+                    <div class="cheatsheet__dialog-content-label cheatsheet__dialog-content--font">Language: </div>
+                    <select class="cheatsheet__dialog-content-select cheatsheet__dialog-content--font" v-model="dialog.knowledgePiece.data.language">
+                        <option class="cheatsheet__dialog-content-option cheatsheet__dialog-content--font" v-for="language in data.languages" :value="language.id">
+                            {{ language.name }}
+                        </option>
+                    </select>
+                </div>
+                <textarea class="cheatsheet__dialog-content-textarea" v-model="dialog.knowledgePiece.data.code" @paste="paste" @keydown.enter.exact="enter" @keydown.tab.exact="tab" @keydown.shift.tab.exact="untab"></textarea>
+            </div>
+            <div class="cheatsheet__dialog-error-wrapper">
+                <div class="cheatsheet__dialog-error" v-for="error in dialog.errors">
+                    {{ error }}
+                </div>
+            </div>
+            <div class="cheatsheet__dialog-button-wrapper">
+                <div class="cheatsheet__dialog-button cheatsheet__dialog-button_save" @click="saveNewKnowledgePiece">{{ dialog.buttonText.save | uppercase }}</div>
+                <div class="cheatsheet__dialog-button cheatsheet__dialog-button_cancel" @click="closeDialog">{{ dialog.buttonText.cancel | uppercase }}</div>
             </div>
         </div>
         <div class="cheatsheet__dialog cheatsheet__dialog_edit" v-if="dialog.opened.edit">
@@ -341,13 +416,21 @@
                 </div>
                 <textarea class="cheatsheet__dialog-content-textarea" v-model="dialog.knowledgePiece.data.code" @paste="paste" @keydown.enter.exact="enter" @keydown.tab.exact="tab" @keydown.shift.tab.exact="untab"></textarea>
             </div>
+            <div class="cheatsheet__dialog-content-row">
+                <div class="cheatsheet__dialog-content-label cheatsheet__dialog-content--font">Language: </div>
+                <select class="cheatsheet__dialog-content-select cheatsheet__dialog-content--font" v-model="dialog.knowledgePiece.data.language">
+                    <option class="cheatsheet__dialog-content-option cheatsheet__dialog-content--font" v-for="language in data.languages" :value="language.id">
+                        {{ language.name }}
+                    </option>
+                </select>
+            </div>
             <div class="cheatsheet__dialog-error-wrapper">
                 <div class="cheatsheet__dialog-error" v-for="error in dialog.errors">
                     {{ error }}
                 </div>
             </div>
             <div class="cheatsheet__dialog-button-wrapper">
-                <div class="cheatsheet__dialog-button cheatsheet__dialog-button_save" @click="saveKnowledgePiece">{{ dialog.buttonText.save | uppercase }}</div>
+                <div class="cheatsheet__dialog-button cheatsheet__dialog-button_save" @click="saveExistingKnowledgePiece">{{ dialog.buttonText.save | uppercase }}</div>
                 <div class="cheatsheet__dialog-button cheatsheet__dialog-button_cancel" @click="closeDialog">{{ dialog.buttonText.cancel | uppercase }}</div>
             </div>
         </div>
@@ -365,7 +448,7 @@
                 </div>
             </div>
             <div class="cheatsheet__dialog-button-wrapper">
-                <div class="cheatsheet__dialog-button cheatsheet__dialog-button_remove" @click="updateCheatsheet">{{ dialog.buttonText.remove | uppercase }}</div>
+                <div class="cheatsheet__dialog-button cheatsheet__dialog-button_remove" @click="removeKnowledgePieceFromCheatsheet">{{ dialog.buttonText.remove | uppercase }}</div>
                 <div class="cheatsheet__dialog-button cheatsheet__dialog-button_cancel" @click="closeDialog">{{ dialog.buttonText.cancel | uppercase }}</div>
             </div>
         </div>
@@ -381,7 +464,8 @@ export default {
             loading: false,
             data: {
                 cheatsheet: null,
-                knowledgePieces: []
+                knowledgePieces: [],
+                languages: []
             },
             pagination: {
                 perPage: 15,
@@ -393,24 +477,32 @@ export default {
             },
             dialog: {
                 opened: {
+                    add: false,
                     edit: false,
                     remove: false
                 },
                 title: {
+                    add: 'add knowledge piece',
                     edit: 'edit knowledge piece',
                     remove: 'remove knowledge piece'
                 },
                 text: {
+                    add: '',
                     edit: '',
                     remove: 'Do you really want to remove the selected knowledge piece from the cheatsheet?'
                 },
                 buttonText: {
                     save: 'save',
+                    add: 'add',
                     remove: 'remove',
                     cancel: 'cancel'
                 },
                 knowledgePiece: {
-                    data: null,
+                    data: {
+                        description: '',
+                        language: 0,
+                        code: ''
+                    },
                     position: 0
                 },
                 errors: []
@@ -471,6 +563,16 @@ export default {
 
             this.data.knowledgePieces = sortedData
         },
+        addKnowledgePiece (position) {
+            this.dialog.knowledgePiece.data = {
+                description: '',
+                language: 0,
+                code: ''
+            }
+            this.dialog.knowledgePiece.position = position
+            this.dialog.errors = []
+            this.dialog.opened.add = true
+        },
         editKnowledgePiece (knowledgePiece, position) {
             this.dialog.knowledgePiece.data = JSON.parse(JSON.stringify(knowledgePiece))
             this.dialog.knowledgePiece.position = position
@@ -483,7 +585,7 @@ export default {
             this.dialog.errors = []
             this.dialog.opened.remove = true
         },
-        saveKnowledgePiece () {
+        saveNewKnowledgePiece () {
             let knowledgePiece = JSON.parse(JSON.stringify(this.dialog.knowledgePiece.data))
             let position = this.dialog.knowledgePiece.position
 
@@ -498,7 +600,47 @@ export default {
                     this.dialog.errors = Object.values(error.response.data.errors).map(val => val[0])
                 })
         },
-        updateCheatsheet () {
+        saveExistingKnowledgePiece () {
+            let knowledgePiece = JSON.parse(JSON.stringify(this.dialog.knowledgePiece.data))
+            let position = this.dialog.knowledgePiece.position
+
+            knowledgePiece.language = knowledgePiece.language.id
+
+            axios.put('/api/knowledgepieces/' + knowledgePiece.id, knowledgePiece)
+                .then(response => {
+                    this.data.knowledgePieces[position].data = this.dialog.knowledgePiece.data
+                    this.closeDialog()
+                })
+                .catch(error => {
+                    this.dialog.errors = Object.values(error.response.data.errors).map(val => val[0])
+                })
+        },
+        addKnowledgePieceToCheatsheet () {
+            let knowledgePiece = this.dialog.knowledgePiece.data
+            let position = this.dialog.knowledgePiece.position
+
+            axios.get('/api/knowledgepieces/' + knowledgePiece.id)
+                .then(response => {
+                    let cheatsheets = response.data.cheatsheet_ids
+
+                    let index = cheatsheets.indexOf(this.data.cheatsheet.id)
+                    cheatsheets.splice(index, 1)
+
+                    axios.put('/api/knowledgepieces/' + knowledgePiece.id, { cheatsheets: cheatsheets })
+                        .then(response => {
+                            this.data.knowledgePieces[position].data = null
+                            this.data.knowledgePieces[position].taken = false
+                            this.closeDialog()
+                        })
+                        .catch(error => {
+                            this.dialog.errors = Object.values(error.response.data.errors).map(val => val[0])
+                        })
+                })
+                .catch(error => {
+                    this.dialog.errors = Object.values(error.response.data.errors).map(val => val[0])
+                })
+        },
+        removeKnowledgePieceFromCheatsheet () {
             let knowledgePiece = this.dialog.knowledgePiece.data
             let position = this.dialog.knowledgePiece.position
 
@@ -524,6 +666,7 @@ export default {
                 })
         },
         closeDialog () {
+            this.dialog.opened.add = false
             this.dialog.opened.edit = false
             this.dialog.opened.remove = false
         },

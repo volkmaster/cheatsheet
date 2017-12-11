@@ -12,21 +12,11 @@
   "bugs": {
     "url": "https://github.com/volkmaster/mvp/issues"
   },
-  "contributors": [
-    {
-      "name": "Ziga Vucko",
-      "email": "ziga.vucko@gmail.com",
-      "url": "http://www.zigavucko.com"
-    },
-    {
-      "name": "Kristijan Mirceta",
-      "email": "kristijanmirceta@gmail.com"
-    },
-    {
-      "name": "Matic Pajnic",
-      "email": "matic.pajnic@gmail.com"
-    }
-  ],
+  "author": {
+    "name": "Ziga Vucko",
+    "email": "ziga.vucko@gmail.com",
+    "url": "http://www.zigavucko.com"
+  },
   "scripts": {
     "app": "npm run watch & php artisan serve",
     "dev": "npm run development",
@@ -67,6 +57,6 @@
     "eslint-plugin-node": "^4.2.3",
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-standard": "^3.0.1",
-    "precommit": "^1.2.2"
+    "pre-commit": "^1.2.2"
   }
 }

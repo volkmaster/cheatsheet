@@ -57,11 +57,19 @@ class CheatsheetController extends Controller
                 $qb = $qb->with('language');
             }
 
-            $cheatsheets = $qb->paginate($perPage, $this->fields);
+            if ($perPage > 0) {
+                $cheatsheets = $qb->paginate($perPage, $this->fields);
+            } else {
+                $cheatsheets = $qb->select($this->fields)->get();
+            }
         } else {
             $qb = $qb->with('language');
 
-            $cheatsheets = $qb->paginate($perPage);
+            if ($perPage > 0) {
+                $cheatsheets = $qb->paginate($perPage);
+            } else {
+                $cheatsheets = $qb->get();
+            }
 
             foreach ($cheatsheets as $cheatsheet) {
                 $cheatsheet['knowledge_piece_ids'] = $cheatsheet->knowledgePieces()->pluck('id');

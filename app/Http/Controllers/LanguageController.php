@@ -19,9 +19,13 @@ class LanguageController extends Controller
         $perPage        = is_null($request->query('per_page')) ? $this->perPage : $request->query('per_page');
         $orderBy        = $request->query('order_by');
         $orderDirection = is_null($request->query('order_direction')) ? 'asc' : $request->query('order_direction');
-        $fields         = is_null($request->query('fields')) ? null : explode(',', $request->query('fields'));
         $filterId       = is_null($request->query('filter_id')) ? null : explode(',', $request->query('filter_id'));
         $filterName     = is_null($request->query('filter_name')) ? null : urldecode($request->query('filter_name'));
+
+        $field = $this->setAndValidateFields($request->query('fields'), new Language);
+        if ($field) {
+            return response()->json("Requested field '{$field}' does not exist.", 400);
+        }
 
         $qb = Language::query();
 
@@ -37,15 +41,18 @@ class LanguageController extends Controller
             $qb = $qb->where('name', 'like', '%' . $filterName . '%');
         }
 
-        if ($fields) {
-            $field = $this->validateFields(new Language, $fields);
-            if ($field) {
-                return response()->json("Requested field '{$field}' does not exist.", 400);
+        if ($this->fields) {
+            if ($perPage > 0) {
+                $languages = $qb->paginate($perPage, $this->fields);
+            } else {
+                $languages = $qb->select($this->fields)->get();
             }
-
-            $languages = $qb->paginate($perPage, $fields);
         } else {
-            $languages = $qb->paginate($perPage);
+            if ($perPage > 0) {
+                $languages = $qb->paginate($perPage);
+            } else {
+                $languages = $qb->get();
+            }
         }
 
         return response()->json($languages, 200);
@@ -97,17 +104,15 @@ class LanguageController extends Controller
      */
     public function show(Request $request, $id)
     {
-        $fields = is_null($request->query('fields')) ? null : explode(',', $request->query('fields'));
+        $field = $this->setAndValidateFields($request->query('fields'), new Language, ['language']);
+        if ($field) {
+            return response()->json("Requested field '{$field}' does not exist.", 400);
+        }
 
         $qb = Language::query();
 
-        if ($fields) {
-            $field = $this->validateFields(new Cheatsheet, $fields);
-            if ($field) {
-                return response()->json("Requested field '{$field}' does not exist.", 400);
-            }
-
-            $qb = $qb->select($fields);
+        if ($this->fields) {
+            $qb = $qb->select($this->fields);
         }
 
         $language = $qb->find($id);

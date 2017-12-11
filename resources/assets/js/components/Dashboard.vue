@@ -259,12 +259,12 @@
     }
 
     @include breakpoint-2560 {
-        width  : 500px;
+        width  : 600px;
         height : 275px;
     }
 
     @include breakpoint-1920 {
-        width  : 450px;
+        width  : 500px;
         height : 275px;
     }
 
@@ -282,7 +282,6 @@
         width  : 400px;
         height : 275px;
     }
-
 }
 
 .dashboard__dialog-close-icon {
@@ -379,6 +378,7 @@
     border-color     : $curious-blue;
     outline          : 0;
     background-color : transparent;
+    cursor           : pointer;
     transition       : border-color 0.1s linear, color 0.1s linear;
 }
 
@@ -442,7 +442,7 @@
     color            : $white;
     font-size        : 20px;
     cursor           : pointer;
-    transition       : background-color 0.1s linear;
+    transition       : background-color 0.1s linear, filter 0.1s linear;
 
     @include breakpoint-2560 { font-size : 16px; }
     @include breakpoint-1920 { font-size : 15px; }
@@ -451,18 +451,16 @@
     @include breakpoint-1280 { font-size : 12px; }
 }
 
-.dashboard__dialog-button--save {
+.dashboard__dialog-button_save {
     margin-right     : 10px;
     background-color : $curious-blue;
 }
 
-.dashboard__dialog-button--save:hover { background-color: $mariner; }
+.dashboard__dialog-button_save:hover { background-color: $mariner; }
 
-.dashboard__dialog-button--open {
-    background-color : $green;
-}
+.dashboard__dialog-button_edit { background-color: $green; }
 
-.dashboard__dialog-button--open:hover { filter: brigthness(90%); }
+.dashboard__dialog-button_edit:hover { filter: brightness(90%); }
 </style>
 
 <template>
@@ -514,8 +512,8 @@
                 </div>
             </div>
             <div class="dashboard__dialog-button-wrapper">
-                <div class="dashboard__dialog-button dashboard__dialog-button--save" @click="saveCheatsheet">{{ dialog.buttonText.save | uppercase }}</div>
-                <div class="dashboard__dialog-button dashboard__dialog-button--open" @click="saveCheatsheet(true)">{{ dialog.buttonText.open | uppercase }}</div>
+                <div class="dashboard__dialog-button dashboard__dialog-button_save" @click="saveCheatsheet(false)">{{ dialog.buttonText.save | uppercase }}</div>
+                <div class="dashboard__dialog-button dashboard__dialog-button_edit" @click="saveCheatsheet(true)">{{ dialog.buttonText.edit | uppercase }}</div>
             </div>
         </div>
     </div>
@@ -556,10 +554,13 @@ export default {
                 opened: false,
                 title: 'new cheatsheet',
                 buttonText: {
-                    open: 'open',
-                    save: 'save'
+                    save: 'save',
+                    edit: 'edit'
                 },
-                cheatsheet: null,
+                cheatsheet: {
+                    name: '',
+                    language: 0
+                },
                 errors: []
             }
         }
@@ -633,20 +634,22 @@ export default {
             this.data.cheatsheets.push.apply(this.data.cheatsheets, data)
         },
         loadLanguages () {
-            axios.get('/api/languages')
+            let params = {
+                per_page: 0
+            }
+
+            axios.get('/api/languages', { params: params })
                 .then(response => {
                     let data = response.data
-                    this.addLanguages(data)
-                    this.dialog.cheatsheet.language = this.data.languages.data[0].id
+                    this.setLanguages(data)
+                    this.dialog.cheatsheet.language = this.data.languages[0].id
                 })
                 .catch(error => console.log(error))
         },
-        addLanguages (languages) {
-            let data = languages.data.map(language => {
+        setLanguages (languages) {
+            this.data.languages = languages.map(language => {
                 return { id: language.id, name: language.name, image: language.image, created: language.created_at, modified: language.updated_at }
             })
-
-            this.data.languages.push.apply(this.data.languages, data)
         },
         saveCheatsheet (edit = false) {
             this.dialog.errors = []
@@ -694,13 +697,12 @@ export default {
             }
         }, 100, { 'leading': true }),
         openDialog () {
+            this.dialog.cheatsheet.name = ''
+
             if (this.data.languages.length === 0) {
                 this.loadLanguages()
-            }
-
-            this.dialog.cheatsheet = {
-                name: '',
-                language: 0
+            } else {
+                this.dialog.cheatsheet.language = this.data.languages[0].id
             }
 
             this.dialog.errors = []

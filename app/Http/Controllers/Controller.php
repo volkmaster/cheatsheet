@@ -29,14 +29,11 @@ class Controller extends BaseController
      * @param  array $additionalColumns
      * @return string|void
      **/
-    protected function setAndValidateFields($fields, $model, $additionalColumns = []) {
+    protected function setAndValidateFields($fields, $model, $additionalColumns = [])
+    {
         if (!is_null($fields)) {
             $this->fields = explode(',', $fields);
-
             return $this->validateFields($model, $additionalColumns);
-            // if ($field) {
-            //     return $field;
-            // }
         }
     }
 
@@ -46,7 +43,8 @@ class Controller extends BaseController
      * @param  string $field
      * @return boolean
      **/
-    protected function hasField($field) {
+    protected function hasField($field)
+    {
         return in_array($field, $this->fields);
     }
 
@@ -56,7 +54,8 @@ class Controller extends BaseController
      * @param  string $field
      * @return void
      **/
-    protected function addField($field) {
+    protected function addField($field)
+    {
         $this->fields[] = $field;
     }
 
@@ -66,7 +65,8 @@ class Controller extends BaseController
      * @param  string $field
      * @return void
      **/
-    protected function removeField($field) {
+    protected function removeField($field)
+    {
         $key = array_search($field, $this->fields);
         unset($this->fields[$key]);
     }

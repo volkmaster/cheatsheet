@@ -62,11 +62,19 @@ class KnowledgePieceController extends Controller
                 $qb = $qb->with('language');
             }
 
-            $knowledgePieces = $qb->paginate($perPage, $this->fields);
+            if ($perPage > 0) {
+                $knowledgePieces = $qb->paginate($perPage, $this->fields);
+            } else {
+                $knowledgePieces = $qb->select($this->fields)->get();
+            }
         } else {
             $qb = $qb->with('language');
 
-            $knowledgePieces = $qb->paginate($perPage);
+            if ($perPage > 0) {
+                $knowledgePieces = $qb->paginate($perPage);
+            } else {
+                $knowledgePieces = $qb->get();
+            }
 
             foreach ($knowledgePieces as $knowledgePiece) {
                 $knowledgePiece['cheatsheet_ids'] = $knowledgePiece->cheatsheets()->pluck('id');

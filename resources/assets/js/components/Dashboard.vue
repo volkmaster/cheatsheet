@@ -955,10 +955,9 @@ export default {
                     .then(response => {
                         let createdCheatsheet = response.data
                         this.reloadCheatsheets()
+                        this.closeDialog()
                         if (navigateToPage) {
                             this.navigateToCheatsheetPage(createdCheatsheet.id)
-                        } else {
-                            this.closeDialog()
                         }
                     })
                     .catch(error => {

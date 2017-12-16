@@ -137,7 +137,7 @@ class KnowledgePieceController extends Controller
             $cheatsheets = $request->get('cheatsheets');
 
             if ($cheatsheets) {
-                foreach ($cheatsheets as $id) {
+                foreach ($cheatsheets as $id => $position) {
                     $cheatsheet = Cheatsheet::find($id);
                     if (!$cheatsheet) {
                         KnowledgePiece::destroy($knowledgePiece->id);
@@ -146,6 +146,7 @@ class KnowledgePieceController extends Controller
                 }
                 $knowledgePiece->cheatsheets()->attach($cheatsheets);
                 $knowledgePiece['cheatsheet_ids'] = $cheatsheets;
+                $knowledgePiece['pivot'] = ['position' => reset($cheatsheets)['position']];
             }
         }
 

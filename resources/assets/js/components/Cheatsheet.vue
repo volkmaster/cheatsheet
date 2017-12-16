@@ -1,25 +1,24 @@
 <style lang="scss" scoped>
 @import '../../sass/app';
-//@import '~highlight.js/styles/atelier-plateau-dark.css';
-//@import '~highlight.js/styles/darcula.css';
 @import '~highlight.js/styles/ocean.css';
 
 .cheatsheet {
     width            : 100%;
     height           : 100%;
     display          : flex;
+    justify-content  : center;
     background-color : $pickled-bluewood;
 }
 
 .cheatsheet__loader {
     position : absolute;
-    top      : 40%;
+    top      : 50%;
     width    : 100px;
     height   : 100px;
 }
 
 .cheatsheet__grid {
-    position        : relative;
+    position  : relative;
     display   : flex;
     flex-wrap : wrap;
 }
@@ -30,17 +29,23 @@
 }
 
 .cheatsheet__grid-item {
-    padding         : 0 5px;
-    position        : relative;
-    width           : calc(100vw / 5);
-    height          : calc(100vh / 3);
-    display         : flex;
-    align-items     : flex-end;
-    box-shadow      : 0 0 10px rgba(0, 0, 0, 0.75);
+    padding     : 0 5px;
+    position    : relative;
+    width       : calc(100vw / 5);
+    height      : calc(100vh / 3);
+    display     : flex;
+    align-items : flex-start;
+    box-shadow  : 0 0 10px rgba(0, 0, 0, 0.75);
+}
+
+.cheatsheet__grid-item--fade {
+    opacity        : 0.5;
+    pointer-events : none;
 }
 
 .cheatsheet__plus {
     width      : 100%;
+    height     : 100%;
     text-align : center;
     opacity    : 0.5;
     cursor     : pointer;
@@ -52,68 +57,174 @@
 .cheatsheet__plus::before {
     content     : '+';
     color       : $mariner;
-    font-size   : 400px;
+    font-size   : 730px;
     font-family : $font-title;
+    line-height : 730px;
 
-    @include breakpoint-2560 { font-size : 350px; }
-    @include breakpoint-1920 { font-size : 285px; }
-    @include breakpoint-1680 { font-size : 270px; }
-    @include breakpoint-1440 { font-size : 270px; }
-    @include breakpoint-1280 { font-size : 270px; }
+    @include breakpoint-2560 {
+        font-size   : 480px;
+        line-height : 480px;
+    }
+    @include breakpoint-1920 {
+        font-size   : 350px;
+        line-height : 350px;
+    }
+    @include breakpoint-1680 {
+        font-size   : 335px;
+        line-height : 335px;
+    }
+    @include breakpoint-1440 {
+        font-size   : 270px;
+        line-height : 270px;
+    }
+    @include breakpoint-1280 {
+        font-size   : 250px;
+        line-height : 250px;
+    }
 }
 
 .cheatsheet__grid-item-content {
     width           : 100%;
-    height          : 100%;
+    height          : calc(100% - 150px);
     display         : flex;
     flex-direction  : column;
     transition      : filter 0.1s linear;
+
+    @include breakpoint-2560 { height : calc(100% - 100px); }
+    @include breakpoint-1920 { height : calc(100% - 65px);  }
+    @include breakpoint-1680 { height : calc(100% - 60px);  }
+    @include breakpoint-1440 { height : calc(100% - 45px);  }
+    @include breakpoint-1280 { height : calc(100% - 35px);  }
 }
 
-.cheatsheet__grid-item:hover .cheatsheet__grid-item-content { filter: brightness(200%); }
+.cheatsheet__grid-item:hover .cheatsheet__grid-item-content { filter: brightness(150%); }
 
 .cheatsheet__grid-item-description {
     padding-top : 5px;
     color       : $cornflower;
-    font-size   : 40px;
+    font-size   : 70px;
     font-family : $font-title;
+
+    @include breakpoint-2560 { font-size : 48px; }
+    @include breakpoint-1920 { font-size : 42px; }
+    @include breakpoint-1680 { font-size : 38px; }
+    @include breakpoint-1440 { font-size : 35px; }
+    @include breakpoint-1280 { font-size : 32px; }
 }
 
 .cheatsheet__grid-item-code {
-    margin   : 0;
-    padding  : 0;
-    overflow : hidden;
+    margin      : 0;
+    white-space : pre-wrap;
+    overflow-y  : hidden;
+}
+
+// overriding highlight.js class
+.hljs {
+    margin    : -15px 0 2px 0;
+    font-size : 20px;
+
+    @include breakpoint-2560 { font-size : 16px; }
+    @include breakpoint-1920 { font-size : 15px; }
+    @include breakpoint-1680 { font-size : 14px; }
+    @include breakpoint-1440 { font-size : 13px; }
+    @include breakpoint-1280 { font-size : 12px; }
 }
 
 .cheatsheet__grid-item-command {
-    position         : absolute;
-    bottom           : 12px;
-    width            : 50px;
-    height           : 50px;
-    display          : flex;
-    align-items      : center;
-    justify-content  : center;
-    cursor           : pointer;
+    position        : absolute;
+    bottom          : 0;
+    width           : 150px;
+    height          : 150px;
+    display         : flex;
+    align-items     : center;
+    justify-content : center;
+    cursor          : pointer;
+
+    @include breakpoint-2560 {
+        width  : 100px;
+        height : 100px;
+    }
+    @include breakpoint-1920 {
+        width  : 65px;
+        height : 65px;
+    }
+    @include breakpoint-1680 {
+        width  : 60px;
+        height : 60px;
+    }
+    @include breakpoint-1440 {
+        width  : 45px;
+        height : 45px;
+    }
+    @include breakpoint-1280 {
+        width  : 40px;
+        height : 40px;
+    }
 }
 
-.cheatsheet__grid-item-command_edit   { right : 62px; }
-.cheatsheet__grid-item-command_remove { right : 12px; }
+.cheatsheet__grid-item-command_edit {
+    right: 150px;
+
+    @include breakpoint-2560 { right : 100px; }
+    @include breakpoint-1920 { right : 65px;  }
+    @include breakpoint-1680 { right : 60px;  }
+    @include breakpoint-1440 { right : 45px;  }
+    @include breakpoint-1280 { right : 40px;  }
+}
+
+.cheatsheet__grid-item-command_remove { right: 0; }
 
 .cheatsheet__grid-item-icon {
-    width      : 30px;
-    height     : 30px;
+    width      : 75px;
+    height     : 75px;
     color      : $mariner;
     opacity    : 0.5;
     transition : opacity 0.1s linear;
+
+    @include breakpoint-2560 {
+        width  : 50px;
+        height : 50px;
+    }
+    @include breakpoint-1920 {
+        width  : 40px;
+        height : 40px;
+    }
+    @include breakpoint-1680 {
+        width  : 35px;
+        height : 35px;
+    }
+    @include breakpoint-1440 {
+        width  : 25px;
+        height : 25px;
+    }
+    @include breakpoint-1280 {
+        width  : 23px;
+        height : 23px;
+    }
 }
 
 .cheatsheet__grid-item-command:hover .cheatsheet__grid-item-icon { opacity: 1; }
+
+.cheatsheet__code-details {
+    position   : absolute;
+    box-shadow : 0 0 10px $porcelain;
+    animation  : fade-in 0.1s linear 0s forwards;
+
+    @keyframes fade-in {
+        from { opacity : 0; }
+        to   { opacity : 1; }
+    }
+}
+
+.cheatsheet__code-details-code {
+    margin   : 0;
+    overflow : hidden;
+}
 
 .cheatsheet__dialog {
     position         : absolute;
     top              : 50%;
     left             : 50%;
-    width            : 600px;
     padding          : 20px;
     transform        : translate3d(-50%, -50%, 0);
     box-shadow       : 0 1px 3px 0 rgba(0, 0, 0, 0.3);
@@ -125,32 +236,58 @@
         from { opacity : 0; }
         to   { opacity : 1; }
     }
-
-    @include breakpoint-2560 { width : 600px; }
-    @include breakpoint-1920 { width : 500px; }
-    @include breakpoint-1680 { width : 400px; }
-    @include breakpoint-1440 { width : 400px; }
-    @include breakpoint-1280 { width : 400px; }
 }
 
-.cheatsheet__dialog_edit {
-    height : 500px;
+.cheatsheet__dialog_add, .cheatsheet__dialog_edit {
+    width  : 1200px;
+    height : 1000px;
 
-    @include breakpoint-2560 { height : 500px; }
-    @include breakpoint-1920 { height : 500px; }
-    @include breakpoint-1680 { height : 500px; }
-    @include breakpoint-1440 { height : 500px; }
-    @include breakpoint-1280 { height : 500px; }
+    @include breakpoint-2560 {
+        width  : 1000px;
+        height : 800px;
+    }
+    @include breakpoint-1920 {
+        width  : 800px;
+        height : 600px;
+    }
+    @include breakpoint-1680 {
+        width  : 700px;
+        height : 600px;
+    }
+    @include breakpoint-1440 {
+        width  : 600px;
+        height : 500px;
+    }
+    @include breakpoint-1280 {
+        width  : 550px;
+        height : 450px;
+    }
 }
 
 .cheatsheet__dialog_remove {
-    height : 350px;
+    width  : 600px;
+    height : 290px;
 
-    @include breakpoint-2560 { height : 275px; }
-    @include breakpoint-1920 { height : 275px; }
-    @include breakpoint-1680 { height : 275px; }
-    @include breakpoint-1440 { height : 275px; }
-    @include breakpoint-1280 { height : 275px; }
+    @include breakpoint-2560 {
+        width  : 500px;
+        height : 260px;
+    }
+    @include breakpoint-1920 {
+        width  : 475px;
+        height : 250px;
+    }
+    @include breakpoint-1680 {
+        width  : 450px;
+        height : 235px;
+    }
+    @include breakpoint-1440 {
+        width  : 425px;
+        height : 230px;
+    }
+    @include breakpoint-1280 {
+        width  : 400px;
+        height : 225px;
+    }
 }
 
 .cheatsheet__dialog-close-icon {
@@ -168,25 +305,21 @@
         width  : 30px;
         height : 30px;
     }
-
     @include breakpoint-1920 {
         top    : 27px;
         width  : 25px;
         height : 25px;
     }
-
     @include breakpoint-1680 {
         top    : 25px;
         width  : 25px;
         height : 25px;
     }
-
     @include breakpoint-1440 {
         top    : 25px;
         width  : 23px;
         height : 23px;
     }
-
     @include breakpoint-1280 {
         top    : 25px;
         width  : 23px;
@@ -268,10 +401,31 @@
 
 .cheatsheet__dialog-content-textarea {
     width       : 100%;
-    height      : 275px;
+    height      : 650px;
     font-family : monospace;
-    font-size   : 13px;
+    font-size   : 20px;
     resize      : none;
+
+    @include breakpoint-2560 {
+        height    : 500px;
+        font-size : 16px;
+    }
+    @include breakpoint-1920 {
+        height    : 325px;
+        font-size : 15px;
+    }
+    @include breakpoint-1680 {
+        height    : 325px;
+        font-size : 14px;
+    }
+    @include breakpoint-1440 {
+        height    : 240px;
+        font-size : 13px;
+    }
+    @include breakpoint-1280 {
+        height    : 190px;
+        font-size : 12px;
+    }
 }
 
 .cheatsheet__dialog-content--font {
@@ -354,47 +508,59 @@
 
 <template>
     <div class="cheatsheet">
+        <!-- loader -->
         <img class="cheatsheet__loader" src="/images/loader.svg" v-show="loading"/>
+
+        <!-- grid -->
         <div class="cheatsheet__grid" :class="{ 'cheatsheet__grid--blur': dialog.opened.add || dialog.opened.edit || dialog.opened.remove }" v-show="!loading">
-            <div class="cheatsheet__grid-item" v-for="(item, position) in data.knowledgePieces" @mouseenter="item.active = true" @mouseleave="item.active = false">
+            <div class="cheatsheet__grid-item" :class="{ 'cheatsheet__grid-item--fade': codeDetails.opened }" v-for="(item, position) in data.knowledgePieces" @mouseenter="item.active = true" @mouseleave="item.active = false">
                 <template v-if="item.taken">
                     <div class="cheatsheet__grid-item-content">
                         <div class="cheatsheet__grid-item-description">
                             {{ item.data.description }}
                         </div>
-                        <pre class="cheatsheet__grid-item-code" v-highlightjs="item.data.code">
+                        <pre class="cheatsheet__grid-item-code" v-highlightjs="item.data.code" @mouseenter="codeMouseEnter($event, item.data)" @mouseleave="codeMouseLeave">
                             <code :class="item.data.language.highlight"></code>
                         </pre>
                     </div>
                     <template v-if="item.active">
                         <div class="cheatsheet__grid-item-command cheatsheet__grid-item-command_edit">
-                            <icon class="cheatsheet__grid-item-icon" name="pencil" @click.native="editKnowledgePiece(item.data, position)"></icon>
+                            <icon class="cheatsheet__grid-item-icon" name="pencil" @click.native="openEditDialog(item.data)"></icon>
                         </div>
                         <div class="cheatsheet__grid-item-command cheatsheet__grid-item-command_remove">
-                            <icon class="cheatsheet__grid-item-icon" name="remove" @click.native="removeKnowledgePiece(item.data, position)"></icon>
+                            <icon class="cheatsheet__grid-item-icon" name="remove" @click.native="openRemoveDialog(item.data)"></icon>
                         </div>
                     </template>
                 </template>
-                <div class="cheatsheet__plus" v-else @click.native="addKnowledgePiece(position)"></div>
+                <div class="cheatsheet__plus" v-else @click="openAddDialog(position)"></div>
             </div>
         </div>
+
+        <!-- code details -->
+        <div class="cheatsheet__code-details" v-if="codeDetails.opened" @mouseleave="closeCodeDetails">
+            <pre class="cheatsheet__code-details-code" v-highlightjs="codeDetails.knowledgePiece.code">
+                <code :class="codeDetails.knowledgePiece.language.highlight"></code>
+            </pre>
+        </div>
+
+        <!-- dialog add -->
         <div class="cheatsheet__dialog cheatsheet__dialog_add" v-if="dialog.opened.add">
             <icon class="cheatsheet__dialog-close-icon" name="close" @click.native="closeDialog"></icon>
             <div class="cheatsheet__dialog-title">{{ dialog.title.add | uppercase }}</div>
             <div class="cheatsheet__dialog-content">
                 <div class="cheatsheet__dialog-content-row">
                     <div class="cheatsheet__dialog-content-label cheatsheet__dialog-content--font">Description: </div>
-                    <input class="cheatsheet__dialog-content-input cheatsheet__dialog-content--font" type="text" v-model="dialog.knowledgePiece.data.description"/>
+                    <input class="cheatsheet__dialog-content-input cheatsheet__dialog-content--font" type="text" v-model="dialog.knowledgePiece.description"/>
                 </div>
                 <div class="cheatsheet__dialog-content-row">
                     <div class="cheatsheet__dialog-content-label cheatsheet__dialog-content--font">Language: </div>
-                    <select class="cheatsheet__dialog-content-select cheatsheet__dialog-content--font" v-model="dialog.knowledgePiece.data.language">
+                    <select class="cheatsheet__dialog-content-select cheatsheet__dialog-content--font" v-model="dialog.knowledgePiece.language">
                         <option class="cheatsheet__dialog-content-option cheatsheet__dialog-content--font" v-for="language in data.languages" :value="language.id">
                             {{ language.name }}
                         </option>
                     </select>
                 </div>
-                <textarea class="cheatsheet__dialog-content-textarea" v-model="dialog.knowledgePiece.data.code" @paste="paste" @keydown.enter.exact="enter" @keydown.tab.exact="tab" @keydown.shift.tab.exact="untab"></textarea>
+                <textarea class="cheatsheet__dialog-content-textarea" v-model="dialog.knowledgePiece.code" @paste="paste" @keydown.enter.exact="enter" @keydown.tab.exact="tab" @keydown.shift.tab.exact="untab"></textarea>
             </div>
             <div class="cheatsheet__dialog-error-wrapper">
                 <div class="cheatsheet__dialog-error" v-for="error in dialog.errors">
@@ -402,27 +568,29 @@
                 </div>
             </div>
             <div class="cheatsheet__dialog-button-wrapper">
-                <div class="cheatsheet__dialog-button cheatsheet__dialog-button_save" @click="saveNewKnowledgePiece">{{ dialog.buttonText.save | uppercase }}</div>
+                <div class="cheatsheet__dialog-button cheatsheet__dialog-button_save" @click="createNewKnowledgePiece">{{ dialog.buttonText.save | uppercase }}</div>
                 <div class="cheatsheet__dialog-button cheatsheet__dialog-button_cancel" @click="closeDialog">{{ dialog.buttonText.cancel | uppercase }}</div>
             </div>
         </div>
+
+        <!-- dialog edit -->
         <div class="cheatsheet__dialog cheatsheet__dialog_edit" v-if="dialog.opened.edit">
             <icon class="cheatsheet__dialog-close-icon" name="close" @click.native="closeDialog"></icon>
             <div class="cheatsheet__dialog-title">{{ dialog.title.edit | uppercase }}</div>
             <div class="cheatsheet__dialog-content">
                 <div class="cheatsheet__dialog-content-row">
                     <div class="cheatsheet__dialog-content-label cheatsheet__dialog-content--font">Description: </div>
-                    <input class="cheatsheet__dialog-content-input cheatsheet__dialog-content--font" type="text" v-model="dialog.knowledgePiece.data.description"/>
+                    <input class="cheatsheet__dialog-content-input cheatsheet__dialog-content--font" type="text" v-model="dialog.knowledgePiece.description"/>
                 </div>
-                <textarea class="cheatsheet__dialog-content-textarea" v-model="dialog.knowledgePiece.data.code" @paste="paste" @keydown.enter.exact="enter" @keydown.tab.exact="tab" @keydown.shift.tab.exact="untab"></textarea>
-            </div>
-            <div class="cheatsheet__dialog-content-row">
-                <div class="cheatsheet__dialog-content-label cheatsheet__dialog-content--font">Language: </div>
-                <select class="cheatsheet__dialog-content-select cheatsheet__dialog-content--font" v-model="dialog.knowledgePiece.data.language">
-                    <option class="cheatsheet__dialog-content-option cheatsheet__dialog-content--font" v-for="language in data.languages" :value="language.id">
-                        {{ language.name }}
-                    </option>
-                </select>
+                <div class="cheatsheet__dialog-content-row">
+                    <div class="cheatsheet__dialog-content-label cheatsheet__dialog-content--font">Language: </div>
+                    <select class="cheatsheet__dialog-content-select cheatsheet__dialog-content--font" v-model="dialog.knowledgePiece.language">
+                        <option class="cheatsheet__dialog-content-option cheatsheet__dialog-content--font" v-for="language in data.languages" :value="language.id">
+                            {{ language.name }}
+                        </option>
+                    </select>
+                </div>
+                <textarea class="cheatsheet__dialog-content-textarea" v-model="dialog.knowledgePiece.code" @paste="paste" @keydown.enter.exact="enter" @keydown.tab.exact="tab" @keydown.shift.tab.exact="untab"></textarea>
             </div>
             <div class="cheatsheet__dialog-error-wrapper">
                 <div class="cheatsheet__dialog-error" v-for="error in dialog.errors">
@@ -430,10 +598,12 @@
                 </div>
             </div>
             <div class="cheatsheet__dialog-button-wrapper">
-                <div class="cheatsheet__dialog-button cheatsheet__dialog-button_save" @click="saveExistingKnowledgePiece">{{ dialog.buttonText.save | uppercase }}</div>
+                <div class="cheatsheet__dialog-button cheatsheet__dialog-button_save" @click="updateExistingKnowledgePiece">{{ dialog.buttonText.save | uppercase }}</div>
                 <div class="cheatsheet__dialog-button cheatsheet__dialog-button_cancel" @click="closeDialog">{{ dialog.buttonText.cancel | uppercase }}</div>
             </div>
         </div>
+
+        <!-- dialog remove -->
         <div class="cheatsheet__dialog cheatsheet__dialog_remove" v-if="dialog.opened.remove">
             <icon class="cheatsheet__dialog-close-icon" name="close" @click.native="closeDialog"></icon>
             <div class="cheatsheet__dialog-title">{{ dialog.title.remove | uppercase }}</div>
@@ -448,7 +618,7 @@
                 </div>
             </div>
             <div class="cheatsheet__dialog-button-wrapper">
-                <div class="cheatsheet__dialog-button cheatsheet__dialog-button_remove" @click="removeKnowledgePieceFromCheatsheet">{{ dialog.buttonText.remove | uppercase }}</div>
+                <div class="cheatsheet__dialog-button cheatsheet__dialog-button_remove" @click="removeExistingKnowledgePiece">{{ dialog.buttonText.remove | uppercase }}</div>
                 <div class="cheatsheet__dialog-button cheatsheet__dialog-button_cancel" @click="closeDialog">{{ dialog.buttonText.cancel | uppercase }}</div>
             </div>
         </div>
@@ -475,6 +645,12 @@ export default {
                 by: 'updated_at',
                 direction: 'desc'
             },
+            codeDetails: {
+                opened: false,
+                timeout: null,
+                delay: 500,
+                knowledgePiece: null
+            },
             dialog: {
                 opened: {
                     add: false,
@@ -497,14 +673,7 @@ export default {
                     remove: 'remove',
                     cancel: 'cancel'
                 },
-                knowledgePiece: {
-                    data: {
-                        description: '',
-                        language: 0,
-                        code: ''
-                    },
-                    position: 0
-                },
+                knowledgePiece: null,
                 errors: []
             },
             TAB: '    '
@@ -513,11 +682,6 @@ export default {
     created () {
         this.loading = true
         this.loadCheatsheetAndKnowledgePieces()
-    },
-    computed: {
-        title () {
-            return this.data.cheatsheet ? this.data.cheatsheet.name : ''
-        }
     },
     methods: {
         loadCheatsheetAndKnowledgePieces () {
@@ -539,13 +703,17 @@ export default {
             }))
             .catch(error => console.log(error))
         },
+        mapCheatsheet (cheatsheet) {
+            return { id: cheatsheet.id, name: cheatsheet.name, language: cheatsheet.language.id, knowledgePieces: cheatsheet.knowledge_piece_ids ? cheatsheet.knowledge_piece_ids : [] }
+        },
         setCheatsheet (cheatsheet) {
-            this.data.cheatsheet = { id: cheatsheet.id, name: cheatsheet.name, language: cheatsheet.language, count: cheatsheet.knowledge_piece_ids.length, created: cheatsheet.created_at, modified: cheatsheet.updated_at }
+            this.data.cheatsheet = this.mapCheatsheet(cheatsheet)
+        },
+        mapKnowledgePiece (knowledgePiece) {
+            return { id: knowledgePiece.id, description: knowledgePiece.description, code: knowledgePiece.code, language: knowledgePiece.language.id, position: knowledgePiece.pivot.position }
         },
         setKnowledgePieces (knowledgePieces) {
-            let data = knowledgePieces.data.map(knowledgePiece => {
-                return { id: knowledgePiece.id, description: knowledgePiece.description, code: knowledgePiece.code, language: knowledgePiece.language, position: knowledgePiece.pivot.position }
-            })
+            let data = knowledgePieces.data.map(knowledgePiece => this.mapKnowledgePiece(knowledgePiece))
 
             let sortedData = []
             for (let i = 0; i < data.length; i++) {
@@ -563,103 +731,183 @@ export default {
 
             this.data.knowledgePieces = sortedData
         },
-        addKnowledgePiece (position) {
-            this.dialog.knowledgePiece.data = {
-                description: '',
-                language: 0,
-                code: ''
+        loadLanguages (languageId) {
+            let params = {
+                per_page: 0
             }
-            this.dialog.knowledgePiece.position = position
+
+            axios.get('/api/languages', { params: params })
+                .then(response => {
+                    let data = response.data
+                    this.setLanguages(data)
+                    this.dialog.knowledgePiece.language = languageId
+                })
+                .catch(error => console.log(error))
+        },
+        mapLanguage (language) {
+            return { id: language.id, name: language.name, image: language.image }
+        },
+        setLanguages (languages) {
+            this.data.languages = languages.map(language => this.mapLanguage(language))
+        },
+        codeMouseEnter (event, knowledgePiece) {
+            this.codeDetails.timeout = setTimeout(() => this.openCodeDetails(event, knowledgePiece), this.codeDetails.delay)
+        },
+        codeMouseLeave () {
+            clearTimeout(this.codeDetails.timeout)
+        },
+        openCodeDetails (event, knowledgePiece) {
+            let pre = event.target
+            let code = pre.children[0]
+
+            let preRect = pre.getBoundingClientRect()
+            let codeRect = code.getBoundingClientRect()
+
+            if (codeRect.bottom > preRect.bottom) {
+                this.codeDetails.knowledgePiece = knowledgePiece
+                this.codeDetails.opened = true
+
+                this.$nextTick(() => {
+                    let codeDetails = $(this.$el.querySelector('.cheatsheet__code-details'))
+                    let pre = codeDetails.find('pre')
+                    let code = codeDetails.find('code')
+
+                    let height = code.height()
+                    let marginTop = this.extractPixels(code.css('marginTop'))
+
+                    codeDetails.offset({ top: codeRect.top, left: codeRect.left })
+                    codeDetails.height(height - marginTop)
+
+                    pre.height(height - marginTop)
+
+                    let screenWidth = document.documentElement.clientWidth
+                    let screenHeight = document.documentElement.clientHeight
+                    let boxWidth = codeDetails.width()
+                    let boxHeight = codeDetails.height()
+                    let left = codeDetails.offset().left
+                    let top = codeDetails.offset().top
+                    let horizontalDiff = (left + boxWidth) - (screenWidth - 20)
+                    let verticalDiff = (top + boxHeight) - (screenHeight - 20)
+
+                    codeDetails.offset({ left: horizontalDiff > 0 ? left - horizontalDiff : left, top: verticalDiff > 0 ? top - verticalDiff : top })
+
+                    if (codeDetails.width() < preRect.width) {
+                        codeDetails.width(preRect.width)
+                    }
+                })
+            }
+        },
+        closeCodeDetails () {
+            this.codeDetails.knowledgePiece = null
+            this.codeDetails.opened = false
+        },
+        openAddDialog (position) {
+            let knowledgePiece = {
+                description: '',
+                code: '',
+                language: this.data.cheatsheet.language,
+                position: position
+            }
+            this.dialog.knowledgePiece = this.copyObject(knowledgePiece)
+            if (this.data.languages.length === 0) {
+                this.loadLanguages(knowledgePiece.language)
+            } else {
+                this.dialog.knowledgePiece.language = knowledgePiece.language
+            }
             this.dialog.errors = []
             this.dialog.opened.add = true
         },
-        editKnowledgePiece (knowledgePiece, position) {
-            this.dialog.knowledgePiece.data = JSON.parse(JSON.stringify(knowledgePiece))
-            this.dialog.knowledgePiece.position = position
+        openEditDialog (knowledgePiece) {
+            this.dialog.knowledgePiece = this.copyObject(knowledgePiece)
+            if (this.data.languages.length === 0) {
+                this.loadLanguages(knowledgePiece.language)
+            } else {
+                this.dialog.knowledgePiece.language = knowledgePiece.language
+            }
             this.dialog.errors = []
             this.dialog.opened.edit = true
         },
-        removeKnowledgePiece (knowledgePiece, position) {
-            this.dialog.knowledgePiece.data = JSON.parse(JSON.stringify(knowledgePiece))
-            this.dialog.knowledgePiece.position = position
+        openRemoveDialog (knowledgePiece) {
+            this.dialog.knowledgePiece = this.copyObject(knowledgePiece)
             this.dialog.errors = []
             this.dialog.opened.remove = true
         },
-        saveNewKnowledgePiece () {
-            let knowledgePiece = JSON.parse(JSON.stringify(this.dialog.knowledgePiece.data))
-            let position = this.dialog.knowledgePiece.position
+        addExistingKnowledgePiece () {
+            let cheatsheet = this.data.cheatsheet
+            let knowledgePiece = this.copyObject(this.dialog.knowledgePiece)
+            cheatsheet.knowledgePieces.push(knowledgePiece.id)
 
-            knowledgePiece.language = knowledgePiece.language.id
-
-            axios.put('/api/knowledgepieces/' + knowledgePiece.id, knowledgePiece)
+            axios.put('/api/cheatsheets/' + cheatsheet.id, { knowledge_pieces: cheatsheet.knowledgePieces })
                 .then(response => {
-                    this.data.knowledgePieces[position].data = this.dialog.knowledgePiece.data
+                    // TODO: add and verify
+                    let addedKnowledgePiece = this.data.knowledgePieces[knowledgePiece.position]
+                    addedKnowledgePiece.data = this.mapKnowledgePiece(response.data)
+                    addedKnowledgePiece.taken = true
+                    addedKnowledgePiece.active = false
                     this.closeDialog()
                 })
                 .catch(error => {
                     this.dialog.errors = Object.values(error.response.data.errors).map(val => val[0])
                 })
         },
-        saveExistingKnowledgePiece () {
-            let knowledgePiece = JSON.parse(JSON.stringify(this.dialog.knowledgePiece.data))
-            let position = this.dialog.knowledgePiece.position
+        createNewKnowledgePiece () {
+            let knowledgePiece = this.copyObject(this.dialog.knowledgePiece)
+            knowledgePiece.cheatsheets = { [this.data.cheatsheet.id]: { 'position': knowledgePiece.position } }
 
-            knowledgePiece.language = knowledgePiece.language.id
+            this.dialog.errors = []
+
+            if (!knowledgePiece.code) {
+                this.dialog.errors.push('Code is required.')
+                return
+            }
+
+            if (this.dialog.errors.length === 0) {
+                axios.post('/api/knowledgepieces', knowledgePiece)
+                    .then(response => {
+                        let createdKnowledgePiece = this.data.knowledgePieces[knowledgePiece.position]
+                        createdKnowledgePiece.data = this.mapKnowledgePiece(response.data)
+                        createdKnowledgePiece.taken = true
+                        createdKnowledgePiece.active = false
+                        this.closeDialog()
+                    })
+                    .catch(error => {
+                        this.dialog.errors = Object.values(error.response.data.errors).map(val => val[0])
+                    })
+            }
+        },
+        updateExistingKnowledgePiece () {
+            let knowledgePiece = this.copyObject(this.dialog.knowledgePiece)
+
+            this.dialog.errors = []
+
+            if (!knowledgePiece.code) {
+                this.dialog.errors.push('Code is required.')
+                return
+            }
 
             axios.put('/api/knowledgepieces/' + knowledgePiece.id, knowledgePiece)
                 .then(response => {
-                    this.data.knowledgePieces[position].data = this.dialog.knowledgePiece.data
+                    let editedKnowledgePiece = this.data.knowledgePieces[knowledgePiece.position]
+                    editedKnowledgePiece.data = knowledgePiece
                     this.closeDialog()
                 })
                 .catch(error => {
                     this.dialog.errors = Object.values(error.response.data.errors).map(val => val[0])
                 })
         },
-        addKnowledgePieceToCheatsheet () {
-            let knowledgePiece = this.dialog.knowledgePiece.data
-            let position = this.dialog.knowledgePiece.position
+        removeExistingKnowledgePiece () {
+            let cheatsheet = this.data.cheatsheet
+            let knowledgePiece = this.copyObject(this.dialog.knowledgePiece)
 
-            axios.get('/api/knowledgepieces/' + knowledgePiece.id)
+            let index = cheatsheet.knowledgePieces.indexOf(knowledgePiece.id)
+            cheatsheet.knowledgePieces.splice(index, 1)
+
+            axios.put('/api/cheatsheets/' + cheatsheet.id, { knowledge_pieces: cheatsheet.knowledgePieces })
                 .then(response => {
-                    let cheatsheets = response.data.cheatsheet_ids
-
-                    let index = cheatsheets.indexOf(this.data.cheatsheet.id)
-                    cheatsheets.splice(index, 1)
-
-                    axios.put('/api/knowledgepieces/' + knowledgePiece.id, { cheatsheets: cheatsheets })
-                        .then(response => {
-                            this.data.knowledgePieces[position].data = null
-                            this.data.knowledgePieces[position].taken = false
-                            this.closeDialog()
-                        })
-                        .catch(error => {
-                            this.dialog.errors = Object.values(error.response.data.errors).map(val => val[0])
-                        })
-                })
-                .catch(error => {
-                    this.dialog.errors = Object.values(error.response.data.errors).map(val => val[0])
-                })
-        },
-        removeKnowledgePieceFromCheatsheet () {
-            let knowledgePiece = this.dialog.knowledgePiece.data
-            let position = this.dialog.knowledgePiece.position
-
-            axios.get('/api/knowledgepieces/' + knowledgePiece.id)
-                .then(response => {
-                    let cheatsheets = response.data.cheatsheet_ids
-
-                    let index = cheatsheets.indexOf(this.data.cheatsheet.id)
-                    cheatsheets.splice(index, 1)
-
-                    axios.put('/api/knowledgepieces/' + knowledgePiece.id, { cheatsheets: cheatsheets })
-                        .then(response => {
-                            this.data.knowledgePieces[position].data = null
-                            this.data.knowledgePieces[position].taken = false
-                            this.closeDialog()
-                        })
-                        .catch(error => {
-                            this.dialog.errors = Object.values(error.response.data.errors).map(val => val[0])
-                        })
+                    let removedKnowledgePiece = this.data.knowledgePieces[knowledgePiece.position]
+                    removedKnowledgePiece.data = null
+                    removedKnowledgePiece.taken = false
+                    this.closeDialog()
                 })
                 .catch(error => {
                     this.dialog.errors = Object.values(error.response.data.errors).map(val => val[0])
@@ -679,7 +927,7 @@ export default {
         paste (e) {
             e.preventDefault()
 
-            let text = this.dialog.knowledgePiece.data.code
+            let text = this.dialog.knowledgePiece.code
 
             let el = e.target
 
@@ -716,17 +964,16 @@ export default {
             let pastedText = pastedLines.join('\n')
             let charactersAdded = pastedText.length
 
-            this.dialog.knowledgePiece.data.code = text.substring(0, start) + pastedText + text.substring(end)
+            this.dialog.knowledgePiece.code = text.substring(0, start) + pastedText + text.substring(end)
 
             this.$nextTick(() => {
-                // correct caret positions
                 this.setCaretPosition(el, start + charactersAdded, start + charactersAdded)
             })
         },
         enter (e) {
             e.preventDefault()
 
-            let text = this.dialog.knowledgePiece.data.code
+            let text = this.dialog.knowledgePiece.code
 
             let el = e.target
 
@@ -748,17 +995,16 @@ export default {
                     break
                 }
             }
-            this.dialog.knowledgePiece.data.code = lines.join('\n')
+            this.dialog.knowledgePiece.code = lines.join('\n')
 
             this.$nextTick(() => {
-                // correct caret positions
                 this.setCaretPosition(el, start + spacesAdded[0] + 1, end + spacesAdded[0] + 1)
             })
         },
         tab (e) {
             e.preventDefault()
 
-            let text = this.dialog.knowledgePiece.data.code
+            let text = this.dialog.knowledgePiece.code
 
             let el = e.target
 
@@ -783,15 +1029,14 @@ export default {
                         break
                     }
                 }
-                this.dialog.knowledgePiece.data.code = lines.join('\n')
+                this.dialog.knowledgePiece.code = lines.join('\n')
             } else {
                 let n = this.TAB.length
                 spacesAdded.push(n)
-                this.dialog.knowledgePiece.data.code = text.substring(0, start) + this.TAB + text.substring(end)
+                this.dialog.knowledgePiece.code = text.substring(0, start) + this.TAB + text.substring(end)
             }
 
             this.$nextTick(() => {
-                // correct caret positions
                 if (selectedLines.length > 1) {
                     this.setCaretPosition(el, start + spacesAdded[0], end + spacesAdded.reduce((a, b) => a + b, 0))
                 } else {
@@ -802,7 +1047,7 @@ export default {
         untab (e) {
             e.preventDefault()
 
-            let text = this.dialog.knowledgePiece.data.code
+            let text = this.dialog.knowledgePiece.code
 
             let el = e.target
 
@@ -828,7 +1073,7 @@ export default {
                         break
                     }
                 }
-                this.dialog.knowledgePiece.data.code = lines.join('\n')
+                this.dialog.knowledgePiece.code = lines.join('\n')
             } else if (start === end) {
                 let sum = 0
                 for (let i = 0; i < lines.length; i++) {
@@ -842,17 +1087,22 @@ export default {
                     }
                     sum += lines[i].length + 1
                 }
-                this.dialog.knowledgePiece.data.code = lines.join('\n')
+                this.dialog.knowledgePiece.code = lines.join('\n')
             }
 
             this.$nextTick(() => {
-                // correct caret positions
                 if (selectedLines.length > 1) {
                     this.setCaretPosition(el, start - spacesRemoved[0], end - spacesRemoved.reduce((a, b) => a + b, 0))
                 } else {
                     this.setCaretPosition(el, start - spacesRemoved[0], end - spacesRemoved[0])
                 }
             })
+        },
+        copyObject (obj) {
+            return JSON.parse(JSON.stringify(obj))
+        },
+        extractPixels (value) {
+            return parseInt(value.replace('px', ''))
         }
     },
     components: {

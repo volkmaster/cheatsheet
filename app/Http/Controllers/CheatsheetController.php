@@ -136,6 +136,7 @@ class CheatsheetController extends Controller
                 }
                 $cheatsheet->knowledgePieces()->attach($knowledgePieces);
                 $cheatsheet['knowledge_piece_ids'] = $knowledgePieces;
+                $cheatsheet['pivot'] = ['position' => reset($knowledgePieces)['position']];
             }
         }
 

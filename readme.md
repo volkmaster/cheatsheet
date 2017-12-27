@@ -9,6 +9,9 @@
 composer install
 npm install
 
+# migrate and seed database
+php artisan migrate:install --seed
+
 # build and watch in development mode
 npm run app
 

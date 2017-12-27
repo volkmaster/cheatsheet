@@ -571,16 +571,11 @@
 .dashboard__filter {
     position         : absolute;
     top              : 40px;
-    left             : 0;
-    padding          : 5px 20px 7px 20px;
     display          : flex;
     align-items      : center;
-    transform        : rotate(-90deg) translateX(-100%);
-    transform-origin : 0% 0%;
+    justify-content  : center;
     background-color : $porcelain;
-    color            : $black;
-    font-size: 20px;
-    cursor: pointer;
+    color            : $pickled-bluewood;
 
     // top              : 80px;
 
@@ -589,6 +584,55 @@
     // @include breakpoint-1680 { top : 40px; }
     // @include breakpoint-1440 { top : 40px; }
     // @include breakpoint-1280 { top : 40px; }
+}
+
+.dashboard__filter_collapsed {
+    left             : 0;
+    // width            : 145px;
+    width: 200px;
+    height           : 36px;
+    padding          : 5px 20px 7px 20px;
+    transform        : rotate(-90deg) translateX(-100%);
+    transform-origin : 0% 0%;
+    z-index          : 1;
+    font-size        : 20px;
+    cursor           : pointer;
+    transition: transform 1s linear, width 1s linear;
+}
+
+.dashboard__filter_expanded {
+    left      : -164px;
+    width     : 200px;
+    height    : 145px; // half of grid-item height
+    animation : slide-in 1s linear 0s forwards;
+
+    @keyframes slide-in {
+        to { left: 36px; }
+    }
+}
+
+.dashboard__filter-input {
+    width: 100%;
+    padding          : 0 0 2px 4px;
+    border-style     : solid;
+    border-color     : $curious-blue;
+    border-width     : 0 0 1px 0;
+    background-color : transparent;
+    color            : $curious-blue;
+    font-size        : 14px;
+    outline          : 0;
+    transition       : border-color 0.1s linear, color 0.1s linear;
+}
+.dashboard__filter-input:hover, .dashboard__filter-input:focus {
+    border-color : $mariner;
+    color        : $mariner;
+}
+
+.x {
+    width: 300px;
+    padding: 0 5px;
+    box-shadow       : 5px 5px 3px rgba(0, 0, 0, 0.3);
+    transform        : rotate(0deg);
 }
 </style>
 
@@ -631,9 +675,14 @@
         </div>
 
         <!-- filter -->
-        <div class="dashboard__filter">
-            FILTER
+        <div class="dashboard__filter dashboard__filter_collapsed" @click="filter.opened = true" :class="{ 'x': filter.opened }">
+            <div v-if="!filter.opened">FILTER</div>
+            <input class="dashboard__filter-input" type="text" v-model="filter.query" :placeholder="filter.placeholder" @keyup.enter.exact="filter.opened = false" v-else autofocus/>
         </div>
+        <!-- <div class="dashboard__filter dashboard__filter_expanded" v-if="filter.opened">
+            <input class="dashboard__filter-input" type="text" v-model="filter.query"/>
+            <div style="width: 20px; height: 20px; background-color: black;" @click="filter.opened = false"></div>
+        </div> -->
 
         <!-- dialog add -->
         <div class="dashboard__dialog dashboard__dialog_add" v-if="dialog.opened.add">
@@ -732,8 +781,9 @@ export default {
                 languages: []
             },
             filter: {
-                placeholder: 'Filter by name...',
-                search: '',
+                opened: false,
+                placeholder: 'Filter by name / language / content...',
+                query: '',
                 language: 0,
                 isFiltered: false
             },
@@ -847,8 +897,8 @@ export default {
                 order_direction: this.order.direction
             }
 
-            if (this.filter.search) {
-                params.filter_name = encodeURIComponent(this.filter.search)
+            if (this.filter.query) {
+                params.filter_name = encodeURIComponent(this.filter.query)
             }
 
             if (this.filter.language) {
@@ -1021,7 +1071,7 @@ export default {
             this.$emit('close-dialog')
         },
         search () {
-            if (this.filter.search) {
+            if (this.filter.query) {
                 this.filter.isFiltered = true
                 this.pagination.currentPage = 1
                 this.loading.initial = true
@@ -1030,7 +1080,7 @@ export default {
         },
         clear () {
             if (this.filter.isFiltered) {
-                this.filter.search = ''
+                this.filter.query = ''
                 this.filter.isFiltered = false
                 this.pagination.currentPage = 1
                 this.loading.initial = true

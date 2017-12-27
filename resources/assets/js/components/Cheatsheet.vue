@@ -648,7 +648,7 @@ export default {
             codeDetails: {
                 opened: false,
                 timeout: null,
-                delay: 500,
+                delay: 0,
                 knowledgePiece: null
             },
             dialog: {

@@ -9,11 +9,24 @@
 composer install
 npm install
 
+# install MySQL server and create database named mvp_db
+mysql -u root -p
+> CREATE DATABASE mvp_db CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+# copy .env.example to .env and fill out the DB_USERNAME and DB_PASSWORD parameter values
+
+# generate application key
+php artisan key:generate
+
 # migrate and seed database
-php artisan migrate:install --seed
+php artisan migrate
+php artisan db:seed
+
+# run server
+php artisan serve
 
 # build and watch in development mode
-npm run app
+npm run watch
 
 # build in production mode
 npm run prod

@@ -2,8 +2,8 @@
   "extends": ["standard"],
   "plugins": ["html"],
   "rules": {
-  	"indent": ["error", 4, { "SwitchCase": 1 }]
-	},
+    "indent": ["error", 4, { "SwitchCase": 1 }]
+  },
   "globals": {
     "_": true,
     "$": true,

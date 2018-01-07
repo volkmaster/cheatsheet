@@ -1,14 +1,14 @@
 {
-    "extends": ["standard"],
-    "plugins": ["html"],
-   	"rules": {
-    	"indent": ["error", 4, { "SwitchCase": 1 }]
+  "extends": ["standard"],
+  "plugins": ["html"],
+  "rules": {
+  	"indent": ["error", 4, { "SwitchCase": 1 }]
 	},
-    "globals": {
-        "_": true,
-        "$": true,
-        "jQuery": true,
-        "Vue": true,
-        "axios": true
-    }
+  "globals": {
+    "_": true,
+    "$": true,
+    "jQuery": true,
+    "Vue": true,
+    "axios": true
+  }
 }

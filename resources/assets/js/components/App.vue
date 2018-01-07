@@ -1,28 +1,18 @@
 <style lang="scss" scoped>
 @import '../../sass/app';
-
-.app { }
 </style>
 
 <template>
     <div class="app">
-        <!-- <nav-header></nav-header> -->
         <router-view
             @open-dialog="openDialog"
             @close-dialog="closeDialog">
         </router-view>
-        <!-- <nav-footer></nav-footer> -->
     </div>
 </template>
 
 <script>
-import NavHeader from './NavHeader.vue'
-import NavFooter from './NavFooter.vue'
-
 export default {
-    data () {
-        return { }
-    },
     methods: {
         openDialog () {
             let body = $('body')
@@ -36,10 +26,6 @@ export default {
             body.removeClass('body--no-scroll')
             document.documentElement.scrollTop = scrollTop
         }
-    },
-    components: {
-        navHeader: NavHeader,
-        navFooter: NavFooter
     }
 }
 </script>

@@ -2,9 +2,9 @@ import './bootstrap'
 import './utils/vueHelpers'
 
 import VueRouter from 'vue-router'
-import Icon from 'vue-awesome/icons'
 import VueHighlightJS from 'vue-highlightjs'
 
+import Icon from 'vue-awesome/icons'
 import App from './components/App.vue'
 import Dashboard from './components/Dashboard.vue'
 import Cheatsheet from './components/Cheatsheet.vue'

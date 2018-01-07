@@ -2,8 +2,6 @@
 @import './fonts';
 @import './responsive';
 
-$debug: false;
-
 * { box-sizing: border-box; }
 
 body {
@@ -16,87 +14,4 @@ body {
 .body--no-scroll {
     position   : fixed;
     overflow-y : scroll;
-}
-
-.content-wrapper {
-    width            : 100%;
-    min-height       : calc(100vh - 100px);
-    display          : flex;
-    justify-content  : center;
-    background-color : $very-light-gray;
-
-    .loader-wrapper {
-        display         : flex;
-        align-items     : center;
-        justify-content : center;
-        transform       : translate3d(0, -5%, 0);
-
-        .loader {
-            width  : 100px;
-            height : 100px;
-        }
-    }
-
-    .content {
-        position       : relative;
-        width          : 1230px;
-        padding-top    : 10px;
-        display        : flex;
-        flex-direction : column;
-
-        &.blur {
-            filter         : blur(5px);
-            pointer-events : none;
-        }
-
-        .title-wrapper {
-            display     : flex;
-            align-items : center;
-
-            .label { margin: 12px 20px 12px 0; }
-        }
-
-        .table {
-             width           : 100%;
-             border          : 0;
-             border-spacing  : 0;
-             border-collapse : collapse;
-
-            .header {
-                text-align: left;
-
-                .item {
-                    padding      : 10px 5px;
-                    border-width : 0 0 3px 0;
-                    border-style : solid;
-                    font-size    : 14px;
-
-                    &.right { text-align: right; }
-                }
-            }
-
-            .data {
-                .no-data {
-                    padding   : 10px 5px;
-                    font-size : 16px;
-                    text-align: center;
-                }
-
-                .row {
-                    border-bottom : 1px solid $light-gray;
-                    cursor        : pointer;
-                    transition    : background-color 0.1s linear;
-
-                    &:hover { background-color: $light-gray; }
-
-                    .item {
-                        padding   : 10px 5px;
-                        font-size : 16px;
-
-                        &.right { text-align: right; }
-                    }
-                }
-            }
-        }
-    }
 }

@@ -15,7 +15,7 @@
   "author": {
     "name": "Ziga Vucko",
     "email": "ziga.vucko@gmail.com",
-    "url": "http://www.zigavucko.com"
+    "url": "http://www.gep.si"
   },
   "scripts": {
     "app": "npm run watch & php artisan serve",
@@ -27,7 +27,7 @@
     "prod": "npm run production",
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
     "postinstall": "npm run prod",
-    "lint": "eslint resources/assets webpack.mix.js --ext .js --ext .vue",
+    "lint": "eslint --ext .js,.vue resources/assets webpack.mix.js",
     "validate": "npm ls"
   },
   "pre-commit": [

@@ -833,7 +833,7 @@ export default {
         this.$nextTick(() => {
             window.addEventListener('scroll', this.handleScroll)
         })
-        window.addEventListener('keyup', this.handleKeyup);
+        window.addEventListener('keyup', this.handleKeyup)
     },
     destroyed () {
         window.removeEventListener('scroll', this.handleScroll)
@@ -884,9 +884,8 @@ export default {
                 this.pagination.perPage = this.calculateItemCount(screenWidth, screenHeight, sizes, 1280)
             }
         },
-        handleKeyup: function(event) {
-            debugger;
-            if (event.keyCode == 65 && event.altKey) { 
+        handleKeyup: function (event) {
+            if (event.keyCode === 65 && event.altKey) {
                 this.openAddDialog()
             }
         },

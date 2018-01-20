@@ -537,7 +537,7 @@
         </div>
 
         <!-- code details -->
-        <div class="cheatsheet__code-details" v-if="codeDetails.opened" @mouseleave="closeCodeDetails">
+        <div class="cheatsheet__code-details" v-if="codeDetails.opened" @mouseenter="codeDetailsMouseEnter" @mouseleave="codeDetailsMouseLeave">
             <pre class="cheatsheet__code-details-code" v-highlightjs="codeDetails.knowledgePiece.code">
                 <code :class="codeDetails.knowledgePiece.language.highlight"></code>
             </pre>
@@ -756,6 +756,18 @@ export default {
         },
         codeMouseLeave () {
             clearTimeout(this.codeDetails.timeout)
+        },
+        codeDetailsMouseEnter () {
+            window.addEventListener('keyup', this.handleKeyupCodeDetails)
+        },
+        codeDetailsMouseLeave () {
+            window.removeEventListener('keyup', this.handleKeyupCodeDetails)
+            this.closeCodeDetails()
+        },
+        handleKeyupCodeDetails: function (event) {
+            if (event.keyCode === 67 && event.altKey) {
+                this.copyKnowledgePieceCode()
+            }
         },
         openCodeDetails (event, knowledgePiece) {
             let pre = event.target

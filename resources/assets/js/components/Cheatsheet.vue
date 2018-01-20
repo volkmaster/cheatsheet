@@ -682,6 +682,7 @@ export default {
     created () {
         this.loading = true
         this.loadCheatsheetAndKnowledgePieces()
+        window.addEventListener('keyup', this.handleKeyup)
     },
     methods: {
         loadCheatsheetAndKnowledgePieces () {
@@ -800,6 +801,22 @@ export default {
         closeCodeDetails () {
             this.codeDetails.knowledgePiece = null
             this.codeDetails.opened = false
+        },
+        handleKeyup: function (event) {
+            if (event.keyCode === 65 && event.altKey) {
+                let newKnowledgePiecePosition = this.getFirstFreeKnowledgepiecePosition()
+                if (newKnowledgePiecePosition != null) {
+                    this.openAddDialog(newKnowledgePiecePosition)
+                }
+            }
+        },
+        getFirstFreeKnowledgepiecePosition () {
+            for (var i = 0; i < this.data.knowledgePieces.length; i++) {
+                if (this.data.knowledgePieces[i].data === null) {
+                    return i
+                }
+            }
+            return null
         },
         openAddDialog (position) {
             let knowledgePiece = {

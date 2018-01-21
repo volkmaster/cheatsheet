@@ -852,6 +852,7 @@ export default {
             this.dialog.errors = []
             this.dialog.opened.add = true
             window.addEventListener('keyup', this.handleKeyupCloseDialog)
+            window.addEventListener('keyup', this.handleKeyupCreateNewKnowledgePiece)
         },
         openEditDialog (knowledgePiece) {
             this.dialog.knowledgePiece = this.copyObject(knowledgePiece)
@@ -863,17 +864,37 @@ export default {
             this.dialog.errors = []
             this.dialog.opened.edit = true
             window.addEventListener('keyup', this.handleKeyupCloseDialog)
+            window.addEventListener('keyup', this.handleKeyupUpdateExistingKnowledgePiece)
         },
         openRemoveDialog (knowledgePiece) {
             this.dialog.knowledgePiece = this.copyObject(knowledgePiece)
             this.dialog.errors = []
             this.dialog.opened.remove = true
             window.addEventListener('keyup', this.handleKeyupCloseDialog)
+            window.addEventListener('keyup', this.handleKeyupRemoveExistingKnowledgePiece)
         },
         handleKeyupCloseDialog: function (event) {
             if (event.keyCode === 27) {
                 this.closeDialog()
                 window.removeEventListener('keyup', this.handleKeyupCloseDialog)
+            }
+        },
+        handleKeyupCreateNewKnowledgePiece: function (event) {
+            if (event.altKey && event.keyCode === 13) {
+                this.createNewKnowledgePiece()
+                window.removeEventListener('keyup', this.handleKeyupCreateNewKnowledgePiece)
+            }
+        },
+        handleKeyupUpdateExistingKnowledgePiece: function (event) {
+            if (event.altKey && event.keyCode === 13) {
+                this.updateExistingKnowledgePiece()
+                window.removeEventListener('keyup', this.handleKeyupUpdateExistingKnowledgePiece)
+            }
+        },
+        handleKeyupRemoveExistingKnowledgePiece: function (event) {
+            if (event.altKey && event.keyCode === 13) {
+                this.removeExistingKnowledgePiece()
+                window.removeEventListener('keyup', this.handleKeyupRemoveExistingKnowledgePiece)
             }
         },
         addExistingKnowledgePiece () {

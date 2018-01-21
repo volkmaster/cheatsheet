@@ -627,6 +627,9 @@
 
 <script>
 import Icon from 'vue-awesome/components/Icon'
+import VueClipboard from 'vue-clipboard2'
+
+Vue.use(VueClipboard)
 
 export default {
     data () {
@@ -766,8 +769,11 @@ export default {
         },
         handleKeyupCodeDetails: function (event) {
             if (event.keyCode === 67 && event.altKey) {
-                this.copyKnowledgePieceCode()
+                this.copyKnowledgePieceCodeToClipboard()
             }
+        },
+        copyKnowledgePieceCodeToClipboard: function (event) {
+            this.$copyText(this.codeDetails.knowledgePiece.code)
         },
         openCodeDetails (event, knowledgePiece) {
             let pre = event.target

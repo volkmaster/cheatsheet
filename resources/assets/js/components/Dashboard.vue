@@ -974,6 +974,7 @@ export default {
             }
             this.dialog.errors = []
             this.openAndPositionDialog('add')
+            window.addEventListener('keyup', this.handleKeyupCloseDialog)
         },
         openEditDialog (event, cheatsheet, position) {
             event.stopPropagation()
@@ -987,6 +988,7 @@ export default {
             }
             this.dialog.errors = []
             this.openAndPositionDialog('edit')
+            window.addEventListener('keyup', this.handleKeyupCloseDialog)
         },
         openRemoveDialog (event, cheatsheet) {
             event.stopPropagation()
@@ -995,6 +997,13 @@ export default {
             this.dialog.text.remove = `Do you really want to remove the '${cheatsheet.name}' cheatsheet?`
             this.dialog.errors = []
             this.openAndPositionDialog('remove')
+            window.addEventListener('keyup', this.handleKeyupCloseDialog)
+        },
+        handleKeyupCloseDialog: function (event) {
+            if (event.keyCode === 27) {
+                this.closeDialog()
+                window.removeEventListener('keyup', this.handleKeyupCloseDialog)
+            }
         },
         createNewCheatsheet (navigateToPage) {
             let cheatsheet = this.copyObject(this.dialog.cheatsheet)

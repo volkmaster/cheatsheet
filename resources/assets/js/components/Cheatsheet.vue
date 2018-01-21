@@ -851,6 +851,7 @@ export default {
             }
             this.dialog.errors = []
             this.dialog.opened.add = true
+            window.addEventListener('keyup', this.handleKeyupCloseDialog)
         },
         openEditDialog (knowledgePiece) {
             this.dialog.knowledgePiece = this.copyObject(knowledgePiece)
@@ -861,11 +862,19 @@ export default {
             }
             this.dialog.errors = []
             this.dialog.opened.edit = true
+            window.addEventListener('keyup', this.handleKeyupCloseDialog)
         },
         openRemoveDialog (knowledgePiece) {
             this.dialog.knowledgePiece = this.copyObject(knowledgePiece)
             this.dialog.errors = []
             this.dialog.opened.remove = true
+            window.addEventListener('keyup', this.handleKeyupCloseDialog)
+        },
+        handleKeyupCloseDialog: function (event) {
+            if (event.keyCode === 27) {
+                this.closeDialog()
+                window.removeEventListener('keyup', this.handleKeyupCloseDialog)
+            }
         },
         addExistingKnowledgePiece () {
             let cheatsheet = this.data.cheatsheet

@@ -31,4 +31,9 @@ class KnowledgePiece extends Model
     {
         return $this->belongsTo('App\Language');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

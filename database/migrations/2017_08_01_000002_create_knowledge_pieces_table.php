@@ -15,6 +15,7 @@ class CreateKnowledgePiecesTable extends Migration
     {
         Schema::create('knowledge_pieces', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_id');
             $table->string('description')->nullable();
             $table->text('code');
             $table->integer('language_id')->unsigned();

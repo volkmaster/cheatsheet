@@ -22,6 +22,8 @@ class KnowledgePiecesTableSeeder extends DatabaseSeeder
 
             $knowledgePiece = new KnowledgePiece;
 
+            $knowledgePiece->user_id = 1;
+
             $knowledgePiece->description =  $languageName . ' knowledge piece ' . $i;
 
             $knowledgePiece->code = "arr = [];\narr.push(2);\narr.push(1);\narr.sort();\nprint(arr);";

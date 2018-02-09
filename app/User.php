@@ -30,6 +30,6 @@ class User extends Authenticatable
 
     public function knowledgePieces()
     {
-        return $this->hasMany(KnowledgePiece::class);
+        return $this->hasMany('App\KnowledgePiece');
     }
 }

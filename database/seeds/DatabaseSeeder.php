@@ -4,6 +4,9 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
+    const USER_NAMES = ['John', 'Mary', 'Frank', 'Vanessa'];
+    const USER_LASTNAMES = ['Doe', 'Franklin', 'Schneider', 'Malkovich'];
+    const NUMBER_OF_USERS = 16;
     const LANGUAGES = [
         [
             'name'      => 'Bash',
@@ -142,6 +145,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $this->call(UsersTableSeeder::class);
         $this->call(LanguagesTableSeeder::class);
         $this->call(KnowledgePiecesTableSeeder::class);
         $this->call(CheatsheetsTableSeeder::class);

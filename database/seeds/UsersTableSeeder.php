@@ -15,11 +15,15 @@ class UsersTableSeeder extends DatabaseSeeder
     {
         DB::table('users')->delete();
 
-        $user = new User;
-        $user->name = 'John Doe';
-        $user->email = 'John@example.com';
-        $user->password = 'password';
+        foreach (self::USER_NAMES as $name) {
+            foreach (self::USER_LASTNAMES as $lastname) {
+                $user = new User;
+                $user->name = $name . ' ' . $lastname;
+                $user->email = $name . '.' . $lastname . '@example.com';
+                $user->password = password_hash('password', PASSWORD_BCRYPT);
 
-        $user->saveOrFail();
+                $user->saveOrFail();
+            }
+        }
     }
 }

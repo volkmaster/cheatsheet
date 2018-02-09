@@ -19,7 +19,6 @@ class UsersTableSeeder extends DatabaseSeeder
         $user->name = 'John Doe';
         $user->email = 'John@example.com';
         $user->password = 'password';
-        $user->remember_token = 'token1';
 
         $user->saveOrFail();
     }

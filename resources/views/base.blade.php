@@ -19,6 +19,13 @@
     </script>
 </head>
 <body>
+
+    @if(Auth::check())
+    <div>
+        <a>{{ Auth::user()->name }}</a>
+    </div>
+    @endif
+
     <div id="app">
         <app></app>
     </div>

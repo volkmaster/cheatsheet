@@ -142,21 +142,29 @@ body {
         <h1 class="user__title">Register</h1>
     </header>
     
-    <form class="form">
+    <form method="POST" action="/register" class="form">
         {{ csrf_field() }}
         <div class="form__group">
-            <input type="text" id="name" name="name" placeholder="Username" class="form__input" />
+            <input type="text" id="name" name="name" placeholder="Username" class="form__input" required/>
         </div>
         
         <div class="form__group">
-            <input type="email" id="email" name="email" placeholder="Email" class="form__input" />
+            <input type="email" id="email" name="email" placeholder="Email" class="form__input" required/>
         </div>
         
         <div class="form__group">
-            <input type="password" id="password" name="password" placeholder="Password" class="form__input" />
+            <input type="password" id="password" name="password" placeholder="Password" class="form__input" required/>
+        </div>
+
+        <div class="form__group">
+            <input type="password" id="password_confirmation" name="password_confirmation" placeholder="Password Confirmation" class="form__input" required/>
         </div>
         
         <button class="btn" type="submit">Register</button>
+
+        <div>
+            @include('layouts.errors')
+        </div>
     </form>
 </div>
 

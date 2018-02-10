@@ -13,10 +13,13 @@
 
 Route::get('/', function () {
     return view('base');
-});
+})->name('home');
 
 Route::get('/register', 'RegistrationController@create');
+Route::post('/register', 'RegistrationController@store');
+
 Route::get('/login', 'SessionsController@create');
+Route::get('/logout', 'SessionsController@destroy');
 
 Route::get('/{vue_capture?}', function () {
     return view('base');

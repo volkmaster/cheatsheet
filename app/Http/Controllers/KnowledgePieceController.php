@@ -12,6 +12,12 @@ use App\Language;
 
 class KnowledgePieceController extends Controller
 {
+    public function __construct()
+    {
+        // user has to be logged for all functionalities except specific ones
+        $this->middleware('auth')->except(['index', 'show', 'cheatsheets']);
+    }
+
     /**
      * Display a listing of the resource.
      *

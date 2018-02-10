@@ -21,9 +21,11 @@
 <body>
 
     @if(Auth::check())
-    <div>
-        <a>{{ Auth::user()->name }}</a>
-    </div>
+    <a>{{ Auth::user()->name }}</a>
+    <button type="button" onclick="window.location='{{ url("logout") }}'">Logout</button>
+    @else
+    <button type="button" onclick="window.location='{{ url("login") }}'">Login</button>
+    <button type="button" onclick="window.location='{{ url("register") }}'">Register</button>
     @endif
 
     <div id="app">

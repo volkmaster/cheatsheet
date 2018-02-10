@@ -15,6 +15,10 @@ Route::get('/', function () {
     return view('base');
 })->name('home');
 
+Route::get('login', array('uses' => 'SessionsController@create', 'as' => 'login'));
+Route::get('logout', array('uses' => 'SessionsController@destroy', 'as' => 'logout'));
+Route::get('register', array('uses' => 'RegistrationController@create', 'as' => 'register'));
+
 Route::get('/register', 'RegistrationController@create');
 Route::post('/register', 'RegistrationController@store');
 

@@ -16,6 +16,7 @@ class CreateCheatsheetsTable extends Migration
         Schema::create('cheatsheets', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->integer('user_id');
             $table->integer('language_id')->unsigned();
             $table->timestamps();
         });

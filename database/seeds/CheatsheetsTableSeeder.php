@@ -16,6 +16,8 @@ class CheatsheetsTableSeeder extends DatabaseSeeder
     {
         DB::table('cheatsheets')->delete();
 
+        $idCount = 1;
+
         $knowledgePieces = [];
         foreach (self::LANGUAGES as $item) {
             $language = Language::where('name', $item['name'])->first();
@@ -28,6 +30,12 @@ class CheatsheetsTableSeeder extends DatabaseSeeder
             $cheatsheet = new Cheatsheet;
 
             $cheatsheet->name = $languageName . ' cheatsheet ' . $i;
+
+            $cheatsheet->user_id = $idCount;
+            $idCount++;
+            if($idCount > self::NUMBER_OF_USERS){
+                $idCount = 1;
+            }
 
             $language = Language::whereName($languageName)->first();
             $cheatsheet->language()->associate($language);

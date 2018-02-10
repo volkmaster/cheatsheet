@@ -17,18 +17,10 @@ class KnowledgePiecesTableSeeder extends DatabaseSeeder
     {
         DB::table('knowledge_pieces')->delete();
 
-        $idCount = 1;
-
         for ($i = 0; $i < self::N_KNOWLEDGE_PIECES; $i++) {
             $languageName = self::LANGUAGES[rand(0, count(self::LANGUAGES) - 1)]['name'];
 
             $knowledgePiece = new KnowledgePiece;
-
-            $knowledgePiece->user_id = $idCount;
-            $idCount++;
-            if($idCount > self::NUMBER_OF_USERS){
-                $idCount = 1;
-            }
 
             $knowledgePiece->description =  $languageName . ' knowledge piece ' . $i;
 

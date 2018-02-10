@@ -833,6 +833,7 @@ export default {
         this.$nextTick(() => {
             window.addEventListener('scroll', this.handleScroll)
         })
+        window.addEventListener('keyup', this.handleKeyup)
     },
     destroyed () {
         window.removeEventListener('scroll', this.handleScroll)
@@ -881,6 +882,11 @@ export default {
                 this.pagination.perPage = this.calculateItemCount(screenWidth, screenHeight, sizes, 1440)
             } else {
                 this.pagination.perPage = this.calculateItemCount(screenWidth, screenHeight, sizes, 1280)
+            }
+        },
+        handleKeyup: function (event) {
+            if (event.keyCode === 65 && event.altKey) {
+                this.openAddDialog()
             }
         },
         calculateItemCount (width, height, sizes, size) {
@@ -968,6 +974,8 @@ export default {
             }
             this.dialog.errors = []
             this.openAndPositionDialog('add')
+            window.addEventListener('keyup', this.handleKeyupCloseDialog)
+            window.addEventListener('keyup', this.handleKeyupCreateNewCheatsheet)
         },
         openEditDialog (event, cheatsheet, position) {
             event.stopPropagation()
@@ -981,6 +989,8 @@ export default {
             }
             this.dialog.errors = []
             this.openAndPositionDialog('edit')
+            window.addEventListener('keyup', this.handleKeyupCloseDialog)
+            window.addEventListener('keyup', this.handleKeyupUpdateExistingCheatsheet)
         },
         openRemoveDialog (event, cheatsheet) {
             event.stopPropagation()
@@ -989,6 +999,32 @@ export default {
             this.dialog.text.remove = `Do you really want to remove the '${cheatsheet.name}' cheatsheet?`
             this.dialog.errors = []
             this.openAndPositionDialog('remove')
+            window.addEventListener('keyup', this.handleKeyupCloseDialog)
+            window.addEventListener('keyup', this.handleKeyupRemoveExistingCheatsheet)
+        },
+        handleKeyupCloseDialog: function (event) {
+            if (event.keyCode === 27) {
+                this.closeDialog()
+                window.removeEventListener('keyup', this.handleKeyupCloseDialog)
+            }
+        },
+        handleKeyupCreateNewCheatsheet: function (event) {
+            if (event.altKey && event.keyCode === 13) {
+                this.createNewCheatsheet()
+                window.removeEventListener('keyup', this.handleKeyupCreateNewCheatsheet)
+            }
+        },
+        handleKeyupUpdateExistingCheatsheet: function (event) {
+            if (event.altKey && event.keyCode === 13) {
+                this.updateExistingCheatsheet()
+                window.removeEventListener('keyup', this.handleKeyupUpdateExistingCheatsheet)
+            }
+        },
+        handleKeyupRemoveExistingCheatsheet: function (event) {
+            if (event.altKey && event.keyCode === 13) {
+                this.removeExistingCheatsheet()
+                window.removeEventListener('keyup', this.handleKeyupRemoveExistingCheatsheet)
+            }
         },
         createNewCheatsheet (navigateToPage) {
             let cheatsheet = this.copyObject(this.dialog.cheatsheet)

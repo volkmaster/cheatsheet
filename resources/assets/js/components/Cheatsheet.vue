@@ -537,7 +537,7 @@
         </div>
 
         <!-- code details -->
-        <div class="cheatsheet__code-details" v-if="codeDetails.opened" @mouseleave="closeCodeDetails">
+        <div class="cheatsheet__code-details" v-if="codeDetails.opened" @mouseenter="codeDetailsMouseEnter" @mouseleave="codeDetailsMouseLeave">
             <pre class="cheatsheet__code-details-code" v-highlightjs="codeDetails.knowledgePiece.code">
                 <code :class="codeDetails.knowledgePiece.language.highlight"></code>
             </pre>
@@ -627,6 +627,9 @@
 
 <script>
 import Icon from 'vue-awesome/components/Icon'
+import VueClipboard from 'vue-clipboard2'
+
+Vue.use(VueClipboard)
 
 export default {
     data () {
@@ -682,6 +685,7 @@ export default {
     created () {
         this.loading = true
         this.loadCheatsheetAndKnowledgePieces()
+        window.addEventListener('keyup', this.handleKeyup)
     },
     methods: {
         loadCheatsheetAndKnowledgePieces () {
@@ -756,6 +760,21 @@ export default {
         codeMouseLeave () {
             clearTimeout(this.codeDetails.timeout)
         },
+        codeDetailsMouseEnter () {
+            window.addEventListener('keyup', this.handleKeyupCodeDetails)
+        },
+        codeDetailsMouseLeave () {
+            window.removeEventListener('keyup', this.handleKeyupCodeDetails)
+            this.closeCodeDetails()
+        },
+        handleKeyupCodeDetails: function (event) {
+            if (event.keyCode === 67 && event.altKey) {
+                this.copyKnowledgePieceCodeToClipboard()
+            }
+        },
+        copyKnowledgePieceCodeToClipboard: function (event) {
+            this.$copyText(this.codeDetails.knowledgePiece.code)
+        },
         openCodeDetails (event, knowledgePiece) {
             let pre = event.target
             let code = pre.children[0]
@@ -801,6 +820,22 @@ export default {
             this.codeDetails.knowledgePiece = null
             this.codeDetails.opened = false
         },
+        handleKeyup: function (event) {
+            if (event.keyCode === 65 && event.altKey) {
+                let newKnowledgePiecePosition = this.getFirstFreeKnowledgepiecePosition()
+                if (newKnowledgePiecePosition != null) {
+                    this.openAddDialog(newKnowledgePiecePosition)
+                }
+            }
+        },
+        getFirstFreeKnowledgepiecePosition () {
+            for (var i = 0; i < this.data.knowledgePieces.length; i++) {
+                if (this.data.knowledgePieces[i].data === null) {
+                    return i
+                }
+            }
+            return null
+        },
         openAddDialog (position) {
             let knowledgePiece = {
                 description: '',
@@ -816,6 +851,8 @@ export default {
             }
             this.dialog.errors = []
             this.dialog.opened.add = true
+            window.addEventListener('keyup', this.handleKeyupCloseDialog)
+            window.addEventListener('keyup', this.handleKeyupCreateNewKnowledgePiece)
         },
         openEditDialog (knowledgePiece) {
             this.dialog.knowledgePiece = this.copyObject(knowledgePiece)
@@ -826,11 +863,39 @@ export default {
             }
             this.dialog.errors = []
             this.dialog.opened.edit = true
+            window.addEventListener('keyup', this.handleKeyupCloseDialog)
+            window.addEventListener('keyup', this.handleKeyupUpdateExistingKnowledgePiece)
         },
         openRemoveDialog (knowledgePiece) {
             this.dialog.knowledgePiece = this.copyObject(knowledgePiece)
             this.dialog.errors = []
             this.dialog.opened.remove = true
+            window.addEventListener('keyup', this.handleKeyupCloseDialog)
+            window.addEventListener('keyup', this.handleKeyupRemoveExistingKnowledgePiece)
+        },
+        handleKeyupCloseDialog: function (event) {
+            if (event.keyCode === 27) {
+                this.closeDialog()
+                window.removeEventListener('keyup', this.handleKeyupCloseDialog)
+            }
+        },
+        handleKeyupCreateNewKnowledgePiece: function (event) {
+            if (event.altKey && event.keyCode === 13) {
+                this.createNewKnowledgePiece()
+                window.removeEventListener('keyup', this.handleKeyupCreateNewKnowledgePiece)
+            }
+        },
+        handleKeyupUpdateExistingKnowledgePiece: function (event) {
+            if (event.altKey && event.keyCode === 13) {
+                this.updateExistingKnowledgePiece()
+                window.removeEventListener('keyup', this.handleKeyupUpdateExistingKnowledgePiece)
+            }
+        },
+        handleKeyupRemoveExistingKnowledgePiece: function (event) {
+            if (event.altKey && event.keyCode === 13) {
+                this.removeExistingKnowledgePiece()
+                window.removeEventListener('keyup', this.handleKeyupRemoveExistingKnowledgePiece)
+            }
         },
         addExistingKnowledgePiece () {
             let cheatsheet = this.data.cheatsheet

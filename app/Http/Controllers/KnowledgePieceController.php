@@ -15,7 +15,7 @@ class KnowledgePieceController extends Controller
     public function __construct()
     {
         // user has to be logged for all functionalities except specific ones
-        $this->middleware('auth')->except(['index', 'show', 'cheatsheets']);
+        //$this->middleware('auth')->except(['index', 'show', 'cheatsheets']);
     }
 
     /**

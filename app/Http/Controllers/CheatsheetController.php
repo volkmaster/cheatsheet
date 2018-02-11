@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Auth;
 
 use App\Cheatsheet;
 use App\KnowledgePiece;
@@ -117,7 +118,9 @@ class CheatsheetController extends Controller
         $cheatsheet = new Cheatsheet;
 
         $cheatsheet->name = $request->get('name');
-
+        
+        $cheatsheet->user_id = auth()->user()->id;
+        
         $languageId = $request->get('language');
 
         $language = Language::find($languageId);

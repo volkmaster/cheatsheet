@@ -902,7 +902,8 @@ export default {
                 page: this.pagination.currentPage,
                 per_page: this.pagination.perPage,
                 order_by: this.order.by,
-                order_direction: this.order.direction
+                order_direction: this.order.direction,
+                user_id: this.userId
             }
 
             if (this.filter.query) {

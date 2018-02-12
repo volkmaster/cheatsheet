@@ -32,6 +32,7 @@ class CheatsheetController extends Controller
         $filterId       = is_null($request->query('filter_id')) ? null : explode(',', $request->query('filter_id'));
         $filterName     = is_null($request->query('filter_name')) ? null : urldecode($request->query('filter_name'));
         $filterLanguage = is_null($request->query('filter_language')) ? null : $request->query('filter_language');
+        $userId         = is_null($request->query('user_id')) ? null : $request->query('user_id');
 
         $field = $this->setAndValidateFields($request->query('fields'), new Cheatsheet, ['language']);
         if ($field) {
@@ -54,6 +55,10 @@ class CheatsheetController extends Controller
 
         if ($filterLanguage === '0' || $filterLanguage) {
             $qb = $qb->whereLanguageId($filterLanguage);
+        }
+
+        if ($userId === '0' || $userId) {
+            $qb = $qb->where('user_id', '=', $userId);
         }
 
         if ($this->fields) {

@@ -29,7 +29,11 @@
     @endif
 
     <div id="app">
+        @if(Auth::check())
         <app user-id="{{ Auth::user()->id }}"></app>
+        @else
+        <app></app>
+        @endif
     </div>
 
     <!-- Scripts -->

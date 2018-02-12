@@ -770,6 +770,7 @@ import _ from 'lodash'
 import Icon from 'vue-awesome/components/Icon'
 
 export default {
+    props: ['userId'],
     data () {
         return {
             loading: {
@@ -896,6 +897,7 @@ export default {
             return nRow * nCol - 1
         },
         loadCheatsheets () {
+            console.log(this.userId)
             let params = {
                 page: this.pagination.currentPage,
                 per_page: this.pagination.perPage,

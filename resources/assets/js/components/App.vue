@@ -4,7 +4,7 @@
 
 <template>
     <div class="app">
-        <router-view 
+        <router-view :user-id="this.userId"
             @open-dialog="openDialog"
             @close-dialog="closeDialog">
         </router-view>

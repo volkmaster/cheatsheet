@@ -29,7 +29,7 @@
     @endif
 
     <div id="app">
-        <app></app>
+        <app user-id="{{ Auth::user()->id }}"></app>
     </div>
 
     <!-- Scripts -->

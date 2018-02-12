@@ -4,7 +4,7 @@
 
 <template>
     <div class="app">
-        <router-view
+        <router-view 
             @open-dialog="openDialog"
             @close-dialog="closeDialog">
         </router-view>
@@ -13,8 +13,10 @@
 
 <script>
 export default {
+    props: ['userId'],
     methods: {
         openDialog () {
+            console.log(this.userId)
             let body = $('body')
             let scrollTop = -document.documentElement.scrollTop
             body.css('top', scrollTop + 'px')

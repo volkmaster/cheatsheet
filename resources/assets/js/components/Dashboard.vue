@@ -677,7 +677,7 @@
         <!-- filter -->
         <div class="dashboard__filter dashboard__filter_collapsed" @click="filter.opened = true" :class="{ 'x': filter.opened }">
             <div v-if="!filter.opened">FILTER</div>
-            <input class="dashboard__filter-input" type="text" v-model="filter.query" :placeholder="filter.placeholder" @keyup.enter.exact="search()" v-else autofocus/>
+            <input class="dashboard__filter-input" ref="filter" type="text" v-model="filter.query" :placeholder="filter.placeholder" @keyup.enter.exact="search()" v-else autofocus/>
         </div>
         <!-- <div class="dashboard__filter dashboard__filter_expanded" v-if="filter.opened">
             <input class="dashboard__filter-input" type="text" v-model="filter.query"/>
@@ -886,8 +886,20 @@ export default {
             }
         },
         handleKeyup: function (event) {
+            // alt + a
             if (event.keyCode === 65 && event.altKey) {
                 this.openAddDialog()
+            }
+            // alt + s
+            if (event.keyCode === 83 && event.altKey) {
+                this.filter.opened = true
+                this.$nextTick(() => this.$refs.filter.focus())
+            }
+            // esc
+            if (event.keyCode === 27) {
+                if (this.filter.opened) {
+                    this.filter.opened = false
+                }
             }
         },
         calculateItemCount (width, height, sizes, size) {

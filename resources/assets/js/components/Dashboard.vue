@@ -597,7 +597,7 @@
     z-index          : 1;
     font-size        : 20px;
     cursor           : pointer;
-    transition: transform 1s linear, width 1s linear;
+    transition: transform 0.1s linear, width 0.1s linear;
 }
 
 .dashboard__filter_expanded {
@@ -677,7 +677,7 @@
         <!-- filter -->
         <div class="dashboard__filter dashboard__filter_collapsed" @click="filter.opened = true" :class="{ 'x': filter.opened }">
             <div v-if="!filter.opened">FILTER</div>
-            <input class="dashboard__filter-input" type="text" v-model="filter.query" :placeholder="filter.placeholder" @keyup.enter.exact="filter.opened = false" v-else autofocus/>
+            <input class="dashboard__filter-input" type="text" v-model="filter.query" :placeholder="filter.placeholder" @keyup.enter.exact="search()" v-else autofocus/>
         </div>
         <!-- <div class="dashboard__filter dashboard__filter_expanded" v-if="filter.opened">
             <input class="dashboard__filter-input" type="text" v-model="filter.query"/>
@@ -783,7 +783,7 @@ export default {
             },
             filter: {
                 opened: false,
-                placeholder: 'Filter by name / language / content...',
+                placeholder: 'Filter by name',
                 query: '',
                 language: 0,
                 isFiltered: false
@@ -903,19 +903,24 @@ export default {
                 per_page: this.pagination.perPage,
                 order_by: this.order.by,
                 order_direction: this.order.direction,
-                user_id: this.userId
+                user_id: this.userId,
+                filter_query: this.filter.query
             }
-
+/*
             if (this.filter.query) {
-                params.filter_name = encodeURIComponent(this.filter.query)
+                //params.filter_query = encodeURIComponent(this.filter.query)
+                params.filter_query = this.filter.query
             }
-
+  */
+            /*
             if (this.filter.language) {
                 params.filter_language = this.filter.language
             }
+            */
 
             axios.get('/api/cheatsheets', { params: params })
                 .then(response => {
+                    this.data.cheatsheets = []
                     let data = response.data
                     this.appendCheatsheets(data)
                     if (data.current_page === data.last_page) {
@@ -1110,12 +1115,12 @@ export default {
             this.$emit('close-dialog')
         },
         search () {
-            if (this.filter.query) {
-                this.filter.isFiltered = true
-                this.pagination.currentPage = 1
-                this.loading.initial = true
-                this.loadCheatsheets()
-            }
+            // if (this.filter.query) {
+            this.filter.isFiltered = true
+            this.pagination.currentPage = 1
+            this.loading.initial = true
+            this.loadCheatsheets()
+            // }
         },
         clear () {
             if (this.filter.isFiltered) {

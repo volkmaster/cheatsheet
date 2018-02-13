@@ -29,9 +29,10 @@ class CheatsheetController extends Controller
         $perPage        = is_null($request->query('per_page')) ? $this->perPage : $request->query('per_page');
         $orderBy        = $request->query('order_by');
         $orderDirection = is_null($request->query('order_direction')) ? 'asc' : $request->query('order_direction');
-        $filterId       = is_null($request->query('filter_id')) ? null : explode(',', $request->query('filter_id'));
-        $filterName     = is_null($request->query('filter_name')) ? null : urldecode($request->query('filter_name'));
-        $filterLanguage = is_null($request->query('filter_language')) ? null : $request->query('filter_language');
+        //$filterId       = is_null($request->query('filter_id')) ? null : explode(',', $request->query('filter_id'));
+        //$filterName     = is_null($request->query('filter_name')) ? null : urldecode($request->query('filter_name'));
+        //$filterLanguage = is_null($request->query('filter_language')) ? null : $request->query('filter_language');
+        $filterName     = is_null($request->query('filter_query')) ? null : $request->query('filter_query');
         $userId         = is_null($request->query('user_id')) ? null : $request->query('user_id');
 
         $field = $this->setAndValidateFields($request->query('fields'), new Cheatsheet, ['language']);
@@ -45,17 +46,19 @@ class CheatsheetController extends Controller
             $qb = $qb->orderBy($orderBy, $orderDirection);
         }
 
+        /*
         if ($filterId === '0' || $filterId) {
             $qb = $qb->whereIn('id', $filterId);
         }
-
+        */
         if ($filterName === '0' || $filterName) {
             $qb = $qb->where('name', 'like', '%' . $filterName . '%');
         }
-
+        /*
         if ($filterLanguage === '0' || $filterLanguage) {
             $qb = $qb->whereLanguageId($filterLanguage);
         }
+        */
 
         if ($userId === '0' || $userId) {
             $qb = $qb->where('user_id', '=', $userId);

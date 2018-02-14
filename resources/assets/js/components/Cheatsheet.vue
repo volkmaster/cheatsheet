@@ -504,6 +504,73 @@
 .cheatsheet__dialog-button_cancel { background-color: $cinnabar; }
 
 .cheatsheet__dialog-button_cancel:hover { filter: brightness(90%); }
+
+.dashboard__filter {
+    position         : absolute;
+    top              : 40px;
+    display          : flex;
+    align-items      : center;
+    justify-content  : center;
+    background-color : $porcelain;
+    color            : $pickled-bluewood;
+
+    // top              : 80px;
+
+    // @include breakpoint-2560 { top : 60px; }
+    // @include breakpoint-1920 { top : 50px; }
+    // @include breakpoint-1680 { top : 40px; }
+    // @include breakpoint-1440 { top : 40px; }
+    // @include breakpoint-1280 { top : 40px; }
+}
+
+.dashboard__filter_collapsed {
+    left             : 0;
+    // width            : 145px;
+    width: 200px;
+    height           : 36px;
+    padding          : 5px 20px 7px 20px;
+    transform        : rotate(-90deg) translateX(-100%);
+    transform-origin : 0% 0%;
+    z-index          : 1;
+    font-size        : 20px;
+    cursor           : pointer;
+    transition: transform 0.1s linear, width 0.1s linear;
+}
+
+.dashboard__filter_expanded {
+    left      : -164px;
+    width     : 200px;
+    height    : 145px; // half of grid-item height
+    animation : slide-in 1s linear 0s forwards;
+
+    @keyframes slide-in {
+        to { left: 36px; }
+    }
+}
+
+.dashboard__filter-input {
+    width: 100%;
+    padding          : 0 0 2px 4px;
+    border-style     : solid;
+    border-color     : $curious-blue;
+    border-width     : 0 0 1px 0;
+    background-color : transparent;
+    color            : $curious-blue;
+    font-size        : 14px;
+    outline          : 0;
+    transition       : border-color 0.1s linear, color 0.1s linear;
+}
+.dashboard__filter-input:hover, .dashboard__filter-input:focus {
+    border-color : $mariner;
+    color        : $mariner;
+}
+
+.x {
+    width: 300px;
+    padding: 0 5px;
+    box-shadow       : 5px 5px 3px rgba(0, 0, 0, 0.3);
+    transform        : rotate(0deg);
+}
 </style>
 
 <template>
@@ -534,6 +601,12 @@
                 </template>
                 <div class="cheatsheet__plus" v-else @click="openAddDialog(position)"></div>
             </div>
+        </div>
+
+        <!-- filter -->
+        <div class="dashboard__filter dashboard__filter_collapsed" @click="filter.opened = true" :class="{ 'x': filter.opened }">
+            <div v-if="!filter.opened">FILTER</div>
+            <input class="dashboard__filter-input" ref="filter" type="text" v-model="filter.query" :placeholder="filter.placeholder" @keyup.enter.exact="search()" v-else autofocus/>
         </div>
 
         <!-- code details -->
@@ -640,6 +713,13 @@ export default {
                 knowledgePieces: [],
                 languages: []
             },
+            filter: {
+                opened: false,
+                placeholder: 'Filter by name',
+                query: '',
+                language: 0,
+                isFiltered: false
+            },
             pagination: {
                 perPage: 15,
                 currentPage: 1
@@ -687,13 +767,17 @@ export default {
         this.loadCheatsheetAndKnowledgePieces()
         window.addEventListener('keyup', this.handleKeyup)
     },
+    mounted () {
+        window.addEventListener('keyup', this.handleKeyup)
+    },
     methods: {
         loadCheatsheetAndKnowledgePieces () {
             let params = {
                 page: this.pagination.currentPage,
                 per_page: this.pagination.perPage,
                 order_by: this.order.by,
-                order_direction: this.order.direction
+                order_direction: this.order.direction,
+                filter_query: this.filter.query
             }
 
             axios.all([
@@ -821,10 +905,22 @@ export default {
             this.codeDetails.opened = false
         },
         handleKeyup: function (event) {
+            // alt + a
             if (event.keyCode === 65 && event.altKey) {
                 let newKnowledgePiecePosition = this.getFirstFreeKnowledgepiecePosition()
                 if (newKnowledgePiecePosition != null) {
                     this.openAddDialog(newKnowledgePiecePosition)
+                }
+            }
+            // alt + s
+            if (event.keyCode === 83 && event.altKey) {
+                this.filter.opened = true
+                this.$nextTick(() => this.$refs.filter.focus())
+            }
+            // esc
+            if (event.keyCode === 27) {
+                if (this.filter.opened) {
+                    this.filter.opened = false
                 }
             }
         },
@@ -982,6 +1078,14 @@ export default {
             this.dialog.opened.add = false
             this.dialog.opened.edit = false
             this.dialog.opened.remove = false
+        },
+        search () {
+            // if (this.filter.query) {
+            this.filter.isFiltered = true
+            this.pagination.currentPage = 1
+            // this.loading.initial = true
+            this.loadCheatsheetAndKnowledgePieces()
+            // }
         },
         setCaretPosition (el, start, end) {
             el.selectionStart = start

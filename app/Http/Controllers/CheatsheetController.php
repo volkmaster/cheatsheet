@@ -299,10 +299,7 @@ class CheatsheetController extends Controller
         $perPage           = is_null($request->query('per_page')) ? $this->perPage : $request->query('per_page');
         $orderBy           = $request->query('order_by');
         $orderDirection    = is_null($request->query('order_direction')) ? 'asc' : $request->query('order_direction');
-        $filterId          = is_null($request->query('filter_id')) ? null : explode(',', $request->query('filter_id'));
-        $filterDescription = is_null($request->query('filter_description')) ? null : urldecode($request->query('filter_description'));
-        $filterCode        = is_null($request->query('filter_code')) ? null : urldecode($request->query('filter_code'));
-        $filterLanguage    = is_null($request->query('filter_language')) ? null : $request->query('filter_language');
+        $filterQuery       = is_null($request->query('filter_query')) ? null : $request->query('filter_query');
 
         $field = $this->setAndValidateFields($request->query('fields'), new KnowledgePiece, ['language', 'position']);
         if ($field) {
@@ -341,20 +338,11 @@ class CheatsheetController extends Controller
                 $qb = $qb->orderBy('knowledge_pieces.' . $orderBy, $orderDirection);
             }
 
-            if ($filterId === '0' || $filterId) {
-                $qb = $qb->whereIn('id', $filterId);
-            }
-
-            if ($filterDescription === '0' || $filterDescription) {
-                $qb = $qb->where('description', 'like', '%' . $filterDescription . '%');
-            }
-
-            if ($filterCode === '0' || $filterCode) {
-                $qb = $qb->where('code', 'like', '%' . $filterCode . '%');
-            }
-
-            if ($filterLanguage === '0' || $filterLanguage) {
-                $qb = $qb->whereLanguageId($filterLanguage);
+            if ($filterQuery) {
+                $filterWords = explode(" ", $filterQuery);
+                foreach ($filterWords as $filterWord) {
+                    $qb = $qb->where('description', 'like', '%' . $filterWord . '%')->orWhere('code', 'like', '%' . $filterWord . '%');
+                }
             }
 
             if ($this->fields) {

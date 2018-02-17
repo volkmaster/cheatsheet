@@ -341,7 +341,11 @@ class CheatsheetController extends Controller
             if ($filterQuery) {
                 $filterWords = explode(" ", $filterQuery);
                 foreach ($filterWords as $filterWord) {
-                    $qb = $qb->where('description', 'like', '%' . $filterWord . '%')->orWhere('code', 'like', '%' . $filterWord . '%');
+                    $qb = $qb->where(function ($query) use ($filterWord){
+                        $query->where('description', 'LIKE', '%'.$filterWord.'%')
+                              ->orWhere('code', 'LIKE', '%'.$filterWord.'%');
+                        }
+                    );
                 }
             }
 

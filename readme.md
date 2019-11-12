@@ -1,4 +1,4 @@
-## Minimal Viable Product
+## Cheatsheet Manager
 
 > Prototype application for Cheatsheet management platform.
 
@@ -43,4 +43,4 @@ git push heroku master
 
 ### Production version API
 [https://cheatsheet-mvp.herokuapp.com/api](https://cheatsheet-mvp.herokuapp.com/api)
-e.g. Get all cheatsheets: [https://cheatsheet-mvp.herokuapp.com/api/cheatsheets](https://cheatsheet-mvp.herokuapp.com/api/cheatsheets)
+- e.g. Get all cheatsheets: [https://cheatsheet-mvp.herokuapp.com/api/cheatsheets](https://cheatsheet-mvp.herokuapp.com/api/cheatsheets)
